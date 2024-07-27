@@ -5,7 +5,11 @@ import axios from 'axios';
 
 const Signin = () => {
   const [user, setUser] = useState({ name: "", email: "", password: "", admin: "", username: "" });
-  
+  const cred = {
+    username : user.username,
+    email : user.email,
+    password : user.password
+  };
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
