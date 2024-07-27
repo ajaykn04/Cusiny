@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const Signin = () => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const [errors, setErrors] = useState({ username: false, email: false, password: false });
   const [generalError, setGeneralError] = useState("");
+  
+  const navigate = useNavigate();
 
   const cred = {
     username: user.username,
@@ -34,7 +36,8 @@ const Signin = () => {
     if (validateFields()) {
       try {
         await axios.post(`http://localhost:3000/user/register/`, cred);
-        alert('New User Added');
+        console.log("user added");
+        navigate('/');
       } catch (error) {
         setGeneralError('Email Already Exists');
       }

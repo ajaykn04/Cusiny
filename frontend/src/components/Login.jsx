@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: false, password: false });
   const [generalError, setGeneralError] = useState("");
-
+ const navigate = useNavigate();
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
@@ -26,8 +26,15 @@ const Login = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
+        const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
         console.log("test");
+        console.log(login.data.admin);
+        if(login.data.admin==true){
+          navigate('/admindash');
+        }
+        else{
+          navigate('/userdash');
+        }
       } catch (error) {
         setGeneralError('Invalid Email or Password');
       }
