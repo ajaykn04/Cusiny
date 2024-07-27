@@ -1,28 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Signin = () => {
-  const [user, setUser] = useState({ name: "", email: "", password: "", admin: "", username: "" });
+  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [errors, setErrors] = useState({ username: false, email: false, password: false });
+  const [generalError, setGeneralError] = useState("");
+
   const cred = {
-    username : user.username,
-    email : user.email,
-    password : user.password
+    username: user.username,
+    email: user.email,
+    password: user.password
   };
+
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: false });
+    setGeneralError("");
+  };
+
+  const validateFields = () => {
+    const newErrors = {
+      username: user.username === "",
+      email: user.email === "",
+      password: user.password === ""
+    };
+    setErrors(newErrors);
+    return !newErrors.username && !newErrors.email && !newErrors.password;
   };
 
   const submitHandler = async () => {
-        try {
-          var res=await axios.post(`http://localhost:3000/user/register/`,cred);
-          alert('New User Added');
-        } catch (error) {
-          alert('Something Went Wrong');
-        }
+    if (validateFields()) {
+      try {
+        await axios.post(`http://localhost:3000/user/register/`, cred);
+        alert('New User Added');
+      } catch (error) {
+        setGeneralError('Email Already Exists');
+      }
+    }
   };
-  
+
   return (
     <div>
       <Box
@@ -52,51 +70,60 @@ const Signin = () => {
             SIGN-IN
           </Typography>
           <TextField
-          required
+            required
             fullWidth
             name="username"
-            label="username"
+            label="Username"
             variant="outlined"
             margin="normal"
             value={user.username}
             onChange={inputHandler}
+            error={errors.username}
+            helperText={errors.username ? 'Username is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{ style: { color: 'white' }, sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+            InputProps={{
+              style: { color: 'white' }, sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-            },}}
+            }}
           />
           <TextField
-          required
+            required
             fullWidth
             name="email"
-            label="email"
+            label="Email"
             variant="outlined"
             margin="normal"
             value={user.email}
             onChange={inputHandler}
+            error={errors.email}
+            helperText={errors.email ? 'Email is required' : generalError}
+            FormHelperTextProps={{ sx: { color: 'red' } }}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{ style: { color: 'white' }, sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+            InputProps={{
+              style: { color: 'white' }, sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-            },}}
+            }}
           />
           <TextField
-          required
+            required
             fullWidth
             name="password"
             type="password"
@@ -105,18 +132,22 @@ const Signin = () => {
             margin="normal"
             value={user.password}
             onChange={inputHandler}
+            error={errors.password}
+            helperText={errors.password ? 'Password is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{ style: { color: 'white' }, sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+            InputProps={{
+              style: { color: 'white' }, sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-            },}}
+            }}
           />
           <Button
             variant="contained"

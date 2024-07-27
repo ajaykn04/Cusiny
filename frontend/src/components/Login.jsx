@@ -1,25 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
-  const [user, setUser] = useState({ name: "", email: "", password: "", admin: "" });
-
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: false, password: false });
+  const [generalError, setGeneralError] = useState("");
 
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: false });
+    setGeneralError("");
+  };
+
+  const validateFields = () => {
+    const newErrors = {
+      email: user.email === "",
+      password: user.password === ""
+    };
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
   };
 
   const submitHandler = async () => {
-        try {
-          var res=await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`)
-          console.log("test");
-        } catch (error) {
-          alert('Invalid Email or Password');
-        }
+    if (validateFields()) {
+      try {
+        await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
+        console.log("test");
+      } catch (error) {
+        setGeneralError('Invalid Email or Password');
+      }
+    }
   };
-  
+
   return (
     <div>
       <Box
@@ -49,14 +63,17 @@ const Login = () => {
             LOG-IN
           </Typography>
           <TextField
-          required
+            required
             fullWidth
             name="email"
-            label="email"
+            label="Email"
             variant="outlined"
             margin="normal"
             value={user.email}
             onChange={inputHandler}
+            error={errors.email}
+            helperText={errors.email ? 'Email is required' : generalError}
+            FormHelperTextProps={{ sx: { color: errors.email ? 'red' : 'red' } }}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={{ style: { color: 'white' }, sx: {
               '& .MuiOutlinedInput-notchedOutline': {
@@ -71,7 +88,7 @@ const Login = () => {
             },}}
           />
           <TextField
-          required
+            required
             fullWidth
             name="password"
             type="password"
@@ -80,6 +97,8 @@ const Login = () => {
             margin="normal"
             value={user.password}
             onChange={inputHandler}
+            error={errors.password}
+            helperText={errors.password ? 'Password is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={{ style: { color: 'white' }, sx: {
               '& .MuiOutlinedInput-notchedOutline': {
