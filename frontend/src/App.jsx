@@ -7,7 +7,7 @@ import Userdashboard from './components/Userdashboard';
 
 function App() {
 
-  document.body.style.backgroundColor = '0f0f0f';
+  document.body.style.backgroundColor = 'white';
 
   return (
     <>

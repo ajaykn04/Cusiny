@@ -56,9 +56,10 @@ const Login = () => {
             color: 'grey',
             backgroundColor: 'black',
             padding: '2rem',
-            borderRadius: '0px',
+            borderRadius: '20px',
             boxShadow: '0px 0px 20px',
             textAlign: 'center',
+            maxWidth: '50vh'
           }}
         >
           <img 

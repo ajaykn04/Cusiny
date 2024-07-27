@@ -4,6 +4,9 @@ import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const Signin = () => {
+
+  
+
   const [user, setUser] = useState({ username: "", email: "", password: "",place: "", age: "" });
   const [errors, setErrors] = useState({ username: false, email: false, password: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
@@ -68,9 +71,10 @@ const Signin = () => {
             color: 'grey',
             backgroundColor: 'black',
             padding: '2rem',
-            borderRadius: '0px',
+            borderRadius: '20px',
             boxShadow: '0px 0px 20px',
             textAlign: 'center',
+            maxWidth:'50vh'
           }}
         >
           <img 
