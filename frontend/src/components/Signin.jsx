@@ -6,14 +6,13 @@ import axios from 'axios';
 const Signin = () => {
   const [user, setUser] = useState({ name: "", email: "", password: "", admin: "", username: "" });
   
-
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const submitHandler = async () => {
         try {
-          var res=await axios.post(`http://localhost:3000/user/add/${user.username}/${user.email}/${user.password}`)
+          var res=await axios.post(`http://localhost:3000/user/register/`,cred);
           alert('New User Added');
         } catch (error) {
           alert('Something Went Wrong');
