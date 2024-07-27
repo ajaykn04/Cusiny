@@ -1,13 +1,15 @@
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/Login'
 import Signin from './components/Signin';
 import Admindashboard from './components/Admindashboard';
 import Userdashboard from './components/Userdashboard';
+import colors from './colors';
+
 
 
 function App() {
 
-  document.body.style.backgroundColor = 'white';
+  document.body.style.backgroundColor = colors.backgroundcolor;
 
   return (
     <>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import colors from '../colors';
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -54,7 +55,7 @@ const Login = () => {
         <Box
           sx={{
             color: 'grey',
-            backgroundColor: 'black',
+            backgroundColor: colors.form_color,
             padding: '2rem',
             borderRadius: '20px',
             boxShadow: '0px 0px 20px',
