@@ -13,6 +13,16 @@ app.use(cors());
 
 
 
+app.get("/user/viewall", async(req, res)=>{
+    try {
+        var data = await userModel.find();
+        res.send(data)
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.post("/user/add", async(req, res)=>{
     try {
         await userModel(req.body).save();
