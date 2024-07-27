@@ -4,8 +4,8 @@ import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const Signin = () => {
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
-  const [errors, setErrors] = useState({ username: false, email: false, password: false });
+  const [user, setUser] = useState({ username: "", email: "", password: "",place: "", age: "" });
+  const [errors, setErrors] = useState({ username: false, email: false, password: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
   
   const navigate = useNavigate();
@@ -13,7 +13,9 @@ const Signin = () => {
   const cred = {
     username: user.username,
     email: user.email,
-    password: user.password
+    password: user.password,
+    place: user.place,
+    age: user.age
   };
 
   const inputHandler = (e) => {
@@ -26,10 +28,12 @@ const Signin = () => {
     const newErrors = {
       username: user.username === "",
       email: user.email === "",
-      password: user.password === ""
+      password: user.password === "",
+      place: user.place === "",
+      age: user.age === ""
     };
     setErrors(newErrors);
-    return !newErrors.username && !newErrors.email && !newErrors.password;
+    return !newErrors.username && !newErrors.email && !newErrors.password && !newErrors.place && !newErrors.age;
   };
 
   const submitHandler = async () => {
@@ -39,7 +43,12 @@ const Signin = () => {
         console.log("user added");
         navigate('/');
       } catch (error) {
-        setGeneralError('Email Already Exists');
+        if(error.response.status==409){
+          setGeneralError('Email Already Exists');
+        }else{
+          console.error(error);
+        }
+        
       }
     }
   };
@@ -110,6 +119,58 @@ const Signin = () => {
             error={errors.email}
             helperText={errors.email ? 'Email is required' : generalError}
             FormHelperTextProps={{ sx: { color: 'red' } }}
+            InputLabelProps={{ style: { color: 'white' } }}
+            InputProps={{
+              style: { color: 'white' }, sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+              },
+            }}
+          />
+          <TextField
+            required
+            fullWidth
+            name="place"
+            label="place"
+            variant="outlined"
+            margin="normal"
+            value={user.place}
+            onChange={inputHandler}
+            error={errors.place}
+            helperText={errors.place ? 'Place is required' : ''}
+            InputLabelProps={{ style: { color: 'white' } }}
+            InputProps={{
+              style: { color: 'white' }, sx: {
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'orange',
+                },
+              },
+            }}
+          />
+          <TextField
+            required
+            fullWidth
+            name="age"
+            label="age"
+            variant="outlined"
+            margin="normal"
+            value={user.age}
+            onChange={inputHandler}
+            error={errors.age}
+            helperText={errors.age ? 'Age is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={{
               style: { color: 'white' }, sx: {
