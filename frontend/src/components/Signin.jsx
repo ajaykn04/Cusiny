@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
-  const [user, setUser] = useState({ name: "", email: "", password: "", admin: "" });
-
+const Signin = () => {
+  const [user, setUser] = useState({ name: "", email: "", password: "", admin: "", username: "" });
+  
 
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -13,10 +13,10 @@ const Login = () => {
 
   const submitHandler = async () => {
         try {
-          var res=await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`)
-          console.log("test");
+          var res=await axios.post(`http://localhost:3000/user/add/${user.username}/${user.email}/${user.password}`)
+          alert('New User Added');
         } catch (error) {
-          alert('Invalid Email or Password');
+          alert('Something Went Wrong');
         }
   };
   
@@ -46,8 +46,30 @@ const Login = () => {
             style={{ width: '100px', marginBottom: '1rem' }} 
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
-            LOG-IN
+            SIGN-IN
           </Typography>
+          <TextField
+          required
+            fullWidth
+            name="username"
+            label="username"
+            variant="outlined"
+            margin="normal"
+            value={user.username}
+            onChange={inputHandler}
+            InputLabelProps={{ style: { color: 'white' } }}
+            InputProps={{ style: { color: 'white' }, sx: {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'orange',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'orange',
+              },
+            },}}
+          />
           <TextField
           required
             fullWidth
@@ -98,11 +120,11 @@ const Login = () => {
             sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
             onClick={submitHandler}
           >
-            Log-in
+            Sign-in
           </Button>
           <Box mt={2}>
             <Typography>
-              <Link to={'/signin'}>Don't have an Account</Link>
+              <Link to={'/'}>Already have an Account</Link>
             </Typography>
           </Box>
         </Box>
@@ -111,4 +133,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signin;
