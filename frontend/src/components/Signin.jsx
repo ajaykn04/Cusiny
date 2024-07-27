@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import colors from '../colors';
+import styles from '../styles';
 
 
 const Signin = () => {
@@ -68,17 +69,7 @@ const Signin = () => {
           height: '97vh',
         }}
       >
-        <Box
-          sx={{
-            color: 'grey',
-            backgroundColor: colors.form_color,
-            padding: '2rem',
-            borderRadius: '20px',
-            boxShadow: '0px 0px 20px',
-            textAlign: 'center',
-            maxWidth:'50vh'
-          }}
-        >
+        <Box sx={styles.box_style}>
           <img 
             src="/flip.ico" 
             alt="Login Icon" 
@@ -99,19 +90,7 @@ const Signin = () => {
             error={errors.username}
             helperText={errors.username ? 'Username is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{
-              style: { color: 'white' }, sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-              },
-            }}
+            InputProps={styles.textfield}
           />
           <TextField
             required
@@ -126,19 +105,7 @@ const Signin = () => {
             helperText={errors.email ? 'Email is required' : generalError}
             FormHelperTextProps={{ sx: { color: 'red' } }}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{
-              style: { color: 'white' }, sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-              },
-            }}
+            InputProps={styles.textfield}
           />
           <TextField
             required
@@ -152,19 +119,7 @@ const Signin = () => {
             error={errors.place}
             helperText={errors.place ? 'Place is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{
-              style: { color: 'white' }, sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-              },
-            }}
+            InputProps={styles.textfield}
           />
           <TextField
             required
@@ -178,19 +133,7 @@ const Signin = () => {
             error={errors.age}
             helperText={errors.age ? 'Age is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{
-              style: { color: 'white' }, sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-              },
-            }}
+            InputProps={styles.textfield}
           />
           <TextField
             required
@@ -205,19 +148,7 @@ const Signin = () => {
             error={errors.password}
             helperText={errors.password ? 'Password is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{
-              style: { color: 'white' }, sx: {
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'white',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange',
-                },
-              },
-            }}
+            InputProps={styles.textfield}
           />
           <Button
             variant="contained"
@@ -228,7 +159,7 @@ const Signin = () => {
           </Button>
           <Box mt={2}>
             <Typography>
-              <Link to={'/'}>Already have an Account</Link>
+              <Link style={styles.link_style} to={'/'}>Already have an Account</Link>
             </Typography>
           </Box>
         </Box>

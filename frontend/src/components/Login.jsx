@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import colors from '../colors';
+import styles from '../styles';
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -52,17 +53,7 @@ const Login = () => {
           height: '97vh',
         }}
       >
-        <Box
-          sx={{
-            color: 'grey',
-            backgroundColor: colors.form_color,
-            padding: '2rem',
-            borderRadius: '20px',
-            boxShadow: '0px 0px 20px',
-            textAlign: 'center',
-            maxWidth: '50vh'
-          }}
-        >
+        <Box sx={styles.box_style}>
           <img 
             src="/flip.ico" 
             alt="Login Icon" 
@@ -84,17 +75,7 @@ const Login = () => {
             helperText={errors.email ? 'Email is required' : generalError}
             FormHelperTextProps={{ sx: { color: errors.email ? 'red' : 'red' } }}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{ style: { color: 'white' }, sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-            },}}
+            InputProps={styles.textfield}
           />
           <TextField
             required
@@ -109,17 +90,7 @@ const Login = () => {
             error={errors.password}
             helperText={errors.password ? 'Password is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={{ style: { color: 'white' }, sx: {
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'orange',
-              },
-            },}}
+            InputProps={styles.textfield}
           />
           <Button
             variant="contained"
@@ -129,8 +100,8 @@ const Login = () => {
             Log-in
           </Button>
           <Box mt={2}>
-            <Typography>
-              <Link to={'/signin'}>Don't have an Account</Link>
+            <Typography >
+              <Link style={styles.link_style} to={'/signin'}>Don't have an Account</Link>
             </Typography>
           </Box>
         </Box>

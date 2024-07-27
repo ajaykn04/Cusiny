@@ -1,7 +1,7 @@
 const colors = {
-    backgroundcolor:'yellow',
-    form_color:'black'
-    
+    backgroundcolor:'black',
+    form_color:'#0f0f0f',
+
 }
 export default colors;
 
