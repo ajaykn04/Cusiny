@@ -4,6 +4,7 @@ import Signin from './components/Signin';
 import Admindashboard from './components/Admindashboard';
 import Userdashboard from './components/Userdashboard';
 import colors from './colors';
+import Addrecipe from './components/Addrecipe';
 
 
 
@@ -19,6 +20,7 @@ function App() {
       <Route path='/signin' element={<Signin/>}/>
       <Route path='/admindash' element={<Admindashboard/>}/>
       <Route path='/userdash' element={<Userdashboard/>}/>
+      <Route path='/addrec' element={<Addrecipe/>}/>
     </Routes>
     </BrowserRouter>
     

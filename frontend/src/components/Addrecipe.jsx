@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useNavigate} from 'react-router-dom';
+import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from '../styles';
 
+const Addrecipe = () => {
 
-const Signin = () => {
-
-  
-
-  const [user, setUser] = useState({ username: "", email: "", password: "",place: "", age: "" });
+  const [user, setUser] = useState({ username: "", email: ""});
   const [errors, setErrors] = useState({ username: false, email: false, password: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
   
@@ -44,9 +41,8 @@ const Signin = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-       const login = await axios.post(`http://localhost:3000/user/register/`, cred);
+        await axios.post(`http://localhost:3000/user/register/`, cred);
         console.log("user added");
-        console.log(login.data);
         navigate('/');
       } catch (error) {
         if(error.response.status==409){
@@ -61,7 +57,7 @@ const Signin = () => {
 
   return (
     <div>
-      <Box
+        <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -166,7 +162,7 @@ const Signin = () => {
         </Box>
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default Signin;
+export default Addrecipe
