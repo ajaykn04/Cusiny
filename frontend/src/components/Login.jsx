@@ -54,7 +54,7 @@ const Login = () => {
       >
         <Box sx={styles.box_style}>
           <img 
-            src="/dishify_pbg.png" 
+            src="/dishify_pbg1.png" 
             alt="Login Icon" 
             style={{ width: '200px', marginBottom: '-2rem', marginTop: '-4rem' }} 
           />
