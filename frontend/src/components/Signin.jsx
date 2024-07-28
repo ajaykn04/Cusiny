@@ -69,10 +69,11 @@ const Signin = () => {
         }}
       >
         <Box sx={styles.box_style}>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img 
-            src="/dishify_pbg1.png" 
+            src="/dishify_pbg1.ico" 
             alt="Login Icon" 
-            style={{ width: '200px', marginBottom: '-2rem', marginTop: '-4rem' }} 
+            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             SIGN-IN
