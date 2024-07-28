@@ -8,8 +8,9 @@ const Addrecipe = () => {
 
   var location = useLocation();
   location.state || {};
-  console.log(location.state);
+  // console.log(location.state);
   const [recipe, setRecipe] = useState({ name: "", ingredients: "", instructions: "", category: "", image: "",});
+  const [image, setImage] = useState();
   const [errors, setErrors] = useState({ name: false, ingredients: false, instructions: false, category: false, image: false });
   const [generalError, setGeneralError] = useState("");
   
@@ -23,11 +24,14 @@ const Addrecipe = () => {
     image: recipe.image,
     owner: location.state._id,
   };
-  console.log(cred.owner);
+  // console.log(cred.owner);
 
   const inputHandler = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
+    if(e.target.type=="file"){
+      setImage(e.target.files[0]);
+    }
     setGeneralError("");
   };
 
@@ -46,8 +50,15 @@ const Addrecipe = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        await axios.post(`http://localhost:3000/recipe/add/`, cred);
+        console.log(cred.image)
+        const data = new FormData();
+        data.append("file",image)
+        for (const key in cred) {
+          data.append(key, cred[key]);
+      }
+        await axios.post(`http://localhost:3000/recipe/add/`, data);
         console.log("recipe added");
+        
       } catch (error) {
           console.error(error);
       }
@@ -81,7 +92,7 @@ const Addrecipe = () => {
             label="name"
             variant="outlined"
             margin="normal"
-            value={recipe.name}
+            // value={recipe.name}
             onChange={inputHandler}
             error={errors.name}
             helperText={errors.name ? 'name is required' : ''}
@@ -95,7 +106,7 @@ const Addrecipe = () => {
             label="ingredients"
             variant="outlined"
             margin="normal"
-            value={recipe.ingredients}
+            // value={recipe.ingredients}
             onChange={inputHandler}
             error={errors.ingredients}
             helperText={errors.ingredients ? 'ingredients is required' : generalError}
@@ -110,7 +121,7 @@ const Addrecipe = () => {
             label="instructions"
             variant="outlined"
             margin="normal"
-            value={recipe.instructions}
+            // value={recipe.instructions}
             onChange={inputHandler}
             error={errors.instructions}
             helperText={errors.instructions ? 'instructions is required' : ''}
@@ -124,7 +135,7 @@ const Addrecipe = () => {
             label="category"
             variant="outlined"
             margin="normal"
-            value={recipe.category}
+            // value={recipe.category}
             onChange={inputHandler}
             error={errors.category}
             helperText={errors.category ? 'category is required' : ''}
@@ -135,10 +146,10 @@ const Addrecipe = () => {
             required
             fullWidth
             name="image"
-            label="image"
+            type='file'
             variant="outlined"
             margin="normal"
-            value={recipe.image}
+            // value={recipe.image}
             onChange={inputHandler}
             error={errors.image}
             helperText={errors.image ? 'image is required' : ''}
