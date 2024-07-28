@@ -54,9 +54,9 @@ const Login = () => {
       >
         <Box sx={styles.box_style}>
           <img 
-            src="/flip.ico" 
+            src="/dishify_pbg.png" 
             alt="Login Icon" 
-            style={{ width: '100px', marginBottom: '1rem' }} 
+            style={{ width: '200px', marginBottom: '-2rem', marginTop: '-4rem' }} 
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             LOG-IN

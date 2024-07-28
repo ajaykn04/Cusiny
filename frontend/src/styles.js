@@ -24,7 +24,7 @@ const styles = {
         borderRadius: '20px',
         boxShadow: '0px 0px 10px',
         textAlign: 'center',
-        maxWidth:'50vh'
+        maxWidth:'50vh',
       }
 }
 
