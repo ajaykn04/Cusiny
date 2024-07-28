@@ -1,56 +1,55 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styles from '../styles';
 
 const Addrecipe = () => {
 
-  const [user, setUser] = useState({ username: "", email: ""});
-  const [errors, setErrors] = useState({ username: false, email: false, password: false, age: false, place: false });
+  var location = useLocation();
+  location.state || {};
+  console.log(location.state);
+  const [recipe, setRecipe] = useState({ name: "", ingredients: "", instructions: "", category: "", image: "",});
+  const [errors, setErrors] = useState({ name: false, ingredients: false, instructions: false, category: false, image: false });
   const [generalError, setGeneralError] = useState("");
   
   const navigate = useNavigate();
 
   const cred = {
-    username: user.username,
-    email: user.email,
-    password: user.password,
-    place: user.place,
-    age: user.age
+    name: recipe.name,
+    ingredients: recipe.ingredients,
+    instructions: recipe.instructions,
+    category: recipe.category,
+    image: recipe.image,
+    owner: location.state._id,
   };
+  console.log(cred.owner);
 
   const inputHandler = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setRecipe({ ...recipe, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
     setGeneralError("");
   };
 
   const validateFields = () => {
     const newErrors = {
-      username: user.username === "",
-      email: user.email === "",
-      password: user.password === "",
-      place: user.place === "",
-      age: user.age === ""
+      name: recipe.name === "",
+      ingredients: recipe.ingredients === "",
+      instructions: recipe.instructions === "",
+      category: recipe.category === "",
+      image: recipe.image === "",
     };
     setErrors(newErrors);
-    return !newErrors.username && !newErrors.email && !newErrors.password && !newErrors.place && !newErrors.age;
+    return !newErrors.name && !newErrors.ingredients && !newErrors.instructions && !newErrors.category && !newErrors.image;
   };
 
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        await axios.post(`http://localhost:3000/user/register/`, cred);
-        console.log("user added");
-        navigate('/');
+        await axios.post(`http://localhost:3000/recipe/add/`, cred);
+        console.log("recipe added");
       } catch (error) {
-        if(error.response.status==409){
-          setGeneralError('Email Already Exists');
-        }else{
           console.error(error);
-        }
-        
       }
     }
   };
@@ -73,33 +72,33 @@ const Addrecipe = () => {
             style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
-            SIGN-IN
+            ADD RECIPE
           </Typography>
           <TextField
             required
             fullWidth
-            name="username"
-            label="Username"
+            name="name"
+            label="name"
             variant="outlined"
             margin="normal"
-            value={user.username}
+            value={recipe.name}
             onChange={inputHandler}
-            error={errors.username}
-            helperText={errors.username ? 'Username is required' : ''}
+            error={errors.name}
+            helperText={errors.name ? 'name is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
           />
           <TextField
             required
             fullWidth
-            name="email"
-            label="Email"
+            name="ingredients"
+            label="ingredients"
             variant="outlined"
             margin="normal"
-            value={user.email}
+            value={recipe.ingredients}
             onChange={inputHandler}
-            error={errors.email}
-            helperText={errors.email ? 'Email is required' : generalError}
+            error={errors.ingredients}
+            helperText={errors.ingredients ? 'ingredients is required' : generalError}
             FormHelperTextProps={{ sx: { color: 'red' } }}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
@@ -107,43 +106,42 @@ const Addrecipe = () => {
           <TextField
             required
             fullWidth
-            name="place"
-            label="place"
+            name="instructions"
+            label="instructions"
             variant="outlined"
             margin="normal"
-            value={user.place}
+            value={recipe.instructions}
             onChange={inputHandler}
-            error={errors.place}
-            helperText={errors.place ? 'Place is required' : ''}
+            error={errors.instructions}
+            helperText={errors.instructions ? 'instructions is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
           />
           <TextField
             required
             fullWidth
-            name="age"
-            label="age"
+            name="category"
+            label="category"
             variant="outlined"
             margin="normal"
-            value={user.age}
+            value={recipe.category}
             onChange={inputHandler}
-            error={errors.age}
-            helperText={errors.age ? 'Age is required' : ''}
+            error={errors.category}
+            helperText={errors.category ? 'category is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
           />
           <TextField
             required
             fullWidth
-            name="password"
-            type="password"
-            label="Password"
+            name="image"
+            label="image"
             variant="outlined"
             margin="normal"
-            value={user.password}
+            value={recipe.image}
             onChange={inputHandler}
-            error={errors.password}
-            helperText={errors.password ? 'Password is required' : ''}
+            error={errors.image}
+            helperText={errors.image ? 'image is required' : ''}
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
           />
@@ -152,12 +150,9 @@ const Addrecipe = () => {
             sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
             onClick={submitHandler}
           >
-            Sign-in
+            Add Recipe
           </Button>
           <Box mt={2}>
-            <Typography>
-              <Link style={styles.link_style} to={'/'}>Already have an Account</Link>
-            </Typography>
           </Box>
         </Box>
       </Box>

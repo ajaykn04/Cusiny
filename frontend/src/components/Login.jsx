@@ -28,13 +28,14 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
+        navigate('/addrec', { state: login.data });//
         console.log("test");
         console.log(login.data.admin);
         if(login.data.admin==true){
-          navigate('/admindash');
+          // navigate('/admindash');
         }
         else{
-          navigate('/userdash');
+          // navigate('/userdash');
         }
       } catch (error) {
         setGeneralError('Invalid Email or Password');

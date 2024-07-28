@@ -44,9 +44,8 @@ const Signin = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-       const login = await axios.post(`http://localhost:3000/user/register/`, cred);
+        await axios.post(`http://localhost:3000/user/register/`, cred);
         console.log("user added");
-        console.log(login.data);
         navigate('/');
       } catch (error) {
         if(error.response.status==409){
