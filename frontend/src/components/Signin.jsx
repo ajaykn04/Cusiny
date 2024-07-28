@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import colors from '../colors';
 import styles from '../styles';
 
 
