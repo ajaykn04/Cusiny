@@ -38,9 +38,8 @@ const Profile = () => {
           place: user.place,
           age: user.age
         };
-        console.log(updatedProfile)
         await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
-        console.log("Profile edited");
+        console.log("Profile Updated");
         navigate('/userdash', { state: updatedProfile });
       } catch (error) {
         console.error(error);
@@ -102,6 +101,7 @@ const Profile = () => {
             fullWidth
             name="age"
             label="Age"
+            type="number"
             variant="outlined"
             margin="normal"
             value={user.age}
@@ -124,9 +124,9 @@ const Profile = () => {
             variant="text"
             sx={{ mt: 2, }}
             onClick={async ()=>{
-              console.log(location.state)
               await axios.delete(`http://localhost:3000/user/delete/`, {data: location.state})
               navigate('/');
+              console.log("Profile Successfully Deleted");
             }}
           >
             <Typography style={{color:'red'}}>

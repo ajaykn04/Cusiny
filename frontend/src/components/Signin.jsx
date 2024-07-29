@@ -126,6 +126,7 @@ const Signin = () => {
             fullWidth
             name="age"
             label="age"
+            type="number"
             variant="outlined"
             margin="normal"
             value={user.age}
