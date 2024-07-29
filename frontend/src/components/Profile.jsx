@@ -126,6 +126,7 @@ const Profile = () => {
             onClick={async ()=>{
               console.log(location.state)
               await axios.delete(`http://localhost:3000/user/delete/`, {data: location.state})
+              navigate('/');
             }}
           >
             <Typography style={{color:'red'}}>
