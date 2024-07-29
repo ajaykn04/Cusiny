@@ -99,7 +99,7 @@ app.post("/user/register/", async(req, res)=>{
     }
 });
 
-app.put("/user/edit", async(req, res)=>{
+app.put("/user/edit/", async(req, res)=>{
     try {
         var id = req.body._id;
         var user = req.body;
