@@ -24,7 +24,7 @@ const Addrecipe = () => {
     image: recipe.image,
     owner: location.state._id,
   };
-  // console.log(cred.owner);
+  console.log(cred.owner);
 
   const inputHandler = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
