@@ -127,7 +127,6 @@ app.delete("/user/delete/", async(req, res)=>{
         var id = req.body._id;
         var del = await userModel.findByIdAndDelete(id);
         if (del != null){
-            console.log(del)
             res.send({message: "Account Deleted"});
         }
         else {
