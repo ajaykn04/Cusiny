@@ -125,8 +125,16 @@ app.put("/user/edit/", async(req, res)=>{
 app.delete("/user/delete/", async(req, res)=>{
     try {
         var id = req.body._id;
-        await userModel.findByIdAndDelete(id);
-        res.send({message: "Account Deleted"});
+        var del = await userModel.findByIdAndDelete(id);
+        if (del != null){
+            console.log(del)
+            res.send({message: "Account Deleted"});
+        }
+        else {
+            res.status(404);
+            res.send({message: "Failed To Delete Account"});
+        }
+        
     } catch (error) {
         res.status(404);
         res.send({message: "Failed To Delete Account"});
