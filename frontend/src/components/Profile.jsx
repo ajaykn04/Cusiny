@@ -60,11 +60,11 @@ const Profile = () => {
         }}
       >
         <Box sx={styles.box_style}>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
           <img 
             src="/defaultprofile.png" 
             alt="Profile Icon" 
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
+            style={{ width: '150px', marginBottom: '1rem', marginTop: '0rem' }} 
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             PROFILE BIO
@@ -125,7 +125,7 @@ const Profile = () => {
             sx={{ mt: 2, }}
             onClick={async ()=>{
               console.log(location.state)
-              await axios.delete(`http://localhost:3000/user/delete/`, location.state)
+              await axios.delete(`http://localhost:3000/user/delete/`, {data: location.state})
             }}
           >
             <Typography style={{color:'red'}}>
