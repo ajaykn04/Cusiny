@@ -99,6 +99,40 @@ app.post("/user/register/", async(req, res)=>{
     }
 });
 
+app.put("/user/edit", async(req, res)=>{
+    try {
+        var id = req.body._id;
+        var user = req.body;
+        var existing_user = await userModel.findOne({email: user.email});
+        if (!existing_user) {
+            await userModel.findByIdAndUpdate(id, user);
+            res.send({message: "Profile Updated"})
+        }
+        else if (existing_user._id == user._id){
+            await userModel.findByIdAndUpdate(id, user);
+            res.send({message: "Profile Updated"})
+        }
+        else {
+            res.status(409);
+            res.send({message: "Email Already Exists."})
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.delete("/user/delete/", async(req, res)=>{
+    try {
+        var id = req.body._id;
+        await userModel.findByIdAndDelete(id);
+        res.send({message: "Account Deleted"});
+    } catch (error) {
+        res.status(404);
+        res.send({message: "Failed To Delete Account"});
+    }
+})
+
 
 app.post("/recipe/add/", upload.single('file'), async(req, res)=>{
     try {
@@ -123,6 +157,3 @@ app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')
 app.listen(PORT, ()=>{
     console.log("Port is Up");
 })
-
-
-//sss
