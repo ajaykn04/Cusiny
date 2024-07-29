@@ -1,23 +1,17 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
-import styles from '../styles';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Make sure you have axios imported
+import styles from '../styles'; // Assuming you have styles defined in '../styles'
 
 const Profile = () => {
-
-  const [user, setUser] = useState({ username: "",place: "", age: "" });
-  const [errors, setErrors] = useState({ username: false, age: false, place: false });
-  const [generalError, setGeneralError] = useState("");
-  
+  const location = useLocation();
   const navigate = useNavigate();
   
-  const cred = {
-    username: user.username,
-    email: user.email,
-    place: user.place,
-    age: user.age
-    
-  };
+  const initialState = location.state || { username: "", place: "", age: "" };
+  const [user, setUser] = useState(initialState);
+  const [errors, setErrors] = useState({ username: false, age: false, place: false });
+  const [generalError, setGeneralError] = useState("");
 
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -28,26 +22,29 @@ const Profile = () => {
   const validateFields = () => {
     const newErrors = {
       username: user.username === "",
-      email: user.email === "",
       place: user.place === "",
       age: user.age === ""
     };
     setErrors(newErrors);
-    return !newErrors.username && !newErrors.email && !newErrors.place && !newErrors.age;
+    return !newErrors.username && !newErrors.place && !newErrors.age;
   };
 
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        await axios.post(`http://localhost:3000/user/register/`, cred);
-        console.log("user added");
+        const updatedProfile = {
+          ...location.state,
+          username: user.username,
+          place: user.place,
+          age: user.age
+        };
+        console.log(updatedProfile)
+        await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
+        console.log("Profile edited");
+        navigate('/userdash', { state: updatedProfile });
       } catch (error) {
-        if(error.response.status==409){
-          setGeneralError('Email Already Exists');
-        }else{
-          console.error(error);
-        }
-        
+        console.error(error);
+        setGeneralError("An error occurred while updating the profile.");
       }
     }
   };
@@ -63,7 +60,7 @@ const Profile = () => {
         }}
       >
         <Box sx={styles.box_style}>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img 
             src="/defaultprofile.png" 
             alt="Profile Icon" 
@@ -89,23 +86,8 @@ const Profile = () => {
           <TextField
             required
             fullWidth
-            name="email"
-            label="Email"
-            variant="outlined"
-            margin="normal"
-            value={user.email}
-            onChange={inputHandler}
-            error={errors.email}
-            helperText={errors.email ? 'Email is required' : generalError}
-            FormHelperTextProps={{ sx: { color: 'red' } }}
-            InputLabelProps={{ style: { color: 'white' } }}
-            InputProps={styles.textfield}
-          />
-          <TextField
-            required
-            fullWidth
             name="place"
-            label="place"
+            label="Place"
             variant="outlined"
             margin="normal"
             value={user.place}
@@ -119,7 +101,7 @@ const Profile = () => {
             required
             fullWidth
             name="age"
-            label="age"
+            label="Age"
             variant="outlined"
             margin="normal"
             value={user.age}
@@ -129,6 +111,7 @@ const Profile = () => {
             InputLabelProps={{ style: { color: 'white' } }}
             InputProps={styles.textfield}
           />
+          {generalError && <Typography color="error">{generalError}</Typography>}
           <Button
             variant="contained"
             sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
@@ -136,10 +119,23 @@ const Profile = () => {
           >
             Save Changes
           </Button>
+          <br />
+          <Button
+            variant="text"
+            sx={{ mt: 2, }}
+            onClick={async ()=>{
+              console.log(location.state)
+              await axios.delete(`http://localhost:3000/user/delete/`, location.state)
+            }}
+          >
+            <Typography style={{color:'red'}}>
+              Delete my Account
+            </Typography>
+          </Button>
         </Box>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
