@@ -9,7 +9,7 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 
-const Navbar = ({ location }) => {
+const NavbarAdmin = ({ location }) => {
 
     const navigate = useNavigate();
 
@@ -34,15 +34,11 @@ const Navbar = ({ location }) => {
                 <Typography variant='overline' style={{fontFamily:'initial'}}>the&nbsp;</Typography>
                 <Typography variant='overline' style={{fontFamily:'initial'}}>best&nbsp;</Typography>
                 <Typography variant='overline' style={{fontFamily:'initial'}}>Recipes</Typography>
+                {/* </center> */}
                 <Container sx={{ display: 'flex', justifyContent: 'flex-start', gap:'6rem' }}>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Button variant='text' style={{fontSize:'20px',fontFamily:'fantasy' ,color:'black'}}>
-                    <Link style={{textDecoration:'none',color:'orange'}} to={'/userdash'}>HOME</Link>
-                </Button>
-                <Button variant='text' onClick={()=>{
-                    navigate('/recipe/add', { state: location });
-                }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
-                    <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>Add Recipe</Typography>
+                    <Link style={{textDecoration:'none',color:'orange'}} to={'/admindash'}>HOME</Link>
                 </Button>
                 </Container>
                 <IconButton onClick={handleProfileClick}>
@@ -54,4 +50,4 @@ const Navbar = ({ location }) => {
   )
 }
 
-export default Navbar
+export default NavbarAdmin
