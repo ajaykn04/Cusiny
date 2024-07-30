@@ -6,9 +6,7 @@ import styles from '../styles';
 
 const Addrecipe = () => {
 
-  var location = useLocation();
-  location.state || {};
-  // console.log(location.state);
+  const location = useLocation();
   const [recipe, setRecipe] = useState({ name: "", ingredients: "", instructions: "", category: "", image: "",});
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({ name: false, ingredients: false, instructions: false, category: false, image: false });
@@ -22,9 +20,10 @@ const Addrecipe = () => {
     instructions: recipe.instructions,
     category: recipe.category,
     image: recipe.image,
-    owner: location.state._id,
+    owner: location.state.state._id,
+    ownername: location.state.state.username,
   };
-  console.log(cred.owner);
+
 
   const inputHandler = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
