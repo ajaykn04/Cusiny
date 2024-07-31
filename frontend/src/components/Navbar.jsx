@@ -53,6 +53,12 @@ const Navbar = ({ location }) => {
                     }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
                         <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>My Recipes</Typography>
                     </Button>
+
+                    <Button variant='text' onClick={()=>{
+                        navigate('/recipes', { state: location.state });
+                    }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
+                        <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>All Recipes</Typography>
+                    </Button>
                 
                 </Container>
                 <IconButton onClick={handleProfileClick}>

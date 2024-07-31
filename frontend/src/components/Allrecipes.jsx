@@ -1,30 +1,27 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
-import axios from 'axios';
 import { Container, Grid, Paper, Typography } from '@mui/material';
 
-const Myrecipe = () => {
-  var location = useLocation();
+const Allrecipes = () => {
+    var location = useLocation();
   location.state || "";
-  console.log(location.state.username)
-
 
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3000/user/recipes/${location.state._id}`;
+    const apiUrl = `http://localhost:3000/recipe/viewall`;
 
     axios.get(apiUrl)
       .then(response => {
         setRecipes(response.data);
-        console.log(response.data)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, []);
- 
+
   return (
     <div>
       <Navbar location={location} />
@@ -49,4 +46,4 @@ const Myrecipe = () => {
   )
 }
 
-export default Myrecipe
+export default Allrecipes

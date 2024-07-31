@@ -7,6 +7,7 @@ import colors from './colors';
 import Addrecipe from './components/Addrecipe';
 import Profile from './components/Profile';
 import Myrecipe from './components/Myrecipe';
+import Allrecipes from './components/Allrecipes';
 
 
 
@@ -25,6 +26,7 @@ function App() {
       <Route path='/recipe/add' element={<Addrecipe/>}/>
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/user/recipes' element={<Myrecipe/>}/>
+      <Route path='/recipes' element={<Allrecipes/>}/>
     </Routes>
     </BrowserRouter>
     
