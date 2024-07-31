@@ -5,46 +5,37 @@ import axios from 'axios';
 import { Container, Grid, Paper, Typography } from '@mui/material';
 
 const Myrecipe = () => {
+  var location = useLocation();
+  location.state || "";
+  console.log(location.state.username)
 
 
-
-  const [products, setProducts] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const apiUrl = 'https://fakestoreapi.com/products';
+    const apiUrl = `http://localhost:3000/user/recipes/${location.state._id}`;
 
     axios.get(apiUrl)
       .then(response => {
-        setProducts(response.data);
+        setRecipes(response.data);
+        console.log(response.data)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, []);
-
-
-
-
-    var location = useLocation();
-  location.state || "";
-  console.log(location.state.username)
+ 
   return (
     <div>
       <Navbar location={location} />
       <Grid container spacing={2} sx={{mt:8}}>
-      {products.map((product, index) => (
+      {recipes.map((recipe, index) => (
         <Grid item xs={12} sm={15} md={4} lg={3} key={index}>
           <Paper elevation={3} sx={{ padding: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '400px'}}>
             <Container style={{ backgroundColor: 'white', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <img src={product.image} alt={product.title} style={{  width: 'auto', height: '185px', objectFit: 'cover' }} />
+            <img src={`http://localhost:3000/${recipe.image}`} alt={recipe.name} style={{  width: 'auto', height: '185px', objectFit: 'cover' }} />
             <Typography variant="h6" sx={{ mt: 1 }}>
-              {product.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Price: {product.price}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Category: {product.category}
+              {recipe.name}
             </Typography>
             </Container>
           </Paper>
