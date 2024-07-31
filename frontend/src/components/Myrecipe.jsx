@@ -8,6 +8,7 @@ const Myrecipe = () => {
   console.log(location.state.username)
   return (
     <div>
+      sdd
       <Navbar location={location} />
       ss
     </div>
