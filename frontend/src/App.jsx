@@ -6,6 +6,7 @@ import Userdashboard from './components/Userdashboard';
 import colors from './colors';
 import Addrecipe from './components/Addrecipe';
 import Profile from './components/Profile';
+import Myrecipe from './components/Myrecipe';
 
 
 
@@ -23,6 +24,7 @@ function App() {
       <Route path='/userdash' element={<Userdashboard/>}/>
       <Route path='/recipe/add' element={<Addrecipe/>}/>
       <Route path='/profile' element={<Profile/>}/>
+      <Route path='/user/recipes' element={<Myrecipe/>}/>
     </Routes>
     </BrowserRouter>
     

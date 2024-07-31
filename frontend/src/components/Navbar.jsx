@@ -14,7 +14,7 @@ const Navbar = ({ location }) => {
     const navigate = useNavigate();
 
     const handleProfileClick = () => {
-        navigate('/profile');
+        navigate('/profile', { state: location.state });
       };
       var location = useLocation();
 
@@ -46,6 +46,12 @@ const Navbar = ({ location }) => {
                         navigate('/recipe/add', { state: location.state });
                     }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
                         <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>Add Recipe</Typography>
+                    </Button>
+
+                    <Button variant='text' onClick={()=>{
+                        navigate('/user/recipes', { state: location.state });
+                    }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
+                        <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>My Recipes</Typography>
                     </Button>
                 
                 </Container>

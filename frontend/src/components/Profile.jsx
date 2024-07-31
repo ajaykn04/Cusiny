@@ -5,7 +5,7 @@ import axios from 'axios'; // Make sure you have axios imported
 import styles from '../styles'; // Assuming you have styles defined in '../styles'
 
 const Profile = () => {
-  const location = useLocation();
+  var location = useLocation();
   const navigate = useNavigate();
   
   const initialState = location.state || { username: "", place: "", age: "" };
