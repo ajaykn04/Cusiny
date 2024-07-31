@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://test:test@cluster0.ecqczi0.mongodb.net/testDB?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+mongoose.connect("mongodb+srv://test:test@cluster0.ecqczi0.mongodb.net/recipeDB?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
     console.log("Connected!");
 }).catch((error) => {
     console.log(error)
