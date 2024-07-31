@@ -175,8 +175,15 @@ app.post("/recipe/add/", upload.single('file'), async(req, res)=>{
     }
 });
 
-// app.get("recipe/featured")
-
+app.get("/recipe/featured", async(req, res)=>{
+    try {
+        var data = await recipeModel.find({featured: true});
+        res.send(data)
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
 
