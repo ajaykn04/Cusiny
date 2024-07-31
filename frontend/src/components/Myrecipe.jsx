@@ -28,15 +28,15 @@ const Myrecipe = () => {
   return (
     <div>
       <Navbar location={location} />
-      <Grid container spacing={2} sx={{mt:2}}>
+      <Grid container spacing={2} sx={{mt:3}}>
       {recipes.map((recipe, index) => (
         <Grid item xs={12} sm={15} md={4} lg={2.3} key={index}>
-          <Paper elevation={3} sx={{ padding: 1,backgroundColor:'currentcolor', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '400px'}}>
+          <Paper elevation={3} sx={{ padding: 1,backgroundColor:'currentcolor', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '325px'}}>
             <Container style={{ backgroundColor: 'currentcolor', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             {/* <Container style={{width:'auto',height:'100px',backgroundColor:'currentcolor', flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>
             <img src={`http://localhost:3000/${recipe.image}`} alt={recipe.name} style={{ width: 'auto', height: '300px', objectFit: 'cover' }} />
             </Container> */}
-            <img src={`http://localhost:3000/${recipe.image}`} alt={recipe.name} style={{ width: 'auto', height: '300px', objectFit: 'cover' }} />
+            <img src={`http://localhost:3000/${recipe.image}`} alt={recipe.name} style={{ width: '250px', height: '250px', objectFit: 'cover' }} />
             <Typography variant="h6" fontFamily={'cursive'} sx={{ mt: 1,color:'white', fontWeight:'bold' }}>
               {recipe.name}
             </Typography>
