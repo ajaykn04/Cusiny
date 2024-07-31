@@ -7,7 +7,7 @@ const Userdashboard = () => {
 
   var location = useLocation();
   location.state || "";
-
+  console.log(location.state.username)
   return (
     <div>
       <Navbar location={location} />

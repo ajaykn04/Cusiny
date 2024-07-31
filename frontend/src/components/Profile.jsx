@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Make sure you have axios imported
 import styles from '../styles'; // Assuming you have styles defined in '../styles'
+import Navbar from './Navbar';
 
 const Profile = () => {
   var location = useLocation();
   const navigate = useNavigate();
-  
+  console.log(location.state.username)
   const initialState = location.state || { username: "", place: "", age: "" };
   const [user, setUser] = useState(initialState);
   const [errors, setErrors] = useState({ username: false, age: false, place: false });
@@ -50,7 +51,9 @@ const Profile = () => {
 
   return (
     <div>
+      <Navbar location={location} />
       <Box
+      
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -58,7 +61,7 @@ const Profile = () => {
           height: '97vh',
         }}
       >
-        <Box sx={styles.box_style}>
+        <Box mt={'4.5vh'} sx={styles.box_style}>
           
           <img 
             src="/defaultprofile.png" 

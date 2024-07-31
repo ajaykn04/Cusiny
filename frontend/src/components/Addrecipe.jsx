@@ -3,10 +3,13 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styles from '../styles';
+import Navbar from './Navbar';
 
 const Addrecipe = () => {
+  
 
   const location = useLocation();
+  console.log(location.state.username)
   const [recipe, setRecipe] = useState({ name: "", ingredients: "", instructions: "", category: "", image: "",});
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({ name: false, ingredients: false, instructions: false, category: false, image: false });
@@ -65,6 +68,7 @@ const Addrecipe = () => {
 
   return (
     <div>
+      <Navbar location={location} />
         <Box
         sx={{
           display: 'flex',
