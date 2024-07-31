@@ -17,7 +17,6 @@ const Navbar = ({ location }) => {
         navigate('/profile');
       };
       var location = useLocation();
-      console.log(location)
 
 
   return (
@@ -36,14 +35,19 @@ const Navbar = ({ location }) => {
                 <Typography variant='overline' style={{fontFamily:'initial'}}>Recipes</Typography>
                 <Container sx={{ display: 'flex', justifyContent: 'flex-start', gap:'6rem' }}>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button variant='text' style={{fontSize:'20px',fontFamily:'fantasy' ,color:'black'}}>
-                    <Link style={{textDecoration:'none',color:'orange'}} to={'/userdash'}>HOME</Link>
-                </Button>
-                <Button variant='text' onClick={()=>{
-                    navigate('/recipe/add', { state: location });
-                }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
-                    <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>Add Recipe</Typography>
-                </Button>
+                
+                    <Button variant='text' onClick={()=>{
+                        navigate('/userdash', { state: location.state });
+                    }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
+                        <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>HOME</Typography>
+                    </Button>
+
+                    <Button variant='text' onClick={()=>{
+                        navigate('/recipe/add', { state: location.state });
+                    }} style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}>
+                        <Typography style={{fontFamily:'fantasy',fontSize:'20px', color:'orange'}}>Add Recipe</Typography>
+                    </Button>
+                
                 </Container>
                 <IconButton onClick={handleProfileClick}>
                     <Avatar alt="Profile" src={profileImage} />

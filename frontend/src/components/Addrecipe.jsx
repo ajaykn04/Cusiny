@@ -20,8 +20,8 @@ const Addrecipe = () => {
     instructions: recipe.instructions,
     category: recipe.category,
     image: recipe.image,
-    owner: location.state.state._id,
-    ownername: location.state.state.username,
+    owner: location.state._id,
+    ownername: location.state.username,
   };
 
 
@@ -49,7 +49,6 @@ const Addrecipe = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        console.log(cred.image)
         const data = new FormData();
         data.append("file",image)
         for (const key in cred) {

@@ -6,7 +6,7 @@ import styles from '../styles';
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({ email: false, password: false });
+  const [errors, setErrors] = useState({ email: false, password: false }); 
   const [generalError, setGeneralError] = useState("");
  const navigate = useNavigate();
   const inputHandler = (e) => {
@@ -28,8 +28,6 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
-        console.log("test");
-        console.log(login.data.admin);
         if(login.data.admin==true){
           navigate('/admindash', { state: login.data });
         }
