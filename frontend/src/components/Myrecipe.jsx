@@ -10,7 +10,7 @@ const Myrecipe = () => {
     <div>
       sdd
       <Navbar location={location} />
-      ss
+      ss ss
     </div>
   )
 }
