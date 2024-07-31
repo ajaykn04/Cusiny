@@ -9,7 +9,7 @@ const Myrecipe = () => {
   return (
     <div>
       <Navbar location={location} />
-      ss
+      ss ss
     </div>
   )
 }
