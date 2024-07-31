@@ -154,6 +154,16 @@ app.delete("/user/delete/", async(req, res)=>{
     }
 })
 
+app.get("/user/recipes/:id", async(req, res)=>{
+    try {
+        var id = req.params.id;
+        var data = await recipeModel.find({owner: id});
+        res.send(data)
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 app.post("/recipe/add/", upload.single('file'), async(req, res)=>{
     try {
