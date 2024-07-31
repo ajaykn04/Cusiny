@@ -60,6 +60,20 @@ app.post("/user/add", async(req, res)=>{
     }
 });
 
+app.post("/recipe/makefeatured/:id", async(req, res)=>{
+    try {
+        var id = req.params.id;
+        var recipe = await recipeModel.findById(id);
+        recipe.featured = true;
+        recipe.save();
+        
+        res.send({message: "Added Featured Recipe"})
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.get("/user/get/:email/:password", async(req, res)=>{
     try {
         var email = req.params.email;
@@ -144,6 +158,9 @@ app.delete("/user/delete/", async(req, res)=>{
 app.post("/recipe/add/", upload.single('file'), async(req, res)=>{
     try {
         var recipe = req.body;
+        recipe.reviews = [];
+        recipe.rating = 0;
+        recipe.featured = false;
         req.body.image = ""
         recipe = await recipeModel(recipe).save();
         var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
@@ -157,6 +174,8 @@ app.post("/recipe/add/", upload.single('file'), async(req, res)=>{
         console.log(error);
     }
 });
+
+// app.get("recipe/featured")
 
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
