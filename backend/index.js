@@ -51,6 +51,17 @@ app.get("/recipe/viewall", async(req, res)=>{
     }
 });
 
+app.get("/recipe/get/:id", async(req, res)=>{
+    try {
+        var id = req.params.id;
+        var data = await recipeModel.findOne({_id: id});
+        res.send(data)
+        
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.post("/user/add", async(req, res)=>{
     try {
         await userModel(req.body).save();

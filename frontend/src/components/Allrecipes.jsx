@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { Button, Container, Grid, Paper, Rating, Typography } from '@mui/material';
 
 const Allrecipes = () => {
     var location = useLocation();
   location.state || "";
+
+  const navigate = useNavigate();
 
   const [recipes, setRecipes] = useState([]);
 
@@ -36,18 +38,18 @@ const Allrecipes = () => {
                 // backgroundColor: 'rgba(255, 165, 0, 0.04)'
               },}}
               onClick={()=>{ 
-                navigate('/recipe/add', { state: location.state });
+                navigate('/detrecipe', { state: recipe });
               }}
               style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}
              >
               <Container style={{ backgroundColor: 'currentcolor', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
                 <img src={`http://localhost:3000/${recipe.image}`} alt={recipe.name} style={{marginLeft:'-39px',marginTop:'-10px', width: '257px', height: '260px', objectFit: 'cover' }} />
-                <Typography variant="subtitle1" fontFamily={'cursive'} sx={{ ml:-1.5,mt: 1,color:'white', fontWeight:'bold' }}>
+                <Typography variant="subtitle1" fontFamily={'cursive'} sx={{ ml:-1.5,mt: 1,color:'white', fontWeight:'bold' }}>   
                   {recipe.name}
                 </Typography>
                 <Rating
                     name={`rating-${index}`}
-                    value={recipe.rating || 2.4}
+                    value={recipe.rating || 0}
                     readOnly
                     precision={0.1}
                     sx={{ ml:-2,mb:1,mt: 1,
