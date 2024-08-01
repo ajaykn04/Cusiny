@@ -52,7 +52,7 @@ const Allrecipes = () => {
                     precision={0.1}
                     sx={{ ml:-2,mb:1,mt: 1,
                       '& .MuiRating-iconFilled': {
-                        color: 'orange',
+                        color: '#FFAD18',
                         },
                         '& .MuiRating-iconEmpty': {
                           color: 'grey',
