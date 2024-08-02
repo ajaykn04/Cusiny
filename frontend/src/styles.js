@@ -15,7 +15,7 @@ const styles = {
         },
       },
     
-      link_style:{textDecoration:'none' , color:'darkorange'},
+      link_style:{textDecoration:'none' , color:'red'},
       
       box_style:{
         color: 'grey',

@@ -8,7 +8,6 @@ import Addrecipe from './components/Addrecipe';
 import Profile from './components/Profile';
 import Myrecipe from './components/Myrecipe';
 import Allrecipes from './components/Allrecipes';
-import Detailedrecipe from './components/Detailedrecipe';
 
 
 
@@ -28,7 +27,6 @@ function App() {
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/user/recipes' element={<Myrecipe/>}/>
       <Route path='/recipes' element={<Allrecipes/>}/>
-      <Route path='/detrecipe' element={<Detailedrecipe/>}/>
     </Routes>
     </BrowserRouter>
     

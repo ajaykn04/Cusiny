@@ -159,8 +159,8 @@ const Signin = () => {
             Sign-in
           </Button>
           <Box mt={2}>
-            <Typography style={{color:'darkgray'}}>Already have an Account,&nbsp;
-              <Link style={styles.link_style} to={'/'}>LogIn</Link>
+            <Typography>
+              <Link style={styles.link_style} to={'/'}>Already have an Account</Link>
             </Typography>
           </Box>
         </Box>
