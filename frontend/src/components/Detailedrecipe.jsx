@@ -13,7 +13,7 @@ const Detailedrecipe = () => {
     return (
     <div>
       <Navbar/>
-      <Container>
+      <Container style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
         <Typography variant='h3' style={{fontFamily:'cursive',fontWeight:'bold',marginTop:80,marginLeft:-130}}>
             {response.state.name}
         </Typography>
@@ -34,6 +34,9 @@ const Detailedrecipe = () => {
                         },
                     }}
         />
+        <Typography variant='body1' style={{fontFamily:'cursive',fontWeight:'bold'}}>
+          {response.state.category}
+        </Typography>
         <Container>
             <img src={`http://localhost:3000/${response.state.image}`} alt={response.state.name} style={{ marginTop:20,marginLeft:-180,width: '500px', height: 'auto', objectFit: 'cover' }} />
         </Container>
