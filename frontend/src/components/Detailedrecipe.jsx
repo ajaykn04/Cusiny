@@ -34,11 +34,11 @@ const Detailedrecipe = () => {
                         },
                     }}
         />
-        <Typography variant='body1' style={{fontFamily:'cursive',fontWeight:'bold'}}>
+        <Typography variant='body1' style={{marginLeft:30,marginTop:-32.3,fontFamily:'cursive',fontWeight:'bold'}}>
           {response.state.category}
         </Typography>
         <Container>
-            <img src={`http://localhost:3000/${response.state.image}`} alt={response.state.name} style={{ marginTop:20,marginLeft:-180,width: '500px', height: 'auto', objectFit: 'cover' }} />
+            <img src={`http://localhost:3000/${response.state.image}`} alt={response.state.name} style={{ border: '4px solid white',borderRadius:'15px',marginTop:20,marginLeft:-180,width: '500px', height: 'auto', objectFit: 'cover' }} />
         </Container>
         
       </Container>

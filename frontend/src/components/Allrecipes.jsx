@@ -7,6 +7,7 @@ import { Button, Container, Grid, Paper, Rating, Typography } from '@mui/materia
 const Allrecipes = () => {
     var location = useLocation();
   location.state || "";
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -18,15 +19,23 @@ const Allrecipes = () => {
     axios.get(apiUrl)
       .then(response => {
         setRecipes(response.data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
+        setLoading(false);
       });
   }, []);
 
   return (
     <div>
       <Navbar location={location} />
+      {loading ? (
+          <center>
+            <br /><br /><br /><br />
+          Loading...
+          </center>
+      ) : (
       <Grid container spacing={2} sx={{ml:-1.75,mt:7}}>
       {recipes.map((recipe, index) => (
         <Grid item xs={12} sm={15} md={3} lg={2.3} key={index}sx={{ml:1.1,mt:-2}}>
@@ -35,7 +44,6 @@ const Allrecipes = () => {
               variant='outlined' 
               sx={{overflow:'hidden',borderColor:'white',borderRadius:'15px','&:hover': {
                 borderColor: 'darkorange',
-                // backgroundColor: 'rgba(255, 165, 0, 0.04)'
               },}}
               onClick={()=>{ 
                 navigate('/detrecipe', { state: recipe });
@@ -70,6 +78,7 @@ const Allrecipes = () => {
         </Grid>
       ))}
     </Grid>
+    )}
     </div>
   )
 }

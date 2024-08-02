@@ -9,6 +9,7 @@ const Myrecipe = () => {
   location.state || "";
   console.log(location.state.username)
 
+  const [loading, setLoading] = useState(true);
 
   const [recipes, setRecipes] = useState([]);
 
@@ -19,15 +20,23 @@ const Myrecipe = () => {
       .then(response => {
         setRecipes(response.data);
         console.log(response.data)
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
+        setLoading(false);
       });
   }, []);
  
   return (
     <div>
       <Navbar location={location} />
+      {loading ? (
+          <center>
+            <br /><br /><br /><br />
+          Loading...
+          </center>
+      ) : (
       <Grid container spacing={2} sx={{ml:-1.75,mt:7}}>
       {recipes.map((recipe, index) => (
         <Grid item xs={12} sm={15} md={3} lg={2.3} key={index}sx={{ml:1.1,mt:-2}}>
@@ -36,7 +45,6 @@ const Myrecipe = () => {
               variant='outlined' 
               sx={{overflow:'hidden',borderColor:'white',borderRadius:'15px','&:hover': {
                 borderColor: 'darkorange',
-                // backgroundColor: 'rgba(255, 165, 0, 0.04)'
               },}}
               onClick={()=>{ 
                 navigate('/recipe/add', { state: location.state });
@@ -71,6 +79,7 @@ const Myrecipe = () => {
         </Grid>
       ))}
     </Grid>
+    )}
     </div>
   )
 }
