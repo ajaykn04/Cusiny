@@ -25,7 +25,9 @@ const styles = {
         boxShadow: '0px 0px 10px',
         textAlign: 'center',
         maxWidth:'50vh',
+        maxHeight:'78vh',
       }
 }
 
 export default styles;
+

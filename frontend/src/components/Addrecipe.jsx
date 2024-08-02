@@ -91,10 +91,11 @@ const Addrecipe = () => {
       <Navbar location={location} />
       <Box
         sx={{
+          mt:13.7,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '97vh',
+          height: '80vh',
         }}
       >
         <Box sx={styles.box_style}>
@@ -108,6 +109,7 @@ const Addrecipe = () => {
           </Typography>
           <TextField
             required
+            style={{marginTop:-7}}
             fullWidth
             name="name"
             label="Name"
@@ -121,6 +123,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
+            style={{marginTop:3}}
             fullWidth
             multiline
             rows={4}
@@ -137,6 +140,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
+            style={{marginTop:3}}
             fullWidth
             multiline
             rows={4}
@@ -156,6 +160,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
+            style={{marginTop:3}}
             fullWidth
             name="category"
             label="Category"
@@ -168,6 +173,7 @@ const Addrecipe = () => {
             InputProps={styles.textfield}
           />
           <TextField
+            style={{marginTop:3}}
             required
             fullWidth
             name="image"
@@ -182,7 +188,7 @@ const Addrecipe = () => {
           />
           <Button
             variant="contained"
-            sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
+            sx={{ mt: .4, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
             onClick={submitHandler}
           >
             Add Recipe
