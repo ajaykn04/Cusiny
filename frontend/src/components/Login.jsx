@@ -98,8 +98,8 @@ const Login = () => {
             Log-in
           </Button>
           <Box mt={2}>
-            <Typography >
-              <Link style={styles.link_style} to={'/signin'}>Don't have an Account</Link>
+            <Typography style={{color:'darkgray'}}>Don't have an Account,&nbsp;
+              <Link style={styles.link_style} to={'/signin'}>SignUp</Link>
             </Typography>
           </Box>
         </Box>
