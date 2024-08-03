@@ -1,12 +1,11 @@
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { useLocation } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import axios from 'axios';
-import { CenterFocusStrong } from '@mui/icons-material';
 
 const Userdashboard = () => {
   const location = useLocation();
@@ -37,9 +36,7 @@ const Userdashboard = () => {
       <br />
       <br />
       {loading ? (
-          <center>
-          Loading...
-          </center>
+        <center>Loading...</center>
       ) : (
         <Carousel
           autoPlay
@@ -68,7 +65,14 @@ const Userdashboard = () => {
                   <Container style={{ backgroundColor: 'currentcolor', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Box sx={{ backgroundColor: 'black', height: '40vh', borderRadius: '16px', width: '35vw', boxShadow: '4px 4px 4px rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                       <Box className="carousel-item" sx={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={`http://localhost:3000/${recipe.image}`} style={{ height: 'auto', width: '100%', objectFit: 'cover' }} />
+                        <Button 
+                          variant="outlined" 
+                          style={{ padding: 0, border: 'none', background: 'transparent', transition: 'transform 0.2s ease-in-out' }}
+                          onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                          onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                          <img src={`http://localhost:3000/${recipe.image}`} style={{ height: 'auto', width: '100%', objectFit: 'cover' }} />
+                        </Button>
                       </Box>
                     </Box>
                   </Container>
