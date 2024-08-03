@@ -43,9 +43,7 @@ const Allrecipes = () => {
                 <Button
                   variant='outlined'
                   sx={{
-                    overflow: 'hidden', borderColor: 'white', borderRadius: '15px', '&:hover': {
-                      borderColor: 'darkorange',
-                    },
+                    overflow: 'hidden', borderColor: 'white', borderRadius: '15px', '&:hover': { borderColor: 'darkorange' },
                   }}
                   onClick={() => {
                     navigate('/detrecipe', { state: recipe });
