@@ -1,16 +1,18 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles';
 import Navbar from './Navbar';
+import { AppContext } from '../AppContext';
 
 const Profile = () => {
+  const { data, setData } = useContext(AppContext);
+  console.log(data.username)
   var location = useLocation();
   const navigate = useNavigate();
-  console.log(location.state.username)
-  const initialState = location.state || { username: "", place: "", age: "" };
-  const [user, setUser] = useState(initialState);
+  // const initialState = location.state || { username: "", place: "", age: "" };
+  // const [user, setUser] = useState(initialState);
   const [errors, setErrors] = useState({ username: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
 
@@ -34,7 +36,6 @@ const Profile = () => {
     if (validateFields()) {
       try {
         const updatedProfile = {
-          ...location.state,
           username: user.username,
           place: user.place,
           age: user.age
@@ -78,7 +79,7 @@ const Profile = () => {
             label="Username"
             variant="outlined"
             margin="normal"
-            value={user.username}
+            value={data.username}
             onChange={inputHandler}
             error={errors.username}
             helperText={errors.username ? 'Username is required' : ''}
@@ -92,7 +93,7 @@ const Profile = () => {
             label="Place"
             variant="outlined"
             margin="normal"
-            value={user.place}
+            value={data.place}
             onChange={inputHandler}
             error={errors.place}
             helperText={errors.place ? 'Place is required' : ''}
@@ -107,7 +108,7 @@ const Profile = () => {
             type="number"
             variant="outlined"
             margin="normal"
-            value={user.age}
+            value={data.age}
             onChange={inputHandler}
             error={errors.age}
             helperText={errors.age ? 'Age is required' : ''}

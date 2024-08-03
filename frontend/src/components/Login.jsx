@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles';
+import { AppContext } from '../AppContext';
 
 const Login = () => {
+  const { data, setData } = useContext(AppContext);
+
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: false, password: false });
   const [generalError, setGeneralError] = useState("");
   const navigate = useNavigate();
+
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
@@ -28,13 +32,24 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
-        if (login.data.admin == true) {
+        const userData = {
+          username: login.data.username,
+          place: login.data.place,
+          age: login.data.age,
+          email: login.data.email,
+          password: login.data.password,
+          admin: login.data.admin
+        };
+        setData(userData);
+        console.log(data);
+        console.log(userData)
+        if (userData.admin) {
           navigate('/admindash', { state: login.data });
-        }
-        else {
+        } else {
           navigate('/userdash', { state: login.data });
         }
       } catch (error) {
+        console.error(error)
         setGeneralError('Invalid Email or Password');
       }
     }
@@ -51,7 +66,6 @@ const Login = () => {
         }}
       >
         <Box sx={styles.box_style}>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img
             src="/dishify_pbg1.ico"
             alt="Login Icon"

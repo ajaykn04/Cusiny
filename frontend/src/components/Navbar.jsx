@@ -14,8 +14,7 @@ const Navbar = ({ location }) => {
     const navigate = useNavigate();
 
     const handleProfileClick = () => {
-        navigate('/profile', { state: location.state });
-        console.log(location.state)
+        navigate('/profile');
     };
     var location = useLocation();
 

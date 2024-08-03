@@ -9,16 +9,18 @@ import Profile from './components/Profile';
 import Myrecipe from './components/Myrecipe';
 import Allrecipes from './components/Allrecipes';
 import Detailedrecipe from './components/Detailedrecipe';
-
+import { AppContext } from './AppContext';
+import { useState } from 'react';
 
 
 function App() {
-
+const [data, setData] = useState({ username:"",place:"",age:0,email: "", password: "",admin:null });
   document.body.style.backgroundColor = colors.backgroundcolor;
 
   return (
     <>
       <BrowserRouter>
+      <AppContext.Provider value={{data,setData}}>
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/signin' element={<Signin />} />
@@ -30,6 +32,7 @@ function App() {
           <Route path='/recipes' element={<Allrecipes />} />
           <Route path='/detrecipe' element={<Detailedrecipe />} />
         </Routes>
+        </AppContext.Provider>
       </BrowserRouter>
 
 
