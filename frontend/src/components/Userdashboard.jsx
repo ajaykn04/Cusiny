@@ -1,13 +1,14 @@
 import { Box, Grid, Paper } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 
 const Userdashboard = () => {
+  const navigate= useNavigate();
   const location = useLocation();
   const [recipes, setRecipes] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -23,6 +24,10 @@ const Userdashboard = () => {
         setLoading(false); // Ensure loading is false even if there's an error
       });
   }, []);
+
+  const handleImageClick = (recipe) => {
+    navigate('/detrecipe', { state: recipe });
+  };
 
   const handleSlideChange = (index) => {
     setSelectedIndex(index);
@@ -66,6 +71,7 @@ const Userdashboard = () => {
                     <Box sx={{ backgroundColor: 'black', height: '40vh', borderRadius: '16px', width: '35vw', boxShadow: '4px 4px 4px rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                       <Box className="carousel-item" sx={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Button 
+                        onClick={()=>{handleImageClick(recipe)}}
                           variant="outlined" 
                           style={{ padding: 0, border: 'none', background: 'transparent', transition: 'transform 0.2s ease-in-out' }}
                           onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
