@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import axios from 'axios';
 import { Button, Container, Grid, Paper, Rating, Typography } from '@mui/material';
@@ -8,6 +8,8 @@ const Myrecipe = () => {
   var location = useLocation();
   location.state || "";
   console.log(location.state.username)
+
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +49,7 @@ const Myrecipe = () => {
                 borderColor: 'darkorange',
               },}}
               onClick={()=>{ 
-                navigate('/recipe/add', { state: location.state });
+                navigate('/detrecipe', { state: recipe });
               }}
               style={{fontSize:'20px' ,fontFamily:'fantasy' ,color:'black'}}
              >
