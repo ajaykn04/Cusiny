@@ -18,21 +18,21 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Login/>}/>
-      <Route path='/signin' element={<Signin/>}/>
-      <Route path='/admindash' element={<Admindashboard/>}/>
-      <Route path='/userdash' element={<Userdashboard/>}/>
-      <Route path='/recipe/add' element={<Addrecipe/>}/>
-      <Route path='/profile' element={<Profile/>}/>
-      <Route path='/user/recipes' element={<Myrecipe/>}/>
-      <Route path='/recipes' element={<Allrecipes/>}/>
-      <Route path='/detrecipe' element={<Detailedrecipe/>}/>
-    </Routes>
-    </BrowserRouter>
-    
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/signin' element={<Signin />} />
+          <Route path='/admindash' element={<Admindashboard />} />
+          <Route path='/userdash' element={<Userdashboard />} />
+          <Route path='/recipe/add' element={<Addrecipe />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/user/recipes' element={<Myrecipe />} />
+          <Route path='/recipes' element={<Allrecipes />} />
+          <Route path='/detrecipe' element={<Detailedrecipe />} />
+        </Routes>
+      </BrowserRouter>
+
+
     </>
   )
 }

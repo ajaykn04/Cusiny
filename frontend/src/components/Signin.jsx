@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles';
 
 
 const Signin = () => {
 
-  
 
-  const [user, setUser] = useState({ username: "", email: "", password: "",place: "", age: "" });
+
+  const [user, setUser] = useState({ username: "", email: "", password: "", place: "", age: "" });
   const [errors, setErrors] = useState({ username: false, email: false, password: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
-  
+
   const navigate = useNavigate();
 
   const cred = {
@@ -48,12 +48,12 @@ const Signin = () => {
         console.log("user added");
         navigate('/');
       } catch (error) {
-        if(error.response.status==409){
+        if (error.response.status == 409) {
           setGeneralError('Email Already Exists');
-        }else{
+        } else {
           console.error(error);
         }
-        
+
       }
     }
   };
@@ -69,11 +69,11 @@ const Signin = () => {
         }}
       >
         <Box sx={styles.box_style}>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img 
-            src="/dishify_pbg1.ico" 
-            alt="Login Icon" 
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img
+            src="/dishify_pbg1.ico"
+            alt="Login Icon"
+            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }}
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             SIGN-IN
@@ -159,7 +159,7 @@ const Signin = () => {
             Sign-in
           </Button>
           <Box mt={2}>
-            <Typography style={{color:'darkgray'}}>Already have an Account,&nbsp;
+            <Typography style={{ color: 'darkgray' }}>Already have an Account,&nbsp;
               <Link style={styles.link_style} to={'/'}>LogIn</Link>
             </Typography>
           </Box>

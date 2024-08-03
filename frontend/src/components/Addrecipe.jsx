@@ -10,18 +10,18 @@ const Addrecipe = () => {
   const navigate = useNavigate();
 
   const [recipe, setRecipe] = useState({
-    name: "", 
-    ingredients: "", 
-    instructions: "", 
-    category: "", 
+    name: "",
+    ingredients: "",
+    instructions: "",
+    category: "",
     image: "",
   });
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({
-    name: false, 
-    ingredients: false, 
-    instructions: false, 
-    category: false, 
+    name: false,
+    ingredients: false,
+    instructions: false,
+    category: false,
     image: false
   });
   const [generalError, setGeneralError] = useState("");
@@ -91,7 +91,7 @@ const Addrecipe = () => {
       <Navbar location={location} />
       <Box
         sx={{
-          mt:13.7,
+          mt: 13.7,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -99,17 +99,17 @@ const Addrecipe = () => {
         }}
       >
         <Box sx={styles.box_style}>
-          <img 
-            src="/dishify_pbg1.ico" 
-            alt="Login Icon" 
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
+          <img
+            src="/dishify_pbg1.ico"
+            alt="Login Icon"
+            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }}
           />
           <Typography fontFamily={'fantasy'} variant="h4" color="white" gutterBottom>
             ADD RECIPE
           </Typography>
           <TextField
             required
-            style={{marginTop:-7}}
+            style={{ marginTop: -7 }}
             fullWidth
             name="name"
             label="Name"
@@ -123,7 +123,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
-            style={{marginTop:3}}
+            style={{ marginTop: 3 }}
             fullWidth
             multiline
             rows={4}
@@ -140,7 +140,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
-            style={{marginTop:3}}
+            style={{ marginTop: 3 }}
             fullWidth
             multiline
             rows={4}
@@ -160,7 +160,7 @@ const Addrecipe = () => {
           />
           <TextField
             required
-            style={{marginTop:3}}
+            style={{ marginTop: 3 }}
             fullWidth
             name="category"
             label="Category"
@@ -173,7 +173,7 @@ const Addrecipe = () => {
             InputProps={styles.textfield}
           />
           <TextField
-            style={{marginTop:3}}
+            style={{ marginTop: 3 }}
             required
             fullWidth
             name="image"

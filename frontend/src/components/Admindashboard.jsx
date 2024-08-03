@@ -5,8 +5,8 @@ import NavbarAdmin from './NavbarAdmin'
 const Admindashboard = () => {
   return (
     <div>
-      <NavbarAdmin/>
-      <Box sx={{height: '90vh',display:'flex',color:'white',alignItems:'center' , justifyContent:'center'}}>
+      <NavbarAdmin />
+      <Box sx={{ height: '90vh', display: 'flex', color: 'white', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant='h3'>
           <center >
             Welcome Admin(admindashboard)

@@ -6,9 +6,9 @@ import styles from '../styles';
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState({ email: false, password: false }); 
+  const [errors, setErrors] = useState({ email: false, password: false });
   const [generalError, setGeneralError] = useState("");
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const inputHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
@@ -28,10 +28,10 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
-        if(login.data.admin==true){
+        if (login.data.admin == true) {
           navigate('/admindash', { state: login.data });
         }
-        else{
+        else {
           navigate('/userdash', { state: login.data });
         }
       } catch (error) {
@@ -51,11 +51,11 @@ const Login = () => {
         }}
       >
         <Box sx={styles.box_style}>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img 
-            src="/dishify_pbg1.ico" 
-            alt="Login Icon" 
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }} 
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img
+            src="/dishify_pbg1.ico"
+            alt="Login Icon"
+            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }}
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             LOG-IN
@@ -98,7 +98,7 @@ const Login = () => {
             Log-in
           </Button>
           <Box mt={2}>
-            <Typography style={{color:'darkgray'}}>Don't have an Account,&nbsp;
+            <Typography style={{ color: 'darkgray' }}>Don't have an Account,&nbsp;
               <Link style={styles.link_style} to={'/signin'}>SignUp</Link>
             </Typography>
           </Box>

@@ -8,20 +8,20 @@ import { Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 
 const Userdashboard = () => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const [recipes, setRecipes] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get("http://localhost:3000/recipe/featured")
       .then((res) => {
         setRecipes(res.data);
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       })
       .catch(() => {
-        setLoading(false); // Ensure loading is false even if there's an error
+        setLoading(false);
       });
   }, []);
 
@@ -70,9 +70,9 @@ const Userdashboard = () => {
                   <Container style={{ backgroundColor: 'currentcolor', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Box sx={{ backgroundColor: 'black', height: '40vh', borderRadius: '16px', width: '35vw', boxShadow: '4px 4px 4px rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                       <Box className="carousel-item" sx={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Button 
-                        onClick={()=>{handleImageClick(recipe)}}
-                          variant="outlined" 
+                        <Button
+                          onClick={() => { handleImageClick(recipe) }}
+                          variant="outlined"
                           style={{ padding: 0, border: 'none', background: 'transparent', transition: 'transform 0.2s ease-in-out' }}
                           onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
                           onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}

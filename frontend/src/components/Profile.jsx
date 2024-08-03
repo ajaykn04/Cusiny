@@ -1,8 +1,8 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Make sure you have axios imported
-import styles from '../styles'; // Assuming you have styles defined in '../styles'
+import axios from 'axios';
+import styles from '../styles';
 import Navbar from './Navbar';
 
 const Profile = () => {
@@ -53,7 +53,7 @@ const Profile = () => {
     <div>
       <Navbar location={location} />
       <Box
-      
+
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -62,11 +62,11 @@ const Profile = () => {
         }}
       >
         <Box mt={'4.5vh'} sx={styles.box_style}>
-          
-          <img 
-            src="/defaultprofile.png" 
-            alt="Profile Icon" 
-            style={{ width: '150px', marginBottom: '1rem', marginTop: '0rem' }} 
+
+          <img
+            src="/defaultprofile.png"
+            alt="Profile Icon"
+            style={{ width: '150px', marginBottom: '1rem', marginTop: '0rem' }}
           />
           <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
             PROFILE BIO
@@ -126,13 +126,13 @@ const Profile = () => {
           <Button
             variant="text"
             sx={{ mt: 2, }}
-            onClick={async ()=>{
-              await axios.delete(`http://localhost:3000/user/delete/`, {data: location.state})
+            onClick={async () => {
+              await axios.delete(`http://localhost:3000/user/delete/`, { data: location.state })
               navigate('/');
               console.log("Profile Successfully Deleted");
             }}
           >
-            <Typography style={{color:'red'}}>
+            <Typography style={{ color: 'red' }}>
               Delete my Account
             </Typography>
           </Button>
