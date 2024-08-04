@@ -62,7 +62,7 @@ const Addrecipe = () => {
 
         await axios.post(`http://localhost:3000/recipe/add/`, data);
         console.log("Recipe added");
-        window.location.reload(true);
+        navigate('/user/recipes', { state: location.state })
       } catch (error) {
         console.error(error);
       }
