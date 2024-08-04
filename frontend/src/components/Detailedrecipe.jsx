@@ -70,7 +70,7 @@ const Detailedrecipe = () => {
             border: "4px solid white",
             borderRadius: "15px",
             marginTop: 20,
-            marginLeft: -180,
+            marginLeft: -150,
             width: "500px",
             height: "auto",
             objectFit: "cover",
@@ -87,12 +87,12 @@ const Detailedrecipe = () => {
         <Box
           style={{
             marginLeft: "5vw",
-            width: "58vw",
+            width: "50vw",
           }}
         >
           <Typography
             variant="h4"
-            style={{ fontFamily: "cursive", fontWeight: "bold" }}
+            style={{ fontFamily: "cursive", fontWeight: "bold",marginRight:100 }}
           >
             Ingredients
           </Typography>
@@ -100,6 +100,7 @@ const Detailedrecipe = () => {
             variant="body1"
             style={{
               marginTop: 10,
+              marginRight: 50,
               fontFamily: "cursive",
               whiteSpace: "pre-line",
             }}
