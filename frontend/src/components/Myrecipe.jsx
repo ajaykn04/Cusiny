@@ -5,30 +5,30 @@ import axios from 'axios';
 import { Button, Container, Grid, Paper, Rating, Typography } from '@mui/material';
 
 const Myrecipe = () => {
-  var location = useLocation();
-  location.state || "";
-  console.log(location.state.username)
-
+  const location = useLocation();
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(true);
-
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3000/user/recipes/${location.state._id}`;
-
-    axios.get(apiUrl)
-      .then(response => {
-        setRecipes(response.data);
-        console.log(response.data)
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-      });
-  }, []);
+    if (location.state && location.state._id) {
+      const apiUrl = `http://localhost:3000/user/recipes/${location.state._id}`;
+  
+      axios.get(apiUrl)
+        .then(response => {
+          setRecipes(response.data);
+          console.log(response.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    } else {
+      console.error('Error: location.state is null or undefined');
+      setLoading(false);
+    }
+  }, [location.state]);
 
   return (
     <div>
@@ -89,4 +89,4 @@ const Myrecipe = () => {
   )
 }
 
-export default Myrecipe
+export default Myrecipe;

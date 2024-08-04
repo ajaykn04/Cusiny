@@ -8,25 +8,22 @@ import { AppContext } from '../AppContext';
 
 const Profile = () => {
   const { data, setData } = useContext(AppContext);
-  console.log(data.username)
-  var location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
-  // const initialState = location.state || { username: "", place: "", age: "" };
-  // const [user, setUser] = useState(initialState);
   const [errors, setErrors] = useState({ username: false, age: false, place: false });
   const [generalError, setGeneralError] = useState("");
 
   const inputHandler = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setData({ ...data, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
     setGeneralError("");
   };
 
   const validateFields = () => {
     const newErrors = {
-      username: user.username === "",
-      place: user.place === "",
-      age: user.age === ""
+      username: data.username === "",
+      place: data.place === "",
+      age: data.age === ""
     };
     setErrors(newErrors);
     return !newErrors.username && !newErrors.place && !newErrors.age;
@@ -36,9 +33,9 @@ const Profile = () => {
     if (validateFields()) {
       try {
         const updatedProfile = {
-          username: user.username,
-          place: user.place,
-          age: user.age
+          username: data.username,
+          place: data.place,
+          age: data.age
         };
         await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
         console.log("Profile Updated");
@@ -54,7 +51,6 @@ const Profile = () => {
     <div>
       <Navbar location={location} />
       <Box
-
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -63,7 +59,6 @@ const Profile = () => {
         }}
       >
         <Box mt={'4.5vh'} sx={styles.box_style}>
-
           <img
             src="/defaultprofile.png"
             alt="Profile Icon"
@@ -128,7 +123,7 @@ const Profile = () => {
             variant="text"
             sx={{ mt: 2, }}
             onClick={async () => {
-              await axios.delete(`http://localhost:3000/user/delete/`, { data: location.state })
+              await axios.delete(`http://localhost:3000/user/delete/`, { data: location.state });
               navigate('/');
               console.log("Profile Successfully Deleted");
             }}

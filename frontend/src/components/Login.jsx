@@ -38,10 +38,11 @@ const Login = () => {
           age: login.data.age,
           email: login.data.email,
           password: login.data.password,
-          admin: login.data.admin
+          admin: login.data.admin,
+          _id:login.data._id
         };
         setData(userData);
-        console.log(data);
+        console.log(login);
         console.log(userData)
         if (userData.admin) {
           navigate('/admindash', { state: login.data });
