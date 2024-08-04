@@ -86,7 +86,7 @@ const Detailedrecipe = () => {
       >
         <Box
           style={{
-            marginLeft: "5vw",
+            marginLeft: "0vw",
             width: "50vw",
           }}
         >
