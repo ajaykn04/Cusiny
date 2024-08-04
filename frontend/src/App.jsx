@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 
 function App() {
-const [data, setData] = useState({ username:"",place:"",age:0,email: "", password: "",admin:null });
+const [data, setData] = useState({ username:"",place:"",age:"",email: "", password: "",admin:null });
   document.body.style.backgroundColor = colors.backgroundcolor;
 
   return (

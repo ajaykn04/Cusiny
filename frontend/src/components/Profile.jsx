@@ -1,10 +1,11 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles';
 import Navbar from './Navbar';
 import { AppContext } from '../AppContext';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Profile = () => {
   const { data, setData } = useContext(AppContext);
@@ -47,6 +48,11 @@ const Profile = () => {
     }
   };
 
+  const logoutHandler = () => {
+    navigate('/');
+    window.location.reload(true);
+  };
+
   return (
     <div>
       <Navbar location={location} />
@@ -56,9 +62,16 @@ const Profile = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '97vh',
+          position: 'relative',
         }}
       >
         <Box mt={'4.5vh'} sx={styles.box_style}>
+          <IconButton
+            sx={{ position: 'fixed',ml:"16vw",mt:"-3vh", color: 'white' }}
+            onClick={logoutHandler}
+          >
+            <LogoutIcon />
+          </IconButton>
           <img
             src="/defaultprofile.png"
             alt="Profile Icon"
