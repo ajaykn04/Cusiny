@@ -26,23 +26,6 @@ const Addrecipe = () => {
   });
   const [generalError, setGeneralError] = useState("");
 
-  const handleInstructionsChange = (event) => {
-    const inputValue = event.target.value;
-    console.log(inputValue)
-    const lines = inputValue.split('\n');
-    console.log(lines)
-    const bulletedLines = lines.map((line, index) => {
-      if (index === lines.length - 1 && line === "• ") {
-        return "";
-      } else if (!line.startsWith('• ')) {
-        return `• ${line}`;
-      } else {
-        return line;
-      }
-    });
-    setRecipe(prevState => ({ ...prevState, instructions: bulletedLines.join('\n') }));
-  };
-
   const inputHandler = (e) => {
     if (e.target.type === "file") {
       setImage(e.target.files[0]);
@@ -151,7 +134,6 @@ const Addrecipe = () => {
             value={recipe.instructions}
             onChange={(e) => {
               inputHandler(e);
-              handleInstructionsChange(e);
             }}
             error={errors.instructions}
             helperText={errors.instructions ? 'Instructions are required' : ''}
