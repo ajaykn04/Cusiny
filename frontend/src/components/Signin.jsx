@@ -186,7 +186,7 @@ const Signin = () => {
           </Button>
           <Box mt={2}>
             <Typography style={{ color: "darkgray" }}>
-              Already have an Account,&nbsp;
+              Already have an Account?&nbsp;
               <Link style={styles.link_style} to={"/"}>
                 LogIn
               </Link>

@@ -132,7 +132,7 @@ const Login = () => {
           </Button>
           <Box mt={2}>
             <Typography style={{ color: "darkgray" }}>
-              Don't have an Account,&nbsp;
+              Don't have an Account?&nbsp;
               <Link style={styles.link_style} to={"/signin"}>
                 SignUp
               </Link>
