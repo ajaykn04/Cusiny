@@ -1,18 +1,30 @@
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
-import React, { useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import styles from '../styles';
-import Navbar from './Navbar';
-import { AppContext } from '../AppContext';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import React, { useContext, useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import styles from "../styles";
+import Navbar from "./Navbar";
+import { AppContext } from "../AppContext";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Profile = () => {
   const { data, setData } = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({ username: false, age: false, place: false });
+  const [errors, setErrors] = useState({
+    username: false,
+    age: false,
+    place: false,
+  });
   const [generalError, setGeneralError] = useState("");
+
+  useEffect(() => {
+    // Load state from localStorage if available
+    const savedData = JSON.parse(localStorage.getItem('userData'));
+    if (savedData) {
+      setData(savedData);
+    }
+  }, [setData]);
 
   const inputHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -24,7 +36,7 @@ const Profile = () => {
     const newErrors = {
       username: data.username === "",
       place: data.place === "",
-      age: data.age === ""
+      age: data.age === "",
     };
     setErrors(newErrors);
     return !newErrors.username && !newErrors.place && !newErrors.age;
@@ -36,11 +48,13 @@ const Profile = () => {
         const updatedProfile = {
           username: data.username,
           place: data.place,
-          age: data.age
+          age: data.age,
         };
         await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
         console.log("Profile Updated");
-        navigate('/userdash', { state: updatedProfile });
+        // Update localStorage
+        localStorage.setItem('userData', JSON.stringify(updatedProfile));
+        navigate("/userdash", { state: updatedProfile });
       } catch (error) {
         console.error(error);
         setGeneralError("An error occurred while updating the profile.");
@@ -49,8 +63,8 @@ const Profile = () => {
   };
 
   const logoutHandler = () => {
-    navigate('/');
-    window.location.reload(true);
+    navigate("/");
+    localStorage.removeItem('userData'); // Clear localStorage on logout
   };
 
   return (
@@ -58,16 +72,16 @@ const Profile = () => {
       <Navbar location={location} />
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '97vh',
-          position: 'relative',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "97vh",
+          position: "relative",
         }}
       >
-        <Box mt={'4.5vh'} sx={styles.box_style}>
+        <Box mt={"4.5vh"} sx={styles.box_style}>
           <IconButton
-            sx={{ position: 'fixed',ml:"16vw",mt:"-3vh", color: 'white' }}
+            sx={{ position: "fixed", ml: "16vw", mt: "-3vh", color: "white" }}
             onClick={logoutHandler}
           >
             <LogoutIcon />
@@ -75,9 +89,14 @@ const Profile = () => {
           <img
             src="/defaultprofile.png"
             alt="Profile Icon"
-            style={{ width: '150px', marginBottom: '1rem', marginTop: '0rem' }}
+            style={{ width: "150px", marginBottom: "1rem", marginTop: "0rem" }}
           />
-          <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
+          <Typography
+            fontFamily={"fantasy"}
+            variant="h3"
+            color="white"
+            gutterBottom
+          >
             PROFILE BIO
           </Typography>
           <TextField
@@ -90,8 +109,8 @@ const Profile = () => {
             value={data.username}
             onChange={inputHandler}
             error={errors.username}
-            helperText={errors.username ? 'Username is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.username ? "Username is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -104,8 +123,8 @@ const Profile = () => {
             value={data.place}
             onChange={inputHandler}
             error={errors.place}
-            helperText={errors.place ? 'Place is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.place ? "Place is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -119,14 +138,20 @@ const Profile = () => {
             value={data.age}
             onChange={inputHandler}
             error={errors.age}
-            helperText={errors.age ? 'Age is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.age ? "Age is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
-          {generalError && <Typography color="error">{generalError}</Typography>}
+          {generalError && (
+            <Typography color="error">{generalError}</Typography>
+          )}
           <Button
             variant="contained"
-            sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
+            sx={{
+              mt: 2,
+              backgroundColor: "orange",
+              "&:hover": { backgroundColor: "orange" },
+            }}
             onClick={submitHandler}
           >
             Save Changes
@@ -134,16 +159,17 @@ const Profile = () => {
           <br />
           <Button
             variant="text"
-            sx={{ mt: 2, }}
+            sx={{ mt: 2 }}
             onClick={async () => {
-              await axios.delete(`http://localhost:3000/user/delete/`, { data: location.state });
-              navigate('/');
+              await axios.delete(`http://localhost:3000/user/delete/`, {
+                data: data,
+              });
+              navigate("/");
+              localStorage.removeItem('userData'); // Clear localStorage on delete
               console.log("Profile Successfully Deleted");
             }}
           >
-            <Typography style={{ color: 'red' }}>
-              Delete my Account
-            </Typography>
+            <Typography style={{ color: "red" }}>Delete my Account</Typography>
           </Button>
         </Box>
       </Box>

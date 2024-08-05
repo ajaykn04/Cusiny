@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import styles from '../styles';
-import { AppContext } from '../AppContext';
+import React, { useContext, useState } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import styles from "../styles";
+import { AppContext } from "../AppContext";
 
 const Login = () => {
-  const { data, setData } = useContext(AppContext);
-
+  const { setData } = useContext(AppContext);
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: false, password: false });
   const [generalError, setGeneralError] = useState("");
@@ -22,7 +21,7 @@ const Login = () => {
   const validateFields = () => {
     const newErrors = {
       email: user.email === "",
-      password: user.password === ""
+      password: user.password === "",
     };
     setErrors(newErrors);
     return !newErrors.email && !newErrors.password;
@@ -31,7 +30,9 @@ const Login = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        const login = await axios.get(`http://localhost:3000/user/get/${user.email}/${user.password}`);
+        const login = await axios.get(
+          `http://localhost:3000/user/get/${user.email}/${user.password}`
+        );
         const userData = {
           username: login.data.username,
           place: login.data.place,
@@ -39,19 +40,21 @@ const Login = () => {
           email: login.data.email,
           password: login.data.password,
           admin: login.data.admin,
-          _id:login.data._id
+          _id: login.data._id,
         };
         setData(userData);
-        console.log(login);
-        console.log(userData)
+        
+        // Save to localStorage
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
         if (userData.admin) {
-          navigate('/admindash', { state: login.data });
+          navigate("/admindash", { state: login.data });
         } else {
-          navigate('/userdash', { state: login.data });
+          navigate("/userdash", { state: login.data });
         }
       } catch (error) {
-        console.error(error)
-        setGeneralError('Invalid Email or Password');
+        console.error(error);
+        setGeneralError("Invalid Email or Password");
       }
     }
   };
@@ -60,19 +63,28 @@ const Login = () => {
     <div>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '97vh',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "97vh",
         }}
       >
         <Box sx={styles.box_style}>
           <img
             src="/dishify_pbg1.ico"
             alt="Login Icon"
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }}
+            style={{
+              width: "200px",
+              marginBottom: "-1.5rem",
+              marginTop: "-5rem",
+            }}
           />
-          <Typography fontFamily={'fantasy'} variant="h3" color="white" gutterBottom>
+          <Typography
+            fontFamily={"fantasy"}
+            variant="h3"
+            color="white"
+            gutterBottom
+          >
             LOG-IN
           </Typography>
           <TextField
@@ -85,9 +97,11 @@ const Login = () => {
             value={user.email}
             onChange={inputHandler}
             error={errors.email}
-            helperText={errors.email ? 'Email is required' : generalError}
-            FormHelperTextProps={{ sx: { color: errors.email ? 'red' : 'red' } }}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.email ? "Email is required" : generalError}
+            FormHelperTextProps={{
+              sx: { color: errors.email ? "red" : "red" },
+            }}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -101,20 +115,27 @@ const Login = () => {
             value={user.password}
             onChange={inputHandler}
             error={errors.password}
-            helperText={errors.password ? 'Password is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.password ? "Password is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <Button
             variant="contained"
-            sx={{ mt: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
+            sx={{
+              mt: 2,
+              backgroundColor: "orange",
+              "&:hover": { backgroundColor: "orange" },
+            }}
             onClick={submitHandler}
           >
             Log-in
           </Button>
           <Box mt={2}>
-            <Typography style={{ color: 'darkgray' }}>Don't have an Account,&nbsp;
-              <Link style={styles.link_style} to={'/signin'}>SignUp</Link>
+            <Typography style={{ color: "darkgray" }}>
+              Don't have an Account,&nbsp;
+              <Link style={styles.link_style} to={"/signin"}>
+                SignUp
+              </Link>
             </Typography>
           </Box>
         </Box>

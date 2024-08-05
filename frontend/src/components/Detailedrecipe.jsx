@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 const Detailedrecipe = () => {
   var response = useLocation();
   response.state || "";
-  console.log(response.state);
 
   return (
     <div>
@@ -92,7 +91,11 @@ const Detailedrecipe = () => {
         >
           <Typography
             variant="h4"
-            style={{ fontFamily: "cursive", fontWeight: "bold",marginRight:100 }}
+            style={{
+              fontFamily: "cursive",
+              fontWeight: "bold",
+              marginRight: 100,
+            }}
           >
             Ingredients
           </Typography>

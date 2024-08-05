@@ -1,13 +1,22 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../styles';
-import Navbar from './Navbar';
+import React, { useContext, useEffect, useState } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import { AppContext } from "../AppContext";
+import styles from "../styles";
 
 const Addrecipe = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { data, setData } = useContext(AppContext);
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("userData"));
+    if (savedData) {
+      setData(savedData);
+    }
+  }, [setData]);
 
   const [recipe, setRecipe] = useState({
     name: "",
@@ -22,7 +31,7 @@ const Addrecipe = () => {
     ingredients: false,
     instructions: false,
     category: false,
-    image: false
+    image: false,
   });
   const [generalError, setGeneralError] = useState("");
 
@@ -46,23 +55,23 @@ const Addrecipe = () => {
       image: !image,
     };
     setErrors(newErrors);
-    return !Object.values(newErrors).some(error => error);
+    return !Object.values(newErrors).some((error) => error);
   };
 
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        const data = new FormData();
-        data.append("file", image);
+        const formData = new FormData();
+        formData.append("file", image);
         for (const key in recipe) {
-          data.append(key, recipe[key]);
+          formData.append(key, recipe[key]);
         }
-        data.append("owner", location.state._id);
-        data.append("ownername", location.state.username);
+        formData.append("owner", data._id); // Ensure `data` is correctly set
+        formData.append("ownername", data.username);
 
-        await axios.post(`http://localhost:3000/recipe/add/`, data);
+        await axios.post(`http://localhost:3000/recipe/add/`, formData);
         console.log("Recipe added");
-        navigate('/user/recipes', { state: location.state })
+        navigate("/user/recipes", { state: location.state });
       } catch (error) {
         console.error(error);
       }
@@ -75,19 +84,28 @@ const Addrecipe = () => {
       <Box
         sx={{
           mt: 13.7,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '80vh',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
         }}
       >
         <Box sx={styles.box_style}>
           <img
             src="/dishify_pbg1.ico"
             alt="Login Icon"
-            style={{ width: '200px', marginBottom: '-1.5rem', marginTop: '-5rem' }}
+            style={{
+              width: "200px",
+              marginBottom: "-1.5rem",
+              marginTop: "-5rem",
+            }}
           />
-          <Typography fontFamily={'fantasy'} variant="h4" color="white" gutterBottom>
+          <Typography
+            fontFamily={"fantasy"}
+            variant="h4"
+            color="white"
+            gutterBottom
+          >
             ADD RECIPE
           </Typography>
           <TextField
@@ -100,8 +118,8 @@ const Addrecipe = () => {
             margin="normal"
             onChange={inputHandler}
             error={errors.name}
-            helperText={errors.name ? 'Name is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.name ? "Name is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -116,9 +134,11 @@ const Addrecipe = () => {
             margin="normal"
             onChange={inputHandler}
             error={errors.ingredients}
-            helperText={errors.ingredients ? 'Ingredients are required' : generalError}
-            FormHelperTextProps={{ sx: { color: 'red' } }}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={
+              errors.ingredients ? "Ingredients are required" : generalError
+            }
+            FormHelperTextProps={{ sx: { color: "red" } }}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -132,12 +152,10 @@ const Addrecipe = () => {
             variant="outlined"
             margin="normal"
             value={recipe.instructions}
-            onChange={(e) => {
-              inputHandler(e);
-            }}
+            onChange={inputHandler}
             error={errors.instructions}
-            helperText={errors.instructions ? 'Instructions are required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.instructions ? "Instructions are required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -150,8 +168,8 @@ const Addrecipe = () => {
             margin="normal"
             onChange={inputHandler}
             error={errors.category}
-            helperText={errors.category ? 'Category is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.category ? "Category is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <TextField
@@ -164,13 +182,17 @@ const Addrecipe = () => {
             margin="normal"
             onChange={inputHandler}
             error={errors.image}
-            helperText={errors.image ? 'Image is required' : ''}
-            InputLabelProps={{ style: { color: 'white' } }}
+            helperText={errors.image ? "Image is required" : ""}
+            InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
           <Button
             variant="contained"
-            sx={{ mt: .4, backgroundColor: 'orange', '&:hover': { backgroundColor: 'orange' }, }}
+            sx={{
+              mt: 0.4,
+              backgroundColor: "orange",
+              "&:hover": { backgroundColor: "orange" },
+            }}
             onClick={submitHandler}
           >
             Add Recipe
