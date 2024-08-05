@@ -32,6 +32,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
+      console.log(data._id)
       const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
       console.log(data.username);
       axios

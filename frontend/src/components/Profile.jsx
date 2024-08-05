@@ -49,12 +49,13 @@ const Profile = () => {
           username: data.username,
           place: data.place,
           age: data.age,
+          _id:data._id
         };
         await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
         console.log("Profile Updated");
         // Update localStorage
         localStorage.setItem("userData", JSON.stringify(updatedProfile));
-        navigate("/userdash", { state: updatedProfile });
+        navigate("/userdash");
       } catch (error) {
         console.error(error);
         setGeneralError("An error occurred while updating the profile.");
