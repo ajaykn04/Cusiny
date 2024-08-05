@@ -101,7 +101,6 @@ const Navbar = ({ location }) => {
               variant="text"
               onClick={() =>
                 navigate("/user/recipes", { state: currentLocation.state })
-                
               }
               style={{
                 fontSize: "20px",

@@ -33,7 +33,7 @@ const Myrecipe = () => {
   useEffect(() => {
     if (data._id) {
       const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
-      console.log(data.username)
+      console.log(data.username);
       axios
         .get(apiUrl)
         .then((response) => {
@@ -52,7 +52,9 @@ const Myrecipe = () => {
   const handleDelete = async (recipeId) => {
     try {
       await axios.delete(`http://localhost:3000/recipe/delete/${recipeId}`);
-      setRecipes((prevRecipes) => prevRecipes.filter((r) => r._id !== recipeId));
+      setRecipes((prevRecipes) =>
+        prevRecipes.filter((r) => r._id !== recipeId)
+      );
       window.location.reload(true);
     } catch (error) {
       console.error("Error deleting recipe:", error);

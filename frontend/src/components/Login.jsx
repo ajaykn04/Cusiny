@@ -43,10 +43,10 @@ const Login = () => {
           _id: login.data._id,
         };
         setData(userData);
-        
+
         // Save to localStorage
-        localStorage.setItem('userData', JSON.stringify(userData));
-        
+        localStorage.setItem("userData", JSON.stringify(userData));
+
         if (userData.admin) {
           navigate("/admindash", { state: login.data });
         } else {
