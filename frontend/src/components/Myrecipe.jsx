@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { AppContext } from "../AppContext";
 
 const Myrecipe = () => {
@@ -118,6 +119,18 @@ const Myrecipe = () => {
                   height: "325px",
                 }}
               >
+              <IconButton
+                  sx={{
+                    position: "fixed",
+                    ml: "11vw",
+                    mt: "35vh",
+                    color: "white",
+                    zIndex: 1,
+                  }}
+                  onClick
+                >
+                  <EditIcon />
+                </IconButton>
                 <IconButton
                   sx={{
                     position: "fixed",
