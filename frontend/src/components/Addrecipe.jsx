@@ -7,7 +7,32 @@ import { AppContext } from "../AppContext";
 import styles from "../styles";
 
 const Addrecipe = () => {
-  const location = useLocation();
+  const [recipe, setRecipe] = useState({
+    name: "",
+    ingredients: "",
+    instructions: "",
+    category: "",
+    image: "",
+  });
+  const toeditrecipe = useLocation();
+  // toeditrecipe || ""
+  // console.log(toeditrecipe.state)
+  // console.log(toeditrecipe.state.value)
+  // console.log(toeditrecipe.state.value._id)
+  useEffect(() => {
+
+    if ( toeditrecipe.state!= null) {
+      setRecipe({...recipe,
+        name: toeditrecipe.state.value.name,
+        ingredients: toeditrecipe.state.value.ingredients,
+        instructions: toeditrecipe.state.value.instructions,
+        category: toeditrecipe.state.value.category,
+        image: toeditrecipe.state.value.image,
+
+        });
+    }
+},[]);
+console.log(recipe)
   const navigate = useNavigate();
   const { data, setData } = useContext(AppContext);
 
@@ -18,13 +43,7 @@ const Addrecipe = () => {
     }
   }, [setData]);
 
-  const [recipe, setRecipe] = useState({
-    name: "",
-    ingredients: "",
-    instructions: "",
-    category: "",
-    image: "",
-  });
+  
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({
     name: false,
@@ -60,22 +79,35 @@ const Addrecipe = () => {
 
   const submitHandler = async () => {
     if (validateFields()) {
-      try {
-        const formData = new FormData();
-        formData.append("file", image);
-        for (const key in recipe) {
-          formData.append(key, recipe[key]);
+      const formData = new FormData();
+      if(toeditrecipe.state!=null){
+       axios.put("http://localhost:3000/recipe/edit/"+toeditrecipe.state.value._id, recipe)
+            .then((res) => {
+                navigate('/user/recipes');
+                
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+      }else{
+        try {
+        
+          formData.append("file", image);
+          for (const key in recipe) {
+            formData.append(key, recipe[key]);
+          }
+          formData.append("owner", data._id); // Ensure `data` is correctly set
+          formData.append("ownername", data.username);
+  
+          await axios.post(`http://localhost:3000/recipe/add/`, formData);
+          console.log("Recipe added");
+          navigate("/user/recipes");
+          // navigate("/user/recipes", { state: location.state });
+        } catch (error) {
+          console.error(error);
         }
-        formData.append("owner", data._id); // Ensure `data` is correctly set
-        formData.append("ownername", data.username);
-
-        await axios.post(`http://localhost:3000/recipe/add/`, formData);
-        console.log("Recipe added");
-        navigate("/user/recipes");
-        // navigate("/user/recipes", { state: location.state });
-      } catch (error) {
-        console.error(error);
       }
+      
     }
   };
 
@@ -115,6 +147,7 @@ const Addrecipe = () => {
             style={{ marginTop: -7 }}
             fullWidth
             name="name"
+            value={recipe.name}
             label="Name"
             variant="outlined"
             margin="normal"
@@ -131,6 +164,7 @@ const Addrecipe = () => {
             multiline
             rows={4}
             name="ingredients"
+            value={recipe.ingredients}
             label="Ingredients"
             variant="outlined"
             margin="normal"
@@ -150,10 +184,10 @@ const Addrecipe = () => {
             multiline
             rows={4}
             name="instructions"
+            value={recipe.instructions}
             label="Instructions"
             variant="outlined"
             margin="normal"
-            value={recipe.instructions}
             onChange={inputHandler}
             error={errors.instructions}
             helperText={errors.instructions ? "Instructions are required" : ""}
@@ -165,6 +199,7 @@ const Addrecipe = () => {
             style={{ marginTop: 3 }}
             fullWidth
             name="category"
+            value={recipe.category}
             label="Category"
             variant="outlined"
             margin="normal"

@@ -33,9 +33,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
-      console.log(data._id)
       const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
-      console.log(data.username);
       axios
         .get(apiUrl)
         .then((response) => {
@@ -50,6 +48,10 @@ const Myrecipe = () => {
         });
     }
   }, [data, setData]); // Ensure data is included in dependencies
+
+  const updateValue = (value) =>{
+    navigate("/recipe/add", {state: {value}});
+  }
 
   const handleDelete = async (recipeId) => {
     try {
@@ -127,7 +129,7 @@ const Myrecipe = () => {
                     color: "white",
                     zIndex: 1,
                   }}
-                  // onClick
+                  onClick={()=>{updateValue(recipe)}}
                 >
                   <EditIcon />
                 </IconButton>
