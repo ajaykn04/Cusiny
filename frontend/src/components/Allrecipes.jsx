@@ -37,7 +37,8 @@ const Allrecipes = () => {
 
   return (
     <div>
-      <Navbar location={location} />
+      <Navbar />
+      {/* <Navbar location={location} /> */}
       {loading ? (
         <center>
           <br />

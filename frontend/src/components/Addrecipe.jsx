@@ -71,7 +71,8 @@ const Addrecipe = () => {
 
         await axios.post(`http://localhost:3000/recipe/add/`, formData);
         console.log("Recipe added");
-        navigate("/user/recipes", { state: location.state });
+        navigate("/user/recipes");
+        // navigate("/user/recipes", { state: location.state });
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +81,8 @@ const Addrecipe = () => {
 
   return (
     <div>
-      <Navbar location={location} />
+      <Navbar  />
+      {/* <Navbar location={location} /> */}
       <Box
         sx={{
           mt: 13.7,

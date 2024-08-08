@@ -17,12 +17,14 @@ const StyledToolbar = styled(Toolbar)`
   background-color: black;
 `;
 
-const Navbar = ({ location }) => {
+// const Navbar = ({ location }) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const currentLocation = useLocation();
+  // const currentLocation = useLocation();
 
   const handleProfileClick = () => {
-    navigate("/profile", { state: currentLocation.state });
+    navigate("/profile");
+    // navigate("/profile", { state: currentLocation.state });
   };
 
   return (
@@ -57,9 +59,10 @@ const Navbar = ({ location }) => {
           >
             <Button
               variant="text"
-              onClick={() =>
-                navigate("/userdash", { state: currentLocation.state })
-              }
+              onClick={() =>{
+                navigate("/userdash")
+                // navigate("/userdash", { state: currentLocation.state })
+              }}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
@@ -78,9 +81,10 @@ const Navbar = ({ location }) => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>
-                navigate("/recipe/add", { state: currentLocation.state })
-              }
+              onClick={() =>{
+                navigate("/recipe/add")
+                // navigate("/recipe/add", { state: currentLocation.state })
+              }}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
@@ -99,9 +103,10 @@ const Navbar = ({ location }) => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>
-                navigate("/user/recipes", { state: currentLocation.state })
-              }
+              onClick={() =>{
+                navigate("/user/recipes")
+                // navigate("/user/recipes", { state: currentLocation.state })
+              }}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
@@ -120,9 +125,10 @@ const Navbar = ({ location }) => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>
-                navigate("/recipes", { state: currentLocation.state })
-              }
+              onClick={() =>{
+                navigate("/recipes")
+                // navigate("/recipes", { state: currentLocation.state })
+              }}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",

@@ -37,7 +37,8 @@ const Userdashboard = () => {
 
   return (
     <div>
-      <Navbar location={location} />
+      <Navbar />
+      {/* <Navbar location={location} /> */}
       <br />
       <br />
       <br />

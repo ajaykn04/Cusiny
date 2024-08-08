@@ -65,7 +65,8 @@ const Myrecipe = () => {
 
   return (
     <div>
-      <Navbar location={location} />
+      <Navbar  />
+      {/* <Navbar location={location} /> */}
       {loading ? (
         <center>
           <br />
@@ -84,11 +85,10 @@ const Myrecipe = () => {
                 padding: 0,
               }}
               style={{ color: "transparent" }}
-              onClick={() =>
-                navigate("/recipe/add", {
-                  state: location.state,
-                })
-              }
+              onClick={() =>{
+                navigate("/recipe/add")
+                // navigate("/recipe/add", {state: location.state})
+              }}
             >
               <Typography style={{ color: "orange" }}>
                 Create new recipe
@@ -127,7 +127,7 @@ const Myrecipe = () => {
                     color: "white",
                     zIndex: 1,
                   }}
-                  onClick
+                  // onClick
                 >
                   <EditIcon />
                 </IconButton>

@@ -70,7 +70,8 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar location={location} />
+      <Navbar />
+      {/* <Navbar location={location} /> */}
       <Box
         sx={{
           display: "flex",
