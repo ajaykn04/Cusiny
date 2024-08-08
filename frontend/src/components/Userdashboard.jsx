@@ -191,7 +191,6 @@ const Userdashboard = () => {
           <div className="recipy-card" key={recipy._id}>
             <img src={`http://localhost:3000/${recipy.image}`} alt={recipy.name} className="recipy-image" />
             <h3 className="recipy-title">{recipy.name}</h3>
-            <button className="view-recipy-button">View recipy</button>
           </div>
         ))}
       </div>
