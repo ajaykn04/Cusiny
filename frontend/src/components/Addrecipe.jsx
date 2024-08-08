@@ -32,7 +32,6 @@ const Addrecipe = () => {
         });
     }
 },[]);
-console.log(recipe)
   const navigate = useNavigate();
   const { data, setData } = useContext(AppContext);
 
@@ -81,14 +80,20 @@ console.log(recipe)
     if (validateFields()) {
       const formData = new FormData();
       if(toeditrecipe.state!=null){
-       axios.put("http://localhost:3000/recipe/edit/"+toeditrecipe.state.value._id, recipe)
-            .then((res) => {
-                navigate('/user/recipes');
-                
-            })
-            .catch((err) => {
-                console.log(err)
-            });
+        try {
+        formData.append("file", image);
+        for (const key in recipe) {
+          formData.append(key, recipe[key]);
+        }
+        formData.append("_id", toeditrecipe.state.value._id)
+        console.log(toeditrecipe.state.value._id)
+        console.log(recipe)
+         await axios.put("http://localhost:3000/recipe/edit/", formData)
+          navigate('/user/recipes');  
+        } catch (error) {
+          console.error(error)
+        }
+       
       }else{
         try {
         
