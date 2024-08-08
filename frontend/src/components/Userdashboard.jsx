@@ -186,7 +186,7 @@ const Userdashboard = () => {
           ))}
         </div>
 
-        <Grid container spacing={2} sx={{ ml: -1.75, mt: 7 }}>
+        <Grid container spacing={2} sx={{ ml: -4, mt: 2 }}>
           {filteredRecipys.map((recipy, index) => (
             <Grid
               item
@@ -195,7 +195,7 @@ const Userdashboard = () => {
               md={3}
               lg={2.3}
               key={index}
-              sx={{ ml: 1.1, mt: -2 }}
+              sx={{ ml: 1.5, mt: -2 }}
             >
               <Paper
                 elevation={3}
@@ -209,24 +209,24 @@ const Userdashboard = () => {
                 }}
               >
                 <Button
-                  variant="outlined"
+                  variant="contained"
+                  style={{color:"black", width:"17.25vw",marginLeft:"0vw"}}
                   sx={{
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
                     "&:hover": { borderColor: "darkorange" },
+                    padding: 0,
+                    
                   }}
                   onClick={() => {
                     navigate("/detrecipe", { state: recipy });
                   }}
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "fantasy",
-                    color: "black",
-                  }}
                 >
                   <Container
                     style={{
+                      marginLeft:"-.5vw",
+                      marginTop:"-.35vh",
                       backgroundColor: "currentcolor",
                       flex: 1,
                       display: "flex",
@@ -239,8 +239,8 @@ const Userdashboard = () => {
                       src={`http://localhost:3000/${recipy.image}`}
                       alt={recipy.name}
                       style={{
-                        marginLeft: "-39px",
-                        marginTop: "-10px",
+                        marginLeft: "0px",
+                        marginTop: "0px",
                         width: "257px",
                         height: "260px",
                         objectFit: "cover",
