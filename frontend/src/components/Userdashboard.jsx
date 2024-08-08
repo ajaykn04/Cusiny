@@ -6,14 +6,35 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { Button, Container } from "react-bootstrap";
 import axios from "axios";
+import "./Testfile.css";
 
 const Userdashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [selectedCategory, setSelectedCategory] = useState("Meals");
   const [recipes, setRecipes] = useState([]);
+  const categories = ["Meals", "Vegetarian", "Salad", "Drinks", "Desserts"];
+  const [recipys, setRecipys] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/recipe/viewall")
+      .then((res) => {
+        setRecipys(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        console.error(error);
+      });
+  }, []);
+
+  const filteredRecipys = recipys.filter(
+    (recipy) => recipy.category === selectedCategory
+  );
+  
   useEffect(() => {
     axios
       .get("http://localhost:3000/recipe/featured")
@@ -148,7 +169,36 @@ const Userdashboard = () => {
           ))}
         </Carousel>
       )}
+
+<div className="recipy-container">
+      <h2 className="category-title">Category</h2>
+      <div className="category-buttons">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`category-button ${
+              selectedCategory === category ? "active" : ""
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div className="recipy-list">
+        {filteredRecipys.map((recipy) => (
+          <div className="recipy-card" key={recipy._id}>
+            <img src={`http://localhost:3000/${recipy.image}`} alt={recipy.name} className="recipy-image" />
+            <h3 className="recipy-title">{recipy.name}</h3>
+            <button className="view-recipy-button">View recipy</button>
+          </div>
+        ))}
+      </div>
     </div>
+
+    </div>
+    
   );
 };
 
