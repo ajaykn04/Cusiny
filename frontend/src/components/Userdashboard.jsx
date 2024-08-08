@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid, Paper, Rating, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ const Userdashboard = () => {
   const filteredRecipys = recipys.filter(
     (recipy) => recipy.category === selectedCategory
   );
-  
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/recipe/featured")
@@ -170,34 +170,122 @@ const Userdashboard = () => {
         </Carousel>
       )}
 
-<div className="recipy-container">
-      <h2 className="category-title">Category</h2>
-      <div className="category-buttons">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`category-button ${
-              selectedCategory === category ? "active" : ""
-            }`}
-            onClick={() => setSelectedCategory(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
+      <div className="recipy-container">
+        <h2 className="category-title">Category</h2>
+        <div className="category-buttons">
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`category-button ${
+                selectedCategory === category ? "active" : ""
+              }`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
 
-      <div className="recipy-list">
-        {filteredRecipys.map((recipy) => (
-          <div className="recipy-card" key={recipy._id}>
-            <img src={`http://localhost:3000/${recipy.image}`} alt={recipy.name} className="recipy-image" />
-            <h3 className="recipy-title">{recipy.name}</h3>
-          </div>
-        ))}
+        <Grid container spacing={2} sx={{ ml: -1.75, mt: 7 }}>
+          {filteredRecipys.map((recipy, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={15}
+              md={3}
+              lg={2.3}
+              key={index}
+              sx={{ ml: 1.1, mt: -2 }}
+            >
+              <Paper
+                elevation={3}
+                sx={{
+                  padding: 1,
+                  backgroundColor: "currentcolor",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "325px",
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  sx={{
+                    overflow: "hidden",
+                    borderColor: "white",
+                    borderRadius: "15px",
+                    "&:hover": { borderColor: "darkorange" },
+                  }}
+                  onClick={() => {
+                    navigate("/detrecipe", { state: recipy });
+                  }}
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "fantasy",
+                    color: "black",
+                  }}
+                >
+                  <Container
+                    style={{
+                      backgroundColor: "currentcolor",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <img
+                      src={`http://localhost:3000/${recipy.image}`}
+                      alt={recipy.name}
+                      style={{
+                        marginLeft: "-39px",
+                        marginTop: "-10px",
+                        width: "257px",
+                        height: "260px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <Typography
+                      variant="subtitle1"
+                      fontFamily={"cursive"}
+                      sx={{
+                        ml: -1.5,
+                        mt: 1,
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {recipy.name}
+                    </Typography>
+                    <Rating
+                      name={`rating-${index}`}
+                      value={recipy.rating || 0}
+                      readOnly
+                      precision={0.1}
+                      sx={{
+                        ml: -2,
+                        mb: 1,
+                        mt: 1,
+                        "& .MuiRating-iconFilled": {
+                          color: "#FFAD18",
+                        },
+                        "& .MuiRating-iconEmpty": {
+                          color: "grey",
+                        },
+                        "& .MuiRating-icon:hover": {
+                          borderColor: "darkorange",
+                        },
+                      }}
+                    />
+                  </Container>
+                </Button>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </div>
-
-    </div>
-    
   );
 };
 
