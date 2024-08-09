@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import axios from "axios";
-import "./Testfile.css";
+import "./Userdashboard.css";
 
 const Userdashboard = () => {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ const Userdashboard = () => {
       .get("http://localhost:3000/recipe/viewall")
       .then((res) => {
         setRecipys(res.data);
-        setLoading(false);
       })
       .catch(() => {
         setLoading(false);
@@ -68,10 +67,11 @@ const Userdashboard = () => {
       ) : (
         <Carousel
           autoPlay
-          interval={4000}
+          interval={2500}
           infiniteLoop
           showThumbs={false}
           showStatus={false}
+          stopOnHover={false}
           showIndicators={true}
           swipeable={true}
           centerMode={true}
@@ -88,7 +88,7 @@ const Userdashboard = () => {
                 transition: "transform 0.5s ease-in-out",
               }}
             >
-              <Grid item xs={12} sm={15} md={4} lg={2.3} sx={{ ml: 1.1 }}>
+              <Grid item xs={12} sm={15} md={4} lg={2.3} sx={{ mt:-4, ml: 1.1 }}>
                 <Paper
                   elevation={3}
                   sx={{
@@ -115,7 +115,7 @@ const Userdashboard = () => {
                         height: "40vh",
                         borderRadius: "16px",
                         width: "35vw",
-                        boxShadow: "4px 4px 4px rgba(255, 255, 255, 0.1)",
+                        boxShadow: "4px 4px 4px rgb(47, 37, 25)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -141,14 +141,8 @@ const Userdashboard = () => {
                             padding: 0,
                             border: "none",
                             background: "transparent",
-                            transition: "transform 0.2s ease-in-out",
+                            color:"black"
                           }}
-                          onMouseDown={(e) =>
-                            (e.currentTarget.style.transform = "scale(0.95)")
-                          }
-                          onMouseUp={(e) =>
-                            (e.currentTarget.style.transform = "scale(1)")
-                          }
                         >
                           <img
                             src={`http://localhost:3000/${recipe.image}`}

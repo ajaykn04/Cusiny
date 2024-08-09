@@ -1,5 +1,6 @@
 .recipy-container {
   padding: 20px;
+  margin-top: -8vh;
 }
 
 .category-title {
@@ -15,7 +16,7 @@
 }
 
 .category-button {
-  background-color: #f5f5f5;
+  background-color: darkorange;
   color: black;
   border: none;
   padding: 10px 20px;
