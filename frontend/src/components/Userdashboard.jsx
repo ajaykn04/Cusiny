@@ -75,7 +75,7 @@ const Userdashboard = () => {
           showIndicators={true}
           swipeable={true}
           centerMode={true}
-          centerSlidePercentage={38}
+          centerSlidePercentage={36.5}
           selectedItem={selectedIndex}
           onChange={handleSlideChange}
         >
@@ -84,7 +84,7 @@ const Userdashboard = () => {
               key={index}
               style={{
                 padding: "50px",
-                transform: index === selectedIndex ? "scale(1.1)" : "scale(1)",
+                transform: index === selectedIndex ? "scale(1.1)" : "scale(.9)",
                 transition: "transform 0.5s ease-in-out",
               }}
             >
@@ -113,7 +113,7 @@ const Userdashboard = () => {
                       sx={{
                         backgroundColor: "black",
                         height: "40vh",
-                        borderRadius: "16px",
+                        borderRadius: "2.5vw",
                         width: "35vw",
                         boxShadow: "4px 4px 4px rgb(47, 37, 25)",
                         display: "flex",
