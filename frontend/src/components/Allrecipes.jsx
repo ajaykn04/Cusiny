@@ -82,8 +82,6 @@ const Allrecipes = () => {
                     navigate("/detrecipe", { state: recipe });
                   }}
                   style={{
-                    fontSize: "20px",
-                    fontFamily: "fantasy",
                     color: "black",
                   }}
                 >

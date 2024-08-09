@@ -1,10 +1,9 @@
-import { Box, Grid, Paper, Rating, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Paper, Rating, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { Button, Container } from "react-bootstrap";
 import axios from "axios";
 import "./Testfile.css";
 
@@ -189,99 +188,97 @@ const Userdashboard = () => {
         <Grid container spacing={2} sx={{ ml: -4, mt: 2 }}>
           {filteredRecipys.map((recipy, index) => (
             <Grid
-              item
-              xs={12}
-              sm={15}
-              md={3}
-              lg={2.3}
-              key={index}
-              sx={{ ml: 1.5, mt: -2 }}
+            item
+            xs={12}
+            sm={15}
+            md={3}
+            lg={2.3}
+            key={index}
+            sx={{ ml: 1.1, mt: -2 }}
+          >
+            <Paper
+              elevation={3}
+              sx={{
+                padding: 1,
+                backgroundColor: "currentcolor",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "325px",
+              }}
             >
-              <Paper
-                elevation={3}
+              <Button
+                variant="outlined"
                 sx={{
-                  padding: 1,
-                  backgroundColor: "currentcolor",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "325px",
+                  overflow: "hidden",
+                  borderColor: "white",
+                  borderRadius: "15px",
+                  "&:hover": { borderColor: "darkorange" },
+                }}
+                onClick={() => {
+                  navigate("/detrecipe", { state: recipy });
+                }}
+                style={{
+                  color: "black",
                 }}
               >
-                <Button
-                  variant="contained"
-                  style={{color:"black", width:"17.25vw",marginLeft:"0vw"}}
-                  sx={{
-                    overflow: "hidden",
-                    borderColor: "white",
-                    borderRadius: "15px",
-                    "&:hover": { borderColor: "darkorange" },
-                    padding: 0,
-                    
-                  }}
-                  onClick={() => {
-                    navigate("/detrecipe", { state: recipy });
+                <Container
+                  style={{
+                    backgroundColor: "currentcolor",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
                   }}
                 >
-                  <Container
+                  <img
+                    src={`http://localhost:3000/${recipy.image}`}
+                    alt={recipy.name}
                     style={{
-                      marginLeft:"-.5vw",
-                      marginTop:"-.35vh",
-                      backgroundColor: "currentcolor",
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "flex-start",
+                      marginLeft: "-39px",
+                      marginTop: "-10px",
+                      width: "257px",
+                      height: "260px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Typography
+                    variant="subtitle1"
+                    fontFamily={"cursive"}
+                    sx={{
+                      ml: -1.5,
+                      mt: 1,
+                      color: "white",
+                      fontWeight: "bold",
                     }}
                   >
-                    <img
-                      src={`http://localhost:3000/${recipy.image}`}
-                      alt={recipy.name}
-                      style={{
-                        marginLeft: "0px",
-                        marginTop: "0px",
-                        width: "257px",
-                        height: "260px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <Typography
-                      variant="subtitle1"
-                      fontFamily={"cursive"}
-                      sx={{
-                        ml: -1.5,
-                        mt: 1,
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {recipy.name}
-                    </Typography>
-                    <Rating
-                      name={`rating-${index}`}
-                      value={recipy.rating || 0}
-                      readOnly
-                      precision={0.1}
-                      sx={{
-                        ml: -2,
-                        mb: 1,
-                        mt: 1,
-                        "& .MuiRating-iconFilled": {
-                          color: "#FFAD18",
-                        },
-                        "& .MuiRating-iconEmpty": {
-                          color: "grey",
-                        },
-                        "& .MuiRating-icon:hover": {
-                          borderColor: "darkorange",
-                        },
-                      }}
-                    />
-                  </Container>
-                </Button>
-              </Paper>
-            </Grid>
+                    {recipy.name}
+                  </Typography>
+                  <Rating
+                    name={`rating-${index}`}
+                    value={recipy.rating || 0}
+                    readOnly
+                    precision={0.1}
+                    sx={{
+                      ml: -2,
+                      mb: 1,
+                      mt: 1,
+                      "& .MuiRating-iconFilled": {
+                        color: "#FFAD18",
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        color: "grey",
+                      },
+                      "& .MuiRating-icon:hover": {
+                        borderColor: "darkorange",
+                      },
+                    }}
+                  />
+                </Container>
+              </Button>
+            </Paper>
+          </Grid>
           ))}
         </Grid>
       </div>
