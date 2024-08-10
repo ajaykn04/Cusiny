@@ -209,7 +209,7 @@ app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     }
 });
 
-app.post("/recipe/addreview/:recipeId", upload.single('file'), async (req, res) => {
+app.post("/recipe/addreview/:recipeId", async (req, res) => {
     try {
         var id = req.params.recipeId;
         var review = req.body;
@@ -222,6 +222,17 @@ app.post("/recipe/addreview/:recipeId", upload.single('file'), async (req, res) 
         recipe.rating = total / recipe.reviews.length;
         await recipe.save();
         res.send({ message: "Review Added" })
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+app.get("/recipe/getreviews/:recipeId", async (req, res) => {
+    try {
+        var id = req.params.recipeId;
+        var recipe = await recipeModel.findById(id);
+        res.send(recipe.reviews);
 
     } catch (error) {
         console.log(error);
