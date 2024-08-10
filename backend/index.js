@@ -244,6 +244,7 @@ app.delete("/user/delete/", async (req, res) => {
         var id = req.body._id;
         var del = await userModel.findByIdAndDelete(id);
         if (del != null) {
+            await recipeModel.deleteMany({owner: id});
             res.send({ message: "Account Deleted" });
         }
         else {
