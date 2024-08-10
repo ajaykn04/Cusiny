@@ -2,8 +2,9 @@ var mongoose = require("mongoose");
 
 const reviewSchema = mongoose.Schema({
     userId: String,
+    username: String,
     rating: Number,
-    text: String
+    comment: String
 });
 
 var recipeSchema = mongoose.Schema({

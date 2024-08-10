@@ -209,6 +209,25 @@ app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     }
 });
 
+app.post("/recipe/addreview/:recipeId", upload.single('file'), async (req, res) => {
+    try {
+        var id = req.params.recipeId;
+        var review = req.body;
+        var recipe = await recipeModel.findById(id);
+        recipe.reviews.unshift(review)
+        let total = 0
+        for (let i=0;i<recipe.reviews.length;i++){
+            total += recipe.reviews[i].rating;
+        }
+        recipe.rating = total / recipe.reviews.length;
+        await recipe.save();
+        res.send({ message: "Review Added" })
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.delete("/user/delete/", async (req, res) => {
     try {
         var id = req.body._id;
