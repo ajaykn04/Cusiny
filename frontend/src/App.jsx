@@ -11,6 +11,8 @@ import Allrecipes from "./components/Allrecipes";
 import Detailedrecipe from "./components/Detailedrecipe";
 import { AppContext } from "./AppContext";
 import { useState } from "react";
+import Users from "./components/Users";
+import Recipes from "./components/Recipes";
 
 function App() {
   const [data, setData] = useState({
@@ -37,6 +39,8 @@ function App() {
             <Route path="/user/recipes" element={<Myrecipe />} />
             <Route path="/recipes" element={<Allrecipes />} />
             <Route path="/detrecipe" element={<Detailedrecipe />} />
+            <Route path="/admin/users" element={<Users/>} />
+            <Route path="/admin/recipes" element={<Recipes/>} />
           </Routes>
         </AppContext.Provider>
       </BrowserRouter>

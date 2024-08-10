@@ -56,19 +56,76 @@ const NavbarAdmin = ({ location }) => {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button
               variant="text"
+              onClick={() => {
+                navigate("/admindash");
+                // navigate("/user/recipes", { state: currentLocation.state })
+              }}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
                 color: "black",
               }}
             >
-              <Link
-                style={{ textDecoration: "none", color: "orange" }}
-                to={"/admindash"}
+              <Typography
+                style={{
+                  fontFamily: "fantasy",
+                  fontSize: "20px",
+                  color: "orange",
+                }}
               >
                 HOME
-              </Link>
+              </Typography>
             </Button>
+
+
+            <Button
+              variant="text"
+              onClick={() => {
+                navigate("/admin/users");
+                // navigate("/user/recipes", { state: currentLocation.state })
+              }}
+              style={{
+                fontSize: "20px",
+                fontFamily: "fantasy",
+                color: "black",
+              }}
+            >
+              <Typography
+                style={{
+                  fontFamily: "fantasy",
+                  fontSize: "20px",
+                  color: "orange",
+                }}
+              >
+                USERS
+              </Typography>
+            </Button>
+
+
+            <Button
+              variant="text"
+              onClick={() => {
+                navigate("/admin/recipes");
+                // navigate("/user/recipes", { state: currentLocation.state })
+              }}
+              style={{
+                fontSize: "20px",
+                fontFamily: "fantasy",
+                color: "black",
+              }}
+            >
+              <Typography
+                style={{
+                  fontFamily: "fantasy",
+                  fontSize: "20px",
+                  color: "orange",
+                }}
+              >
+                RECIPES
+              </Typography>
+            </Button>
+
+          
           </Container>
           <IconButton onClick={handleProfileClick}>
             <Avatar alt="Profile" src={profileImage} />

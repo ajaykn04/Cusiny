@@ -182,7 +182,7 @@ const Signin = () => {
             }}
             onClick={submitHandler}
           >
-            Sign-in
+            Sign-up
           </Button>
           <Box mt={2}>
             <Typography style={{ color: "darkgray" }}>
