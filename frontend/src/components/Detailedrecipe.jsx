@@ -1,140 +1,281 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { Box, Container, Rating, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Rating,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { AppContext } from "../AppContext";
+import axios from "axios";
 
 const Detailedrecipe = () => {
-  var response = useLocation();
-  response.state || "";
+  const { data, setData } = useContext(AppContext);
+  const response = useLocation();
+  
+  // Use empty string as default if state is undefined
+  const recipeData = response.state || {};
+
+  useEffect(() => {
+    // Load state from localStorage if available
+    const savedData = JSON.parse(localStorage.getItem("userData"));
+    if (savedData && !data) {
+      setData(savedData);
+    }
+  }, [setData, data]);
+
+  const [review, setReview] = useState({
+    userId: "",
+    username: "",
+    rating: "",
+    comment: "",
+  });
+
+  const inputHandler = (e, newValue) => {
+    const { name, value } = e.target || {};
+    setReview({
+      ...review,
+      [name]: value || newValue,
+    });
+    console.log(review);
+  };
+
+  const submitHandler = async (updatedReview) => {
+    try {
+      console.log(updatedReview);
+      await axios.post(
+        `http://localhost:3000/recipe/addreview/${recipeData._id}`,
+        updatedReview
+      );
+      console.log("Comment posted");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (!recipeData.name) {
+    return <Typography>No recipe data available.</Typography>;
+  }
 
   return (
     <div>
       <Navbar />
       <Container
         style={{
-          flex: 1,
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
           alignItems: "flex-start",
+          marginBottom: "5vh",
         }}
       >
-        <Typography
-          variant="h3"
-          style={{
-            fontFamily: "cursive",
-            fontWeight: "bold",
-            marginTop: 80,
-            marginLeft: -130,
-          }}
-        >
-          {response.state.name}
-        </Typography>
-        <Rating
-          style={{ marginLeft: -105 }}
-          name={`rating`}
-          value={response.state.rating || 0}
-          readOnly
-          precision={0.1}
-          sx={{
-            ml: -2,
-            mb: 1,
-            mt: 1,
-            "& .MuiRating-iconFilled": {
-              color: "#FFAD18",
-            },
-            "& .MuiRating-iconEmpty": {
-              color: "grey",
-            },
-            "& .MuiRating-icon:hover": {
-              borderColor: "darkorange",
-            },
-          }}
-        />
-        <Typography
-          variant="body1"
-          style={{
-            marginLeft: 30,
-            marginTop: -32.3,
-            fontFamily: "cursive",
-            fontWeight: "bold",
-          }}
-        >
-          {response.state.category}
-        </Typography>
-        <img
-          src={`http://localhost:3000/${response.state.image}`}
-          alt={response.state.name}
-          style={{
-            border: "4px solid white",
-            borderRadius: "15px",
-            marginTop: 20,
-            marginLeft: -150,
-            width: "500px",
-            height: "auto",
-            objectFit: "cover",
-          }}
-        />
-      </Container>
-      <Box
-        style={{
-          marginTop: "-90vh",
-          width: "58vw",
-          marginLeft: "40vw",
-        }}
-      >
+        {/* Left Side: Image and Review Section */}
         <Box
           style={{
-            marginLeft: "0vw",
-            width: "50vw",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            marginRight: "5vw",
           }}
         >
           <Typography
-            variant="h4"
+            variant="h3"
             style={{
               fontFamily: "cursive",
               fontWeight: "bold",
-              marginRight: 100,
+              marginTop: 80,
             }}
           >
-            Ingredients
+            {recipeData.name}
           </Typography>
+          <Rating
+            name="rating"
+            value={recipeData.rating || 0}
+            readOnly
+            precision={0.1}
+            sx={{
+              mb: 1,
+              mt: 1,
+              "& .MuiRating-iconFilled": {
+                color: "#FFAD18",
+              },
+              "& .MuiRating-iconEmpty": {
+                color: "grey",
+              },
+              "& .MuiRating-icon:hover": {
+                borderColor: "darkorange",
+              },
+            }}
+          />
           <Typography
             variant="body1"
             style={{
-              marginTop: 10,
-              marginRight: 50,
               fontFamily: "cursive",
-              whiteSpace: "pre-line",
+              fontWeight: "bold",
             }}
           >
-            {response.state.ingredients}
+            {recipeData.category}
           </Typography>
+          <img
+            src={`http://localhost:3000/${recipeData.image}`}
+            alt={recipeData.name}
+            style={{
+              border: "4px solid white",
+              borderRadius: "15px",
+              marginTop: 20,
+              width: "500px",
+              height: "auto",
+              objectFit: "cover",
+            }}
+          />
+
+          {/* Review Section */}
+          <Container
+            style={{
+              border: "2px solid white",
+              borderRadius: "15px",
+              backgroundColor: "black",
+              marginTop: "2.5vh",
+              width: "95%",
+              marginLeft: 1,
+            }}
+          >
+            <Typography style={{ marginTop: "1vh" }}>
+              Write a Review?
+            </Typography>
+            <Rating
+              name="rating"
+              precision={1}
+              value={review.rating}
+              sx={{
+                mb: 1,
+                mt: 1,
+                "& .MuiRating-iconFilled": {
+                  color: "#FFAD18",
+                },
+                "& .MuiRating-iconEmpty": {
+                  color: "grey",
+                },
+                "& .MuiRating-icon:hover": {
+                  borderColor: "darkorange",
+                },
+              }}
+              onChange={(e, newValue) => inputHandler(e, newValue)}
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              name="comment"
+              label="Write a comment"
+              variant="outlined"
+              margin="normal"
+              onChange={inputHandler}
+              InputLabelProps={{ style: { color: "white" } }}
+              InputProps={{
+                style: { color: "white" },
+                sx: {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "rgb(247, 193, 128)",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "orange",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "orange",
+                  },
+                },
+              }}
+            />
+            <Button
+              variant="contained"
+              style={{ marginTop: -400, marginLeft: 400 }}
+              sx={{
+                mt: 2,
+                backgroundColor: "orange",
+                "&:hover": { backgroundColor: "orange" },
+              }}
+              onClick={() => {
+                const updatedReview = { ...review, userId: data._id, username: data.username };
+                setReview(updatedReview);
+                submitHandler(updatedReview);
+              }}
+            >
+              POST
+            </Button>
+          </Container>
         </Box>
+        
+        {/* Right Side: Ingredients and Instructions */}
         <Box
           style={{
-            marginLeft: "0vw",
-            width: "58vw",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            marginTop: 210,
           }}
         >
-          <Typography
-            variant="h4"
-            style={{ fontFamily: "cursive", fontWeight: "bold", marginTop: 20 }}
-          >
-            Instructions
-          </Typography>
-          <Typography
-            variant="body1"
+          <Box
             style={{
-              marginTop: 10,
-              fontFamily: "cursive",
-              whiteSpace: "pre-line",
+              marginBottom: "2vh",
+              width: "100%",
             }}
           >
-            {response.state.instructions}
-          </Typography>
+            <Typography
+              variant="h4"
+              style={{
+                fontFamily: "cursive",
+                fontWeight: "bold",
+              }}
+            >
+              Ingredients
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                marginTop: 10,
+                fontFamily: "cursive",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {recipeData.ingredients}
+            </Typography>
+          </Box>
+
+          <Box
+            style={{
+              marginBottom: "2vh",
+              width: "100%",
+            }}
+          >
+            <Typography
+              variant="h4"
+              style={{
+                fontFamily: "cursive",
+                fontWeight: "bold",
+                marginTop: 20,
+              }}
+            >
+              Instructions
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                marginTop: 10,
+                fontFamily: "cursive",
+                whiteSpace: "pre-line",
+              }}
+            >
+              {recipeData.instructions}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      </Container>
     </div>
   );
 };
