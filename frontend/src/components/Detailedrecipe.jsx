@@ -324,7 +324,7 @@ const Detailedrecipe = () => {
             }}
           >
             <Typography variant="h6" sx={{ marginBottom: "5px" }}>
-              by {comment.username}
+              @{comment.username}
             </Typography>
             <Rating
               name="read-only"
