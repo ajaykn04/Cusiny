@@ -203,43 +203,48 @@ const Addrecipe = () => {
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
-          <TextField
-            required
-            style={{ marginTop: 3 }}
-            fullWidth
-            name="category"
-            value={recipe.category}
-            label="Category"
-            variant="outlined"
-            margin="normal"
-            onChange={inputHandler}
-            error={errors.category}
-            helperText={errors.category ? "Category is required" : ""}
-            InputLabelProps={{ style: { color: "white" } }}
-            InputProps={styles.textfield}
-          />
+
           <FormControl
+            style={{ marginTop: 3, width: "25.35vw" }}
             variant="outlined"
             required
             sx={{
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "white",
+              "& .MuiOutlinedInput-root": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "white", // Default border color
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: recipe.category ? "orange" : "orange", // Keep white if not selected, orange if selected
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "darkorange", // Focused border color
+                },
               },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "green",
+              "& .MuiInputLabel-root": {
+                color: "white", // Label color default
               },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "black",
+              "&:hover .MuiInputLabel-root": {
+                color: recipe.category ? "orange" : "white", // Label color on hover
+              },
+              "&.Mui-focused .MuiInputLabel-root": {
+                color: "darkorange", // Label color when focused
               },
             }}
           >
             <InputLabel style={{ color: "white" }}>Category</InputLabel>
             <Select
-              style={{ color: "white" }}
+              style={{ color: "white", textAlign: "left" }}
               label="Category"
-              name="Category"
+              name="category"
               value={recipe.category}
               onChange={inputHandler}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    textAlign: "left",
+                  },
+                },
+              }}
             >
               <MenuItem value="Meals">Meals</MenuItem>
               <MenuItem value="Vegetarian">Vegetarian</MenuItem>
@@ -249,7 +254,7 @@ const Addrecipe = () => {
             </Select>
           </FormControl>
           <TextField
-            style={{ marginTop: 3 }}
+            style={{ marginTop: 10 }}
             required
             fullWidth
             name="image"
