@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Rating,
   TextField,
   Typography,
@@ -15,7 +16,15 @@ import axios from "axios";
 const Detailedrecipe = () => {
   const { data, setData } = useContext(AppContext);
   const response = useLocation();
-  
+
+  const [reviews, setReviews] = useState([]); // Initialize as an empty array
+  const [review, setReview] = useState({
+    userId: "",
+    username: "",
+    rating: "",
+    comment: "",
+  });
+
   // Use empty string as default if state is undefined
   const recipeData = response.state || {};
 
@@ -27,30 +36,46 @@ const Detailedrecipe = () => {
     }
   }, [setData, data]);
 
-  const [review, setReview] = useState({
-    userId: "",
-    username: "",
-    rating: "",
-    comment: "",
-  });
+  useEffect(() => {
+    if (recipeData._id) {
+      const apiUrl = `http://localhost:3000/recipe/getreviews/${recipeData._id}`;
+      axios
+        .get(apiUrl)
+        .then((response) => {
+          setReviews(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [recipeData._id]);
 
   const inputHandler = (e, newValue) => {
     const { name, value } = e.target || {};
-    setReview({
-      ...review,
+    setReview((prevReview) => ({
+      ...prevReview,
       [name]: value || newValue,
-    });
-    console.log(review);
+    }));
   };
 
-  const submitHandler = async (updatedReview) => {
+  const submitHandler = async () => {
     try {
-      console.log(updatedReview);
+      const updatedReview = {
+        ...review,
+        userId: data._id,
+        username: data.username,
+      };
       await axios.post(
         `http://localhost:3000/recipe/addreview/${recipeData._id}`,
         updatedReview
       );
-      console.log("Comment posted");
+      setReviews((prevReviews) => [updatedReview, ...prevReviews]); // Add new review to the list
+      setReview({
+        userId: "",
+        username: "",
+        rating: "",
+        comment: "",
+      }); // Clear review state after submission
     } catch (error) {
       console.error(error);
     }
@@ -171,9 +196,10 @@ const Detailedrecipe = () => {
               multiline
               rows={4}
               name="comment"
-              label="Write a comment"
+              label="Leave a Comment"
               variant="outlined"
               margin="normal"
+              value={review.comment} // Set value to review.comment
               onChange={inputHandler}
               InputLabelProps={{ style: { color: "white" } }}
               InputProps={{
@@ -199,17 +225,13 @@ const Detailedrecipe = () => {
                 backgroundColor: "orange",
                 "&:hover": { backgroundColor: "orange" },
               }}
-              onClick={() => {
-                const updatedReview = { ...review, userId: data._id, username: data.username };
-                setReview(updatedReview);
-                submitHandler(updatedReview);
-              }}
+              onClick={submitHandler}
             >
               POST
             </Button>
           </Container>
         </Box>
-        
+
         {/* Right Side: Ingredients and Instructions */}
         <Box
           style={{
@@ -276,6 +298,44 @@ const Detailedrecipe = () => {
           </Box>
         </Box>
       </Container>
+      <Divider
+        sx={{
+          borderColor: "white", // Set the color of the divider
+          width: "95%", // Set the width of the divider
+          margin: "20px auto", // Center the divider with margin
+          marginTop: -2.4
+        }}
+      />
+      <Box
+      sx={{ml:-79.85}}
+      >
+        {reviews.map((comment, index) => (
+          <Box
+            key={index} // Add key prop with index
+            sx={{
+              width:470,
+              backgroundColor: "#000", // Black background
+              color: "white", // Orange text color
+              padding: "20px",
+              borderRadius: "10px",
+              maxWidth: "500px",
+              margin: "20px auto",
+              border: "1px solid white", // Orange border
+            }}
+          >
+            <Typography variant="h6" sx={{ marginBottom: "5px" }}>
+              by {comment.username}
+            </Typography>
+            <Rating
+              name="read-only"
+              value={comment.rating}
+              readOnly
+              sx={{ color: "#FFA500", marginBottom: "10px" }}
+            />
+            <Typography variant="body1">{comment.comment}</Typography>
+          </Box>
+        ))}
+      </Box>
     </div>
   );
 };
