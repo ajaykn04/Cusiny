@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import Myrecipe from "./components/Myrecipe";
 import Allrecipes from "./components/Allrecipes";
 import Detailedrecipe from "./components/Detailedrecipe";
+import DetailedrecipeAdmin from "./components/DetailedrecipeAdmin";
 import { AppContext } from "./AppContext";
 import { useState } from "react";
 import Users from "./components/Users";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/user/recipes" element={<Myrecipe />} />
             <Route path="/recipes" element={<Allrecipes />} />
             <Route path="/detrecipe" element={<Detailedrecipe />} />
+            <Route path="/detrecipeadmin" element={<DetailedrecipeAdmin />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/recipes" element={<Recipes />} />
           </Routes>

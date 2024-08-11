@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" style={{ borderBottom: "2px solid #181818" }}>
         <StyledToolbar>
           <Avatar
             sx={{ width: 100, height: 100, mt: -4, mb: -4 }}

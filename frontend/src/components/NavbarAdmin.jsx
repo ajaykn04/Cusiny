@@ -25,7 +25,7 @@ const NavbarAdmin = ({ location }) => {
 
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" style={{ borderBottom: "2px solid #181818" }}>
         <StyledToolbar>
           <Avatar
             sx={{ width: 100, height: 100, mt: -4, mb: -4 }}
@@ -43,7 +43,12 @@ const NavbarAdmin = ({ location }) => {
             Cusiny
           </Typography>
           <Container
-            sx={{ display: "flex", justifyContent: "flex-start", gap: "6rem" }}
+            sx={{
+              justifyItems: "center",
+              display: "flex",
+              justifyContent: "flex",
+              gap: "6rem",
+            }}
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button
@@ -52,6 +57,7 @@ const NavbarAdmin = ({ location }) => {
                 navigate("/admindash");
               }}
               style={{
+                marginLeft: 60,
                 fontSize: "20px",
                 fontFamily: "fantasy",
                 color: "black",
