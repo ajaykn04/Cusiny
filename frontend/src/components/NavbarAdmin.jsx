@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import iconImage from "/dishify_pbg1.png";
-import profileImage from "/defaultlogin.png";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const StyledToolbar = styled(Toolbar)`
   background-color: black;
@@ -19,6 +19,10 @@ const StyledToolbar = styled(Toolbar)`
 
 const NavbarAdmin = ({ location }) => {
   const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    navigate("/");
+  };
 
   const handleProfileClick = () => {};
   var location = useLocation();
@@ -116,8 +120,11 @@ const NavbarAdmin = ({ location }) => {
               </Typography>
             </Button>
           </Container>
-          <IconButton onClick={handleProfileClick}>
-            <Avatar alt="Profile" src={profileImage} />
+          <IconButton
+            sx={{color: "white" }}
+            onClick={logoutHandler}
+          >
+            <LogoutIcon />
           </IconButton>
         </StyledToolbar>
       </AppBar>
