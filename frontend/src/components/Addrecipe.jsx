@@ -8,6 +8,7 @@ import {
   Select,
   TextField,
   Typography,
+  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -24,10 +25,7 @@ const Addrecipe = () => {
     image: "",
   });
   const toeditrecipe = useLocation();
-  // toeditrecipe || ""
-  // console.log(toeditrecipe.state)
-  // console.log(toeditrecipe.state.value)
-  // console.log(toeditrecipe.state.value._id)
+
   useEffect(() => {
     if (toeditrecipe.state != null) {
       setRecipe({
@@ -40,6 +38,7 @@ const Addrecipe = () => {
       });
     }
   }, []);
+
   const navigate = useNavigate();
   const { data, setData } = useContext(AppContext);
 
@@ -93,8 +92,6 @@ const Addrecipe = () => {
             formData.append(key, recipe[key]);
           }
           formData.append("_id", toeditrecipe.state.value._id);
-          console.log(toeditrecipe.state.value._id);
-          console.log(recipe);
           await axios.put("http://localhost:3000/recipe/edit/", formData);
           navigate("/user/recipes");
         } catch (error) {
@@ -110,9 +107,7 @@ const Addrecipe = () => {
           formData.append("ownername", data.username);
 
           await axios.post(`http://localhost:3000/recipe/add/`, formData);
-          console.log("Recipe added");
           navigate("/user/recipes");
-          // navigate("/user/recipes", { state: location.state });
         } catch (error) {
           console.error(error);
         }
@@ -123,7 +118,6 @@ const Addrecipe = () => {
   return (
     <div>
       <Navbar />
-      {/* <Navbar location={location} /> */}
       <Box
         sx={{
           mt: 13.7,
@@ -203,35 +197,44 @@ const Addrecipe = () => {
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
-
+          
           <FormControl
-            style={{ marginTop: 3, width: "25.35vw" }}
+            style={{ marginTop: 3, width: "25.35vw", marginBottom: "1vh" }}
             variant="outlined"
             required
+            error={errors.category} // Apply error state to FormControl
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "white", // Default border color
+                  borderColor: errors.category ? "red" : "white", // Show red border if error
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: recipe.category ? "orange" : "orange", // Keep white if not selected, orange if selected
+                  borderColor: errors.category
+                    ? "red"
+                    : recipe.category
+                    ? "orange"
+                    : "white", // Show red border if error, otherwise handle hover state
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "darkorange", // Focused border color
+                  borderColor: errors.category ? "red" : "darkorange", // Show red border if error on focus
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "white", // Label color default
+                color: errors.category ? "red" : "white", // Show red label if error
               },
               "&:hover .MuiInputLabel-root": {
-                color: recipe.category ? "orange" : "white", // Label color on hover
+                color: errors.category
+                  ? "red"
+                  : recipe.category
+                  ? "orange"
+                  : "white", // Handle hover state
               },
               "&.Mui-focused .MuiInputLabel-root": {
-                color: "darkorange", // Label color when focused
+                color: errors.category ? "red" : "darkorange", // Handle focus state
               },
             }}
           >
-            <InputLabel style={{ color: "white" }}>Category</InputLabel>
+            <InputLabel>Category</InputLabel>
             <Select
               style={{ color: "white", textAlign: "left" }}
               label="Category"
@@ -245,6 +248,11 @@ const Addrecipe = () => {
                   },
                 },
               }}
+              sx={{
+                "& .MuiSelect-icon": {
+                  color: "white", // Icon color
+                },
+              }}
             >
               <MenuItem value="Meals">Meals</MenuItem>
               <MenuItem value="Vegetarian">Vegetarian</MenuItem>
@@ -252,9 +260,15 @@ const Addrecipe = () => {
               <MenuItem value="Drinks">Drinks</MenuItem>
               <MenuItem value="Desserts">Desserts</MenuItem>
             </Select>
+            {errors.category && (
+              <FormHelperText sx={{ color: "red" }}>
+                Category is required
+              </FormHelperText>
+            )}
           </FormControl>
+
           <TextField
-            style={{ marginTop: 10 }}
+            style={{ marginTop: 3 }}
             required
             fullWidth
             name="image"
