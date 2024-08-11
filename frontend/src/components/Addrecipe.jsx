@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -20,18 +29,17 @@ const Addrecipe = () => {
   // console.log(toeditrecipe.state.value)
   // console.log(toeditrecipe.state.value._id)
   useEffect(() => {
-
-    if ( toeditrecipe.state!= null) {
-      setRecipe({...recipe,
+    if (toeditrecipe.state != null) {
+      setRecipe({
+        ...recipe,
         name: toeditrecipe.state.value.name,
         ingredients: toeditrecipe.state.value.ingredients,
         instructions: toeditrecipe.state.value.instructions,
         category: toeditrecipe.state.value.category,
         image: toeditrecipe.state.value.image,
-
-        });
+      });
     }
-},[]);
+  }, []);
   const navigate = useNavigate();
   const { data, setData } = useContext(AppContext);
 
@@ -42,7 +50,6 @@ const Addrecipe = () => {
     }
   }, [setData]);
 
-  
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({
     name: false,
@@ -79,31 +86,29 @@ const Addrecipe = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       const formData = new FormData();
-      if(toeditrecipe.state!=null){
+      if (toeditrecipe.state != null) {
         try {
-        formData.append("file", image);
-        for (const key in recipe) {
-          formData.append(key, recipe[key]);
-        }
-        formData.append("_id", toeditrecipe.state.value._id)
-        console.log(toeditrecipe.state.value._id)
-        console.log(recipe)
-         await axios.put("http://localhost:3000/recipe/edit/", formData)
-          navigate('/user/recipes');  
+          formData.append("file", image);
+          for (const key in recipe) {
+            formData.append(key, recipe[key]);
+          }
+          formData.append("_id", toeditrecipe.state.value._id);
+          console.log(toeditrecipe.state.value._id);
+          console.log(recipe);
+          await axios.put("http://localhost:3000/recipe/edit/", formData);
+          navigate("/user/recipes");
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
-       
-      }else{
+      } else {
         try {
-        
           formData.append("file", image);
           for (const key in recipe) {
             formData.append(key, recipe[key]);
           }
           formData.append("owner", data._id); // Ensure `data` is correctly set
           formData.append("ownername", data.username);
-  
+
           await axios.post(`http://localhost:3000/recipe/add/`, formData);
           console.log("Recipe added");
           navigate("/user/recipes");
@@ -112,13 +117,12 @@ const Addrecipe = () => {
           console.error(error);
         }
       }
-      
     }
   };
 
   return (
     <div>
-      <Navbar  />
+      <Navbar />
       {/* <Navbar location={location} /> */}
       <Box
         sx={{
@@ -214,6 +218,36 @@ const Addrecipe = () => {
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
+          <FormControl
+            variant="outlined"
+            required
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "green",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "black",
+              },
+            }}
+          >
+            <InputLabel style={{ color: "white" }}>Category</InputLabel>
+            <Select
+              style={{ color: "white" }}
+              label="Category"
+              name="Category"
+              value={recipe.category}
+              onChange={inputHandler}
+            >
+              <MenuItem value="Meals">Meals</MenuItem>
+              <MenuItem value="Vegetarian">Vegetarian</MenuItem>
+              <MenuItem value="Salad">Salad</MenuItem>
+              <MenuItem value="Drinks">Drinks</MenuItem>
+              <MenuItem value="Desserts">Desserts</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             style={{ marginTop: 3 }}
             required
