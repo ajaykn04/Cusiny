@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import iconImage from "/dishify_pbg1.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 
@@ -17,15 +17,12 @@ const StyledToolbar = styled(Toolbar)`
   background-color: black;
 `;
 
-const NavbarAdmin = ({ location }) => {
+const NavbarAdmin = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
     navigate("/");
   };
-
-  const handleProfileClick = () => {};
-  var location = useLocation();
 
   return (
     <div>
@@ -36,32 +33,41 @@ const NavbarAdmin = ({ location }) => {
             alt="Cusiny"
             src={iconImage}
           />
-          <Typography
-            style={{
-              fontSize: "30px",
-              fontFamily: "fantasy",
-              color: "white",
-              marginLeft: -12,
-            }}
-          >
-            Cusiny
-          </Typography>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Typography
+              style={{
+                fontSize: "20px",
+                fontFamily: "fantasy",
+                color: "white",
+                marginBottom: -15,
+                marginLeft: 0 // Space between "Admin" and "Cusiny"
+              }}
+            >
+              Admin
+            </Typography>
+            <Typography
+              style={{
+                fontSize: "30px",
+                fontFamily: "fantasy",
+                color: "white",
+              }}
+            >
+              Cusiny
+            </Typography>
+          </div>
           <Container
             sx={{
+              marginLeft:43,
               justifyItems: "center",
               display: "flex",
               justifyContent: "flex",
               gap: "6rem",
             }}
           >
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button
               variant="text"
-              onClick={() => {
-                navigate("/admindash");
-              }}
+              onClick={() => navigate("/admindash")}
               style={{
-                marginLeft: 60,
                 fontSize: "20px",
                 fontFamily: "fantasy",
                 color: "black",
@@ -79,9 +85,7 @@ const NavbarAdmin = ({ location }) => {
             </Button>
             <Button
               variant="text"
-              onClick={() => {
-                navigate("/admin/users");
-              }}
+              onClick={() => navigate("/admin/users")}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
@@ -100,9 +104,7 @@ const NavbarAdmin = ({ location }) => {
             </Button>
             <Button
               variant="text"
-              onClick={() => {
-                navigate("/admin/recipes");
-              }}
+              onClick={() => navigate("/admin/recipes")}
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
@@ -120,10 +122,7 @@ const NavbarAdmin = ({ location }) => {
               </Typography>
             </Button>
           </Container>
-          <IconButton
-            sx={{color: "white" }}
-            onClick={logoutHandler}
-          >
+          <IconButton sx={{ color: "white" }} onClick={logoutHandler}>
             <LogoutIcon />
           </IconButton>
         </StyledToolbar>

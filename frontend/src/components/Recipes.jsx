@@ -90,7 +90,7 @@ const Recipes = () => {
                     <Button
                     style={{color:"black",marginTop:-10,marginBottom:-10,marginLeft:-15}}
                     onClick={()=>{
-                      navigate("/detrecipe", { state: recipe })
+                      navigate("/detrecipeadmin", { state: recipe })
                     }}
                     >
                       <img
