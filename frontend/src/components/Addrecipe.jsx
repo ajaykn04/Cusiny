@@ -103,7 +103,7 @@ const Addrecipe = () => {
           for (const key in recipe) {
             formData.append(key, recipe[key]);
           }
-          formData.append("owner", data._id); // Ensure `data` is correctly set
+          formData.append("owner", data._id);
           formData.append("ownername", data.username);
 
           await axios.post(`http://localhost:3000/recipe/add/`, formData);
@@ -197,7 +197,7 @@ const Addrecipe = () => {
             InputLabelProps={{ style: { color: "white" } }}
             InputProps={styles.textfield}
           />
-          
+
           <FormControl
             style={{ marginTop: 3, width: "25.35vw", marginBottom: "1vh" }}
             variant="outlined"
@@ -209,10 +209,7 @@ const Addrecipe = () => {
                   borderColor: errors.category ? "red" : "white",
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor
-                    : recipe.category
-                    ? "orange"
-                    : "orange",
+                  borderColor: recipe.category ? "orange" : "orange",
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                   borderColor: errors.category ? "orange" : "orange",
@@ -246,7 +243,7 @@ const Addrecipe = () => {
               }}
               sx={{
                 "& .MuiSelect-icon": {
-                  color: "white", // Icon color
+                  color: "white",
                 },
               }}
             >

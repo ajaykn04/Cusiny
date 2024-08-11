@@ -24,7 +24,6 @@ const Myrecipe = () => {
   const [empty, setEmpty] = useState(true);
 
   useEffect(() => {
-    // Load state from localStorage if available
     const savedData = JSON.parse(localStorage.getItem("userData"));
     if (savedData) {
       setData(savedData);
@@ -47,11 +46,11 @@ const Myrecipe = () => {
           setLoading(false);
         });
     }
-  }, [data, setData]); // Ensure data is included in dependencies
+  }, [data, setData]);
 
-  const updateValue = (value) =>{
-    navigate("/recipe/add", {state: {value}});
-  }
+  const updateValue = (value) => {
+    navigate("/recipe/add", { state: { value } });
+  };
 
   const handleDelete = async (recipeId) => {
     try {
@@ -67,8 +66,7 @@ const Myrecipe = () => {
 
   return (
     <div>
-      <Navbar  />
-      {/* <Navbar location={location} /> */}
+      <Navbar />
       {loading ? (
         <center>
           <br />
@@ -87,9 +85,8 @@ const Myrecipe = () => {
                 padding: 0,
               }}
               style={{ color: "transparent" }}
-              onClick={() =>{
-                navigate("/recipe/add")
-                // navigate("/recipe/add", {state: location.state})
+              onClick={() => {
+                navigate("/recipe/add");
               }}
             >
               <Typography style={{ color: "orange" }}>
@@ -121,7 +118,7 @@ const Myrecipe = () => {
                   height: "325px",
                 }}
               >
-              <IconButton
+                <IconButton
                   sx={{
                     position: "fixed",
                     ml: "11vw",
@@ -129,7 +126,9 @@ const Myrecipe = () => {
                     color: "white",
                     zIndex: 1,
                   }}
-                  onClick={()=>{updateValue(recipe)}}
+                  onClick={() => {
+                    updateValue(recipe);
+                  }}
                 >
                   <EditIcon />
                 </IconButton>

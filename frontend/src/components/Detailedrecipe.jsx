@@ -17,7 +17,7 @@ const Detailedrecipe = () => {
   const { data, setData } = useContext(AppContext);
   const response = useLocation();
 
-  const [reviews, setReviews] = useState([]); // Initialize as an empty array
+  const [reviews, setReviews] = useState([]);
   const [review, setReview] = useState({
     userId: "",
     username: "",
@@ -25,11 +25,9 @@ const Detailedrecipe = () => {
     comment: "",
   });
 
-  // Use empty string as default if state is undefined
   const recipeData = response.state || {};
 
   useEffect(() => {
-    // Load state from localStorage if available
     const savedData = JSON.parse(localStorage.getItem("userData"));
     if (savedData && !data) {
       setData(savedData);
@@ -69,13 +67,13 @@ const Detailedrecipe = () => {
         `http://localhost:3000/recipe/addreview/${recipeData._id}`,
         updatedReview
       );
-      setReviews((prevReviews) => [updatedReview, ...prevReviews]); // Add new review to the list
+      setReviews((prevReviews) => [updatedReview, ...prevReviews]);
       setReview({
         userId: "",
         username: "",
         rating: "",
         comment: "",
-      }); // Clear review state after submission
+      });
     } catch (error) {
       console.error(error);
     }
@@ -97,7 +95,6 @@ const Detailedrecipe = () => {
           marginBottom: "5vh",
         }}
       >
-        {/* Left Side: Image and Review Section */}
         <Box
           style={{
             flex: 1,
@@ -157,8 +154,6 @@ const Detailedrecipe = () => {
               objectFit: "cover",
             }}
           />
-
-          {/* Review Section */}
           <Container
             style={{
               border: "2px solid white",
@@ -199,7 +194,7 @@ const Detailedrecipe = () => {
               label="Leave a Comment"
               variant="outlined"
               margin="normal"
-              value={review.comment} // Set value to review.comment
+              value={review.comment}
               onChange={inputHandler}
               InputLabelProps={{ style: { color: "white" } }}
               InputProps={{
@@ -231,8 +226,6 @@ const Detailedrecipe = () => {
             </Button>
           </Container>
         </Box>
-
-        {/* Right Side: Ingredients and Instructions */}
         <Box
           style={{
             flex: 1,
@@ -300,27 +293,25 @@ const Detailedrecipe = () => {
       </Container>
       <Divider
         sx={{
-          borderColor: "white", // Set the color of the divider
-          width: "95%", // Set the width of the divider
-          margin: "20px auto", // Center the divider with margin
-          marginTop: -2.4
+          borderColor: "white",
+          width: "95%",
+          margin: "20px auto",
+          marginTop: -2.4,
         }}
       />
-      <Box
-      sx={{ml:-79.85}}
-      >
+      <Box sx={{ ml: -79.85 }}>
         {reviews.map((comment, index) => (
           <Box
-            key={index} // Add key prop with index
+            key={index}
             sx={{
-              width:470,
-              backgroundColor: "#000", // Black background
-              color: "white", // Orange text color
+              width: 470,
+              backgroundColor: "#000",
+              color: "white",
               padding: "20px",
               borderRadius: "10px",
               maxWidth: "500px",
               margin: "20px auto",
-              border: "1px solid white", // Orange border
+              border: "1px solid white",
             }}
           >
             <Typography variant="h6" sx={{ marginBottom: "5px" }}>

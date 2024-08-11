@@ -39,8 +39,8 @@ function App() {
             <Route path="/user/recipes" element={<Myrecipe />} />
             <Route path="/recipes" element={<Allrecipes />} />
             <Route path="/detrecipe" element={<Detailedrecipe />} />
-            <Route path="/admin/users" element={<Users/>} />
-            <Route path="/admin/recipes" element={<Recipes/>} />
+            <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/recipes" element={<Recipes />} />
           </Routes>
         </AppContext.Provider>
       </BrowserRouter>

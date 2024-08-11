@@ -5,7 +5,6 @@ const Admindashboard = () => {
   return (
     <div>
       <NavbarAdmin />
-    
     </div>
   );
 };

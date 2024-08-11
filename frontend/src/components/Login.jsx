@@ -43,8 +43,6 @@ const Login = () => {
           _id: login.data._id,
         };
         setData(userData);
-
-        // Save to localStorage
         localStorage.setItem("userData", JSON.stringify(userData));
 
         if (userData.admin) {

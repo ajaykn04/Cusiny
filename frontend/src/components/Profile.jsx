@@ -19,7 +19,6 @@ const Profile = () => {
   const [generalError, setGeneralError] = useState("");
 
   useEffect(() => {
-    // Load state from localStorage if available
     const savedData = JSON.parse(localStorage.getItem("userData"));
     if (savedData) {
       setData(savedData);
@@ -49,11 +48,10 @@ const Profile = () => {
           username: data.username,
           place: data.place,
           age: data.age,
-          _id:data._id
+          _id: data._id,
         };
         await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
         console.log("Profile Updated");
-        // Update localStorage
         localStorage.setItem("userData", JSON.stringify(updatedProfile));
         navigate("/userdash");
       } catch (error) {
@@ -65,13 +63,12 @@ const Profile = () => {
 
   const logoutHandler = () => {
     navigate("/");
-    localStorage.removeItem("userData"); // Clear localStorage on logout
+    localStorage.removeItem("userData");
   };
 
   return (
     <div>
       <Navbar />
-      {/* <Navbar location={location} /> */}
       <Box
         sx={{
           display: "flex",
@@ -167,7 +164,7 @@ const Profile = () => {
                 data: data,
               });
               navigate("/");
-              localStorage.removeItem("userData"); // Clear localStorage on delete
+              localStorage.removeItem("userData");
               console.log("Profile Successfully Deleted");
             }}
           >

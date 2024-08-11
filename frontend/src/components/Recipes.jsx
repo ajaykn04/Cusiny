@@ -17,7 +17,9 @@ const Recipes = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/recipe/viewall");
+        const response = await axios.get(
+          "http://localhost:3000/recipe/viewall"
+        );
         setRecipes(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -26,7 +28,6 @@ const Recipes = () => {
 
     fetchRecipes();
   }, []);
-  
 
   console.log(recipes);
 
@@ -87,14 +88,7 @@ const Recipes = () => {
                     <img
                       src={`http://localhost:3000/${recipes.image}`}
                       alt={recipes.name}
-                      style={{width:"2vw",height:"6vh"}}
-                      // style={{
-                      //   marginLeft: "-39px",
-                      //   marginTop: "-10px",
-                      //   width: "261px",
-                      //   height: "260px",
-                      //   objectFit: "cover",
-                      // }}
+                      style={{ width: "2vw", height: "6vh" }}
                     />
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>

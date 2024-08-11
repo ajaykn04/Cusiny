@@ -38,7 +38,6 @@ const Allrecipes = () => {
   return (
     <div>
       <Navbar />
-      {/* <Navbar location={location} /> */}
       {loading ? (
         <center>
           <br />

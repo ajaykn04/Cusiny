@@ -50,7 +50,6 @@ const NavbarAdmin = ({ location }) => {
               variant="text"
               onClick={() => {
                 navigate("/admindash");
-                // navigate("/user/recipes", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
@@ -72,7 +71,6 @@ const NavbarAdmin = ({ location }) => {
               variant="text"
               onClick={() => {
                 navigate("/admin/users");
-                // navigate("/user/recipes", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
@@ -94,7 +92,6 @@ const NavbarAdmin = ({ location }) => {
               variant="text"
               onClick={() => {
                 navigate("/admin/recipes");
-                // navigate("/user/recipes", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",

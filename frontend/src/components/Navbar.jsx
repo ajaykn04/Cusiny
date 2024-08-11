@@ -16,15 +16,11 @@ import profileImage from "/defaultlogin.png";
 const StyledToolbar = styled(Toolbar)`
   background-color: black;
 `;
-
-// const Navbar = ({ location }) => {
 const Navbar = () => {
   const navigate = useNavigate();
-  // const currentLocation = useLocation();
 
   const handleProfileClick = () => {
     navigate("/profile");
-    // navigate("/profile", { state: currentLocation.state });
   };
 
   return (
@@ -58,7 +54,6 @@ const Navbar = () => {
               variant="text"
               onClick={() => {
                 navigate("/userdash");
-                // navigate("/userdash", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
@@ -80,7 +75,6 @@ const Navbar = () => {
               variant="text"
               onClick={() => {
                 navigate("/recipe/add");
-                // navigate("/recipe/add", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
@@ -102,7 +96,6 @@ const Navbar = () => {
               variant="text"
               onClick={() => {
                 navigate("/user/recipes");
-                // navigate("/user/recipes", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
@@ -124,7 +117,6 @@ const Navbar = () => {
               variant="text"
               onClick={() => {
                 navigate("/recipes");
-                // navigate("/recipes", { state: currentLocation.state })
               }}
               style={{
                 fontSize: "20px",
