@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavbarAdmin from "./NavbarAdmin";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Table,
@@ -12,6 +13,7 @@ import {
 import axios from "axios";
 
 const Recipes = () => {
+  const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -81,24 +83,31 @@ const Recipes = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {recipes.map((recipes, index) => {
+            {recipes.map((recipe, index) => {
               return (
                 <TableRow key={index}>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
-                    <img
-                      src={`http://localhost:3000/${recipes.image}`}
-                      alt={recipes.name}
-                      style={{ width: "2vw", height: "6vh" }}
-                    />
+                    <Button
+                    style={{color:"black",marginTop:-10,marginBottom:-10,marginLeft:-15}}
+                    onClick={()=>{
+                      navigate("/detrecipe", { state: recipe })
+                    }}
+                    >
+                      <img
+                        src={`http://localhost:3000/${recipe.image}`}
+                        alt={recipe.name}
+                        style={{ width: "2vw", height: "6vh", cursor: "pointer" }}
+                      />
+                    </Button>
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
-                    {recipes.name}
+                    {recipe.name}
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
-                    {recipes.ownername}
+                    {recipe.ownername}
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
-                    {recipes.category}
+                    {recipe.category}
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
                     <Button
@@ -106,7 +115,7 @@ const Recipes = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `http://localhost:3000/recipe/delete/${recipes._id}`
+                          `http://localhost:3000/recipe/delete/${recipe._id}`
                         );
                         window.location.reload(true);
                         console.log("Recipe Successfully Deleted");
