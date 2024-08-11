@@ -202,35 +202,31 @@ const Addrecipe = () => {
             style={{ marginTop: 3, width: "25.35vw", marginBottom: "1vh" }}
             variant="outlined"
             required
-            error={errors.category} // Apply error state to FormControl
+            error={errors.category}
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: errors.category ? "red" : "white", // Show red border if error
+                  borderColor: errors.category ? "red" : "white",
                 },
                 "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: errors.category
-                    ? "red"
+                  borderColor
                     : recipe.category
                     ? "orange"
-                    : "white", // Show red border if error, otherwise handle hover state
+                    : "orange",
                 },
                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: errors.category ? "red" : "darkorange", // Show red border if error on focus
+                  borderColor: errors.category ? "orange" : "orange",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: errors.category ? "red" : "white", // Show red label if error
+                color: errors.category ? "white" : "white",
               },
               "&:hover .MuiInputLabel-root": {
                 color: errors.category
-                  ? "red"
+                  ? "white"
                   : recipe.category
                   ? "orange"
-                  : "white", // Handle hover state
-              },
-              "&.Mui-focused .MuiInputLabel-root": {
-                color: errors.category ? "red" : "darkorange", // Handle focus state
+                  : "white",
               },
             }}
           >
