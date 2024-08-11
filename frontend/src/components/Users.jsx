@@ -77,16 +77,6 @@ const Users = () => {
               >
                 Age
               </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "fantasy",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "3vh",
-                }}
-              >
-                password
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -104,9 +94,6 @@ const Users = () => {
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
                     {users.age}
-                  </TableCell>
-                  <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
-                    {users.password}
                   </TableCell>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
                     <Button

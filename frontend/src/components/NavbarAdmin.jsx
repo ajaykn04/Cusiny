@@ -29,7 +29,7 @@ const NavbarAdmin = ({ location }) => {
         <StyledToolbar>
           <Avatar
             sx={{ width: 50, height: 50 }}
-            alt="Dishify"
+            alt="Cusiny"
             src={iconImage}
           />
           <Typography
