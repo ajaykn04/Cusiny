@@ -28,27 +28,19 @@ const NavbarAdmin = ({ location }) => {
       <AppBar position="fixed">
         <StyledToolbar>
           <Avatar
-            sx={{ width: 50, height: 50 }}
+            sx={{ width: 100, height: 100, mt: -4, mb: -4 }}
             alt="Cusiny"
             src={iconImage}
           />
           <Typography
-            style={{ fontSize: "40px", fontFamily: "fantasy", color: "white" }}
+            style={{
+              fontSize: "30px",
+              fontFamily: "fantasy",
+              color: "white",
+              marginLeft: -12,
+            }}
           >
-            &nbsp;
-          </Typography>
-          &nbsp;&nbsp;
-          <Typography variant="overline" style={{ fontFamily: "initial" }}>
-            For&nbsp;
-          </Typography>
-          <Typography variant="overline" style={{ fontFamily: "initial" }}>
-            the&nbsp;
-          </Typography>
-          <Typography variant="overline" style={{ fontFamily: "initial" }}>
-            best&nbsp;
-          </Typography>
-          <Typography variant="overline" style={{ fontFamily: "initial" }}>
-            Recipes
+            Cusiny
           </Typography>
           <Container
             sx={{ display: "flex", justifyContent: "flex-start", gap: "6rem" }}
@@ -76,8 +68,6 @@ const NavbarAdmin = ({ location }) => {
                 HOME
               </Typography>
             </Button>
-
-
             <Button
               variant="text"
               onClick={() => {
@@ -100,8 +90,6 @@ const NavbarAdmin = ({ location }) => {
                 USERS
               </Typography>
             </Button>
-
-
             <Button
               variant="text"
               onClick={() => {
@@ -124,8 +112,6 @@ const NavbarAdmin = ({ location }) => {
                 RECIPES
               </Typography>
             </Button>
-
-          
           </Container>
           <IconButton onClick={handleProfileClick}>
             <Avatar alt="Profile" src={profileImage} />

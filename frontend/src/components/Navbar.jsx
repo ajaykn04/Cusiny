@@ -32,22 +32,32 @@ const Navbar = () => {
       <AppBar position="fixed">
         <StyledToolbar>
           <Avatar
-            sx={{ width: 100, height: 100, mt:-4,mb:-4 }}
+            sx={{ width: 100, height: 100, mt: -4, mb: -4 }}
             alt="Cusiny"
             src={iconImage}
           />
           <Typography
-            style={{ fontSize: "30px", fontFamily: "fantasy", color: "white",marginLeft:-12 }}
+            style={{
+              fontSize: "30px",
+              fontFamily: "fantasy",
+              color: "white",
+              marginLeft: -12,
+            }}
           >
             Cusiny
           </Typography>
           <Container
-            sx={{ display: "flex", justifyContent: "flex-start", gap: "6rem",ml:25 }}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: "6rem",
+              ml: 25,
+            }}
           >
             <Button
               variant="text"
-              onClick={() =>{
-                navigate("/userdash")
+              onClick={() => {
+                navigate("/userdash");
                 // navigate("/userdash", { state: currentLocation.state })
               }}
               style={{
@@ -68,8 +78,8 @@ const Navbar = () => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>{
-                navigate("/recipe/add")
+              onClick={() => {
+                navigate("/recipe/add");
                 // navigate("/recipe/add", { state: currentLocation.state })
               }}
               style={{
@@ -90,8 +100,8 @@ const Navbar = () => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>{
-                navigate("/user/recipes")
+              onClick={() => {
+                navigate("/user/recipes");
                 // navigate("/user/recipes", { state: currentLocation.state })
               }}
               style={{
@@ -112,8 +122,8 @@ const Navbar = () => {
             </Button>
             <Button
               variant="text"
-              onClick={() =>{
-                navigate("/recipes")
+              onClick={() => {
+                navigate("/recipes");
                 // navigate("/recipes", { state: currentLocation.state })
               }}
               style={{
