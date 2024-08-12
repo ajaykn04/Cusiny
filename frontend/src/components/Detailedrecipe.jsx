@@ -335,7 +335,19 @@ const DetailedRecipe = () => {
               name="read-only"
               value={comment.rating}
               readOnly
-              sx={{ color: "#FFA500", marginBottom: "10px" }}
+              sx={{
+                mb: 1,
+                mt: 1,
+                "& .MuiRating-iconFilled": {
+                  color: "#FFAD18",
+                },
+                "& .MuiRating-iconEmpty": {
+                  color: "grey",
+                },
+                "& .MuiRating-icon:hover": {
+                  borderColor: "darkorange",
+                },
+              }}
             />
             <Typography variant="body1" sx={{ marginBottom: 5, mt: -1 }}>
               {comment.comment}
