@@ -13,40 +13,56 @@ import { useLocation } from "react-router-dom";
 import { AppContext } from "../AppContext";
 import axios from "axios";
 
-const Detailedrecipe = () => {
+const DetailedRecipe = () => {
   const { data, setData } = useContext(AppContext);
-  const response = useLocation();
-
+  const { state } = useLocation();
+  const [recipeData, setRecipeData] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [review, setReview] = useState({
     userId: "",
     username: "",
-    rating: "",
+    rating: 0,
     comment: "",
   });
 
-  const recipeData = response.state || {};
+  useEffect(() => {
+    if (state?._id) {
+      const fetchRecipe = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/recipe/get/${state._id}`
+          );
+          setRecipeData(response.data);
+        } catch (error) {
+          console.error("Error fetching recipe data:", error);
+        }
+      };
+      fetchRecipe();
+    }
+  }, [state?._id]);
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("userData"));
-    if (savedData && !data) {
+    if (savedData) {
       setData(savedData);
     }
   }, [setData, data]);
 
   useEffect(() => {
-    if (recipeData._id) {
-      const apiUrl = `http://localhost:3000/recipe/getreviews/${recipeData._id}`;
-      axios
-        .get(apiUrl)
-        .then((response) => {
+    if (recipeData?._id) {
+      const fetchReviews = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/recipe/getreviews/${recipeData._id}`
+          );
           setReviews(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+        } catch (error) {
+          console.error("Error fetching reviews:", error);
+        }
+      };
+      fetchReviews();
     }
-  }, [recipeData._id]);
+  }, [recipeData?._id]);
 
   const inputHandler = (e, newValue) => {
     const { name, value } = e.target || {};
@@ -71,16 +87,25 @@ const Detailedrecipe = () => {
       setReview({
         userId: "",
         username: "",
-        rating: "",
+        rating: 0,
         comment: "",
       });
+      window.location.reload(true);
     } catch (error) {
-      console.error(error);
+      console.error("Error submitting review:", error);
     }
   };
 
-  if (!recipeData.name) {
-    return <Typography>No recipe data available.</Typography>;
+  if (!recipeData) {
+    return (
+      <center>
+        <br />
+        <br />
+        <br />
+        <br />
+        Loading...
+      </center>
+    );
   }
 
   return (
@@ -162,6 +187,7 @@ const Detailedrecipe = () => {
               marginTop: "2.5vh",
               width: "95%",
               marginLeft: 1,
+              padding: "20px",
             }}
           >
             <Typography style={{ marginTop: "1vh" }}>
@@ -214,11 +240,10 @@ const Detailedrecipe = () => {
             />
             <Button
               variant="contained"
-              style={{ marginTop: -400, marginLeft: 400 }}
+              style={{ marginTop: 10 }}
               sx={{
-                mt: 2,
                 backgroundColor: "orange",
-                "&:hover": { backgroundColor: "orange" },
+                "&:hover": { backgroundColor: "darkorange" },
               }}
               onClick={submitHandler}
             >
@@ -291,30 +316,19 @@ const Detailedrecipe = () => {
           </Box>
         </Box>
       </Container>
-      <Divider
-        sx={{
-          borderColor: "white",
-          width: "95%",
-          margin: "20px auto",
-          marginTop: -2.4,
-        }}
-      />
-      <Box sx={{ ml: -79.85 }}>
+      <Box sx={{ ml: 10 }}>
         {reviews.map((comment, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: 470,
-              backgroundColor: "#000",
-              color: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              maxWidth: "500px",
-              margin: "20px auto",
-              border: "1px solid white",
-            }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: "5px" }}>
+          <Box key={index}>
+            <Divider
+              sx={{
+                border: "1px solid #1b1b1b",
+                width: "100%",
+                ml: -5,
+                marginTop: -2,
+                mb: 5,
+              }}
+            />
+            <Typography variant="h6" sx={{ marginBottom: "0px", mt: -2 }}>
               @{comment.username}
             </Typography>
             <Rating
@@ -323,7 +337,9 @@ const Detailedrecipe = () => {
               readOnly
               sx={{ color: "#FFA500", marginBottom: "10px" }}
             />
-            <Typography variant="body1">{comment.comment}</Typography>
+            <Typography variant="body1" sx={{ marginBottom: 5, mt: -1 }}>
+              {comment.comment}
+            </Typography>
           </Box>
         ))}
       </Box>
@@ -331,4 +347,4 @@ const Detailedrecipe = () => {
   );
 };
 
-export default Detailedrecipe;
+export default DetailedRecipe;
