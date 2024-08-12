@@ -10,10 +10,10 @@ require("./connection.js");
 const URL = "http://localhost";
 const PORT = 3000;
 
-
+var CryptoJS = require('crypto-js');
 var recipeModel = require("./model/recipe");
 var userModel = require("./model/user");
-
+var secretKey = 'backend';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -88,7 +88,7 @@ app.post("/recipe/makefeatured/:id", async (req, res) => {
 app.get("/user/get/:email/:password", async (req, res) => {
     try {
         var email = req.params.email;
-        var password = req.params.password;
+        var password = CryptoJS.SHA256(req.params.password).toString(CryptoJS.enc.Hex)
         var user = await userModel.findOne({ email: email, password: password });
         if (user) {
             res.send(user);
@@ -107,6 +107,7 @@ app.post("/user/register/", async (req, res) => {
     try {
         var user = req.body;
         user.admin = false;
+        user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex)
         var existing_user = await userModel.findOne({ email: user.email });
         if (!existing_user) {
 
@@ -228,6 +229,25 @@ app.post("/recipe/addreview/:recipeId", async (req, res) => {
     }
 });
 
+app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
+    try {
+        var recid = req.params.recipeId;
+        var userid = req.params.userId;
+        var recipe = await recipeModel.findById(recid);
+        recipe.reviews = recipe.reviews.filter(review => review.userId != userid)
+        let total = 0
+        for (let i=0;i<recipe.reviews.length;i++){
+            total += recipe.reviews[i].rating;
+        }
+        recipe.rating = total / recipe.reviews.length;
+        await recipe.save();
+        res.send({ message: "Review Deleted" })
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.get("/recipe/getreviews/:recipeId", async (req, res) => {
     try {
         var id = req.params.recipeId;
@@ -284,7 +304,12 @@ app.get("/recipe/featured", async (req, res) => {
         console.log(error);
     }
 });
+
+
+
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
+
+
 
 
 app.listen(PORT, () => {
