@@ -31,7 +31,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
-      const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
+      const apiUrl = `cusiny-api.vercel.app/user/recipes/${data._id}`;
       axios
         .get(apiUrl)
         .then((response) => {
@@ -53,7 +53,7 @@ const Myrecipe = () => {
 
   const handleDelete = async (recipeId) => {
     try {
-      await axios.delete(`http://localhost:3000/recipe/delete/${recipeId}`);
+      await axios.delete(`cusiny-api.vercel.app/recipe/delete/${recipeId}`);
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
@@ -173,7 +173,7 @@ const Myrecipe = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`cusiny-api.vercel.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",
