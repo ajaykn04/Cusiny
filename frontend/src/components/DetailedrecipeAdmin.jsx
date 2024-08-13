@@ -349,7 +349,16 @@ const DetailedRecipe = () => {
                 },
               }}
             />
-            <Typography variant="body1" sx={{ marginBottom: 5, mt: -1 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                marginBottom: 5,
+                mt: -1,
+                width: "50%",
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+              }}
+            >
               {comment.comment}
             </Typography>
           </Box>

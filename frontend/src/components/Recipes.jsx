@@ -31,8 +31,6 @@ const Recipes = () => {
     fetchRecipes();
   }, []);
 
-  console.log(recipes);
-
   return (
     <div>
       <NavbarAdmin />

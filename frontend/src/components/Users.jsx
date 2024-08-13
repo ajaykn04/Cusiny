@@ -28,8 +28,6 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  console.log(users);
-
   return (
     <div>
       <NavbarAdmin />
