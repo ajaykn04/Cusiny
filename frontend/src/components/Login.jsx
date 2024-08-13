@@ -31,7 +31,7 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(
-          `http://localhost:3000/user/get/${user.email}/${user.password}`
+          `cusiny-api.vercel.app/user/get/${user.email}/${user.password}`
         );
         const userData = {
           username: login.data.username,
