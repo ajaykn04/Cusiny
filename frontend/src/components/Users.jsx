@@ -17,7 +17,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("cusiny-api.vercel.app/user/viewall");
+        const response = await axios.get("https://cusiny-api.vercel.app/user/viewall");
         const filteredUsers = response.data.filter((user) => !user.admin);
         setUsers(filteredUsers);
       } catch (error) {
@@ -99,7 +99,7 @@ const Users = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `cusiny-api.vercel.app/user/delete/`,
+                          `https://cusiny-api.vercel.app/user/delete/`,
                           {
                             data: users,
                           }
