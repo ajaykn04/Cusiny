@@ -26,7 +26,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("cusiny-api.vercel.app/recipe/viewall")
+      .get("https://cusiny-api.vercel.app/recipe/viewall")
       .then((res) => {
         setRecipys(res.data);
       })
@@ -42,7 +42,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("cusiny-api.vercel.app/recipe/featured")
+      .get("https://cusiny-api.vercel.app/recipe/featured")
       .then((res) => {
         setRecipes(res.data);
         setLoading(false);
@@ -158,7 +158,7 @@ const Admindashboard = () => {
                           }}
                         >
                           <img
-                            src={`cusiny-api.vercel.app/${recipe.image}`}
+                            src={`https://cusiny-api.vercel.app/${recipe.image}`}
                             style={{
                               height: "auto",
                               width: "100%",
@@ -240,7 +240,7 @@ const Admindashboard = () => {
                     }}
                   >
                     <img
-                      src={`cusiny-api.vercel.app/${recipy.image}`}
+                      src={`https://cusiny-api.vercel.app/${recipy.image}`}
                       alt={recipy.name}
                       style={{
                         marginLeft: "-39px",
