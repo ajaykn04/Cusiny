@@ -90,10 +90,10 @@ const DetailedRecipe = () => {
         rating: 0,
         comment: "",
       });
-      window.location.reload(true);
     } catch (error) {
       console.error("Error submitting review:", error);
     }
+    
   };
 
   if (!recipeData) {
