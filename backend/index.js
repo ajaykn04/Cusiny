@@ -7,8 +7,8 @@ var app = express();
 var fs = require("fs");
 require("./connection.js");
 
-const URL = "http://localhost";
-const PORT = 3000;
+// const URL = "http://localhost";
+// const PORT = 3000;
 
 var CryptoJS = require('crypto-js');
 var recipeModel = require("./model/recipe");
