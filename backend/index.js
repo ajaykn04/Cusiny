@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://cusiny-frontend.vercel.app/"],
+    origin: ["https://cusiny-frontend.vercel.app"],
     methods: ["POST", "GET"],
     credentials: true
 }));
