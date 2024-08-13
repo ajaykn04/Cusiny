@@ -5,7 +5,7 @@ import axios from "axios";
 import styles from "../styles";
 import { AppContext } from "../AppContext";
 
-const  = () => {
+const Login = () => {
   const { setData } = useContext(AppContext);
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: false, password: false });
