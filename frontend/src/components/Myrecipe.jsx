@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import axios from "axios";
 import {
@@ -17,7 +17,6 @@ import { AppContext } from "../AppContext";
 
 const Myrecipe = () => {
   const { data, setData } = useContext(AppContext);
-  const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);

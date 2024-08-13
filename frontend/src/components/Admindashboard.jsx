@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import NavbarAdmin from "./NavbarAdmin";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import axios from "axios";
@@ -17,7 +17,6 @@ import "./Admindashboard.css";
 
 const Admindashboard = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("Meals");
   const [recipes, setRecipes] = useState([]);
   const categories = ["Meals", "Vegetarian", "Salad", "Drinks", "Desserts"];

@@ -103,6 +103,7 @@ const DetailedRecipe = () => {
         <br />
         <br />
         <br />
+        <br />
         Loading...
       </center>
     );

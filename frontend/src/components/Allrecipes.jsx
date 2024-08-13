@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import {
   Button,
@@ -9,15 +9,13 @@ import {
   Paper,
   Rating,
   Typography,
-  TextField, // Import TextField for the search bar
+  TextField,
 } from "@mui/material";
 
 const Allrecipes = () => {
-  const location = useLocation();
-  location.state || "";
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
@@ -35,8 +33,6 @@ const Allrecipes = () => {
         setLoading(false);
       });
   }, []);
-
-  // Filter recipes based on the search query
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -45,7 +41,7 @@ const Allrecipes = () => {
     <div>
       <Navbar />
       <Container sx={{ mt: 10, mb: -3 }}>
-      <TextField
+        <TextField
           fullWidth
           variant="outlined"
           placeholder="Search Recipes"
@@ -74,7 +70,8 @@ const Allrecipes = () => {
               padding: "12px 20px",
             },
             "& .MuiInputBase-input::placeholder": {
-              background: "linear-gradient(90deg, red 3%, orange 3%, yellow 3%, green 4%, blue 6%, indigo 7%, violet 10%)", // Condensed rainbow gradient
+              background:
+                "linear-gradient(90deg, red 3%, orange 3%, yellow 3%, green 4%, blue 6%, indigo 7%, violet 10%)", // Condensed rainbow gradient
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

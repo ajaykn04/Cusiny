@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavbarAdmin from "./NavbarAdmin";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Table,

@@ -33,14 +33,20 @@ const NavbarAdmin = () => {
             alt="Cusiny"
             src={iconImage}
           />
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Typography
               style={{
                 fontSize: "20px",
                 fontFamily: "fantasy",
                 color: "white",
                 marginBottom: -15,
-                marginLeft: 0 // Space between "Admin" and "Cusiny"
+                marginLeft: 0,
               }}
             >
               Admin
@@ -57,7 +63,7 @@ const NavbarAdmin = () => {
           </div>
           <Container
             sx={{
-              marginLeft:43,
+              marginLeft: 43,
               justifyItems: "center",
               display: "flex",
               justifyContent: "flex",

@@ -97,15 +97,16 @@ const DetailedRecipe = () => {
   };
 
   if (!recipeData) {
-    return;
-
-    <center>
-      <br />
-      <br />
-      <br />
-      <br />
-      Loading...
-    </center>;
+    return (
+      <center>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        Loading...
+      </center>
+    );
   }
 
   return (

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import iconImage from "/dishify_pbg1.png";
 import profileImage from "/defaultlogin.png";
 

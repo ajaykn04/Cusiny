@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles";
 import Navbar from "./Navbar";
@@ -9,7 +9,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 const Profile = () => {
   const { data, setData } = useContext(AppContext);
-  const location = useLocation();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
     username: false,
