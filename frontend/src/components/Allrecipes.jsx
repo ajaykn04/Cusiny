@@ -20,7 +20,7 @@ const Allrecipes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3000/recipe/viewall`;
+    const apiUrl = `cusiny-api.vercel.app/recipe/viewall`;
 
     axios
       .get(apiUrl)
@@ -137,7 +137,7 @@ const Allrecipes = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`cusiny-api.vercel.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",
