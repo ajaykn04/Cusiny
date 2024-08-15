@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import iconImage from "/dishify_pbg1.png";
+import iconImage from "/Cusiny.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const StyledToolbar = styled(Toolbar)`

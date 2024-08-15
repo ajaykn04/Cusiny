@@ -69,7 +69,7 @@ const Login = () => {
       >
         <Box sx={styles.box_style}>
           <img
-            src="/dishify_pbg1.ico"
+            src="/Chef.ico"
             alt="Login Icon"
             style={{
               width: "200px",
