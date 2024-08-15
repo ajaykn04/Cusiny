@@ -199,9 +199,10 @@ const Addrecipe = () => {
           />
 
           <FormControl
-            style={{ marginTop: 3, width: "25.35vw", marginBottom: "1vh" }}
+            style={{ marginTop: 3 }}
             variant="outlined"
             required
+            fullWidth
             error={errors.category}
             sx={{
               "& .MuiOutlinedInput-root": {
@@ -261,7 +262,7 @@ const Addrecipe = () => {
           </FormControl>
 
           <TextField
-            style={{ marginTop: 3 }}
+            style={{ marginTop: 10 }}
             required
             fullWidth
             name="image"
@@ -277,7 +278,7 @@ const Addrecipe = () => {
           <Button
             variant="contained"
             sx={{
-              mt: 0.4,
+              mt: 0.4,mb:-2.5,
               backgroundColor: "orange",
               "&:hover": { backgroundColor: "orange" },
             }}
