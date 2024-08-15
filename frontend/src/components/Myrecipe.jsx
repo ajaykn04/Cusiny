@@ -95,7 +95,7 @@ const Myrecipe = () => {
           </Typography>
         </center>
       ) : (
-        <Grid container spacing={2} sx={{ ml: -1.75, mt: 7 }}>
+        <Grid container spacing={2} sx={{ mt: "70px" }}>
           {recipes.map((recipe, index) => (
             <Grid
               item
@@ -104,7 +104,7 @@ const Myrecipe = () => {
               md={3}
               lg={2.3}
               key={index}
-              sx={{ ml: 1.1, mt: -2 }}
+              sx={{ ml: "9px", mt: -2 }}
             >
               <Paper
                 elevation={3}
@@ -120,8 +120,8 @@ const Myrecipe = () => {
                 <IconButton
                   sx={{
                     position: "fixed",
-                    ml: "11vw",
-                    mt: "35vh",
+                    ml: "160px",
+                    mt: "280px",
                     color: "white",
                     zIndex: 1,
                   }}
@@ -134,8 +134,8 @@ const Myrecipe = () => {
                 <IconButton
                   sx={{
                     position: "fixed",
-                    ml: "14vw",
-                    mt: "35vh",
+                    ml: "205px",
+                    mt: "280px",
                     color: "white",
                     zIndex: 1,
                   }}
@@ -149,6 +149,8 @@ const Myrecipe = () => {
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
+                    width:"255px",
+                    height:"325px",
                     "&:hover": {
                       borderColor: "darkorange",
                     },

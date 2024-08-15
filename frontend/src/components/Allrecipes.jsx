@@ -89,7 +89,7 @@ const Allrecipes = () => {
           Loading...
         </center>
       ) : (
-        <Grid container spacing={2} sx={{ ml: -1.75 }}>
+        <Grid container spacing={2}>
           {filteredRecipes.map((recipe, index) => (
             <Grid
               item
@@ -98,10 +98,10 @@ const Allrecipes = () => {
               md={3}
               lg={2.3}
               key={index}
-              sx={{ ml: 1.1, mt: -2 }}
+              sx={{ ml: "9px", mt: -2 }}
             >
               <Paper
-                elevation={3}
+                elevation={1}
                 sx={{
                   padding: 1,
                   backgroundColor: "currentcolor",
@@ -117,6 +117,8 @@ const Allrecipes = () => {
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
+                    width:"257px",
+                    height:"325px",
                     "&:hover": { borderColor: "darkorange" },
                   }}
                   onClick={() => {

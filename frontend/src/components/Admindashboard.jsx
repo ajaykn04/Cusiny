@@ -192,7 +192,7 @@ const Admindashboard = () => {
           ))}
         </div>
 
-        <Grid container spacing={2} sx={{ ml: -4, mt: 2 }}>
+        <Grid container spacing={2} sx={{ mt: 2 }}>
           {filteredRecipys.map((recipy, index) => (
             <Grid
               item
@@ -201,7 +201,7 @@ const Admindashboard = () => {
               md={3}
               lg={2.3}
               key={index}
-              sx={{ ml: 1.1, mt: -2 }}
+              sx={{ ml: "9px", mt: -2 }}
             >
               <Paper
                 elevation={3}
@@ -219,6 +219,8 @@ const Admindashboard = () => {
                   sx={{
                     overflow: "hidden",
                     borderColor: "white",
+                    width:"257px",
+                    height:"325px",
                     borderRadius: "15px",
                     "&:hover": { borderColor: "darkorange" },
                   }}
