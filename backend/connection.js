@@ -1,6 +1,9 @@
 var mongoose = require("mongoose");
+const dotenv = require('dotenv');
 
-mongoose.connect("mongodb+srv://test:test@cluster0.ecqczi0.mongodb.net/recipeApp?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("Connected!");
 }).catch((error) => {
     console.log(error)
