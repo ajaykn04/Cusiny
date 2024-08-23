@@ -16,7 +16,7 @@ import Navbar from "./Navbar";
 import { AppContext } from "../AppContext";
 import styles from "../styles";
 
-const Addrecipe = () => {
+const AddRecipe = () => {
   const [recipe, setRecipe] = useState({
     name: "",
     ingredients: "",
@@ -24,23 +24,15 @@ const Addrecipe = () => {
     category: "",
     image: "",
   });
-  const toeditrecipe = useLocation();
-
-  useEffect(() => {
-    if (toeditrecipe.state != null) {
-      setRecipe({
-        ...recipe,
-        name: toeditrecipe.state.value.name,
-        ingredients: toeditrecipe.state.value.ingredients,
-        instructions: toeditrecipe.state.value.instructions,
-        category: toeditrecipe.state.value.category,
-        image: toeditrecipe.state.value.image,
-      });
-    }
-  }, []);
-
+  const toEditRecipe = useLocation();
   const navigate = useNavigate();
   const { data, setData } = useContext(AppContext);
+
+  useEffect(() => {
+    if (toEditRecipe.state) {
+      setRecipe(toEditRecipe.state.value);
+    }
+  }, [toEditRecipe.state]);
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("userData"));
@@ -85,28 +77,23 @@ const Addrecipe = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       const formData = new FormData();
-      if (toeditrecipe.state != null) {
+      formData.append("file", image);
+      for (const key in recipe) {
+        formData.append(key, recipe[key]);
+      }
+      if (toEditRecipe.state) {
+        formData.append("_id", toEditRecipe.state.value._id);
         try {
-          formData.append("file", image);
-          for (const key in recipe) {
-            formData.append(key, recipe[key]);
-          }
-          formData.append("_id", toeditrecipe.state.value._id);
           await axios.put("http://localhost:3000/recipe/edit/", formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
         }
       } else {
+        formData.append("owner", data._id);
+        formData.append("ownername", data.username);
         try {
-          formData.append("file", image);
-          for (const key in recipe) {
-            formData.append(key, recipe[key]);
-          }
-          formData.append("owner", data._id);
-          formData.append("ownername", data.username);
-
-          await axios.post(`http://localhost:3000/recipe/add/`, formData);
+          await axios.post("http://localhost:3000/recipe/add/", formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
@@ -278,7 +265,8 @@ const Addrecipe = () => {
           <Button
             variant="contained"
             sx={{
-              mt: 0.4,mb:-2.5,
+              mt: 0.4,
+              mb: -2.5,
               backgroundColor: "orange",
               "&:hover": { backgroundColor: "orange" },
             }}
@@ -292,4 +280,4 @@ const Addrecipe = () => {
   );
 };
 
-export default Addrecipe;
+export default AddRecipe;
