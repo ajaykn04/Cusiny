@@ -1,19 +1,16 @@
 var express = require("express");
-const cors = require('cors');
-
-app.use(
-  cors({
-    origin: 'http://cusiny.vercel.app',
-    methods: ['POST', 'GET'],
-    credentials: true,
-  })
-);
-
+var cors = require("cors");
 var path = require("path");
 var multer = require("multer");
 var crypto = require("crypto");
 var app = express();
-
+app.use(
+  cors({
+    origin: ["https://cusiny.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 var fs = require("fs");
 require("./connection.js");
 
