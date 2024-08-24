@@ -20,7 +20,7 @@ const AllRecipes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = "http://localhost:3000/recipe/viewall";
+    const apiUrl = "https://cusiny-backend.vercel.app/recipe/viewall";
 
     axios
       .get(apiUrl)
@@ -65,7 +65,7 @@ const AllRecipes = () => {
                 <Paper style={{ padding: "1rem", marginBottom: "1rem" }}>
                   <Typography variant="h6">{recipe.name}</Typography>
                   <img
-                    src={`http://localhost:3000/uploads/${recipe.image}`}
+                    src={`https://cusiny-backend.vercel.app/uploads/${recipe.image}`}
                     alt={recipe.name}
                     style={{ width: "100%", height: "auto" }}
                   />

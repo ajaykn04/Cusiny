@@ -84,7 +84,7 @@ const AddRecipe = () => {
       if (toEditRecipe.state) {
         formData.append("_id", toEditRecipe.state.value._id);
         try {
-          await axios.put("http://localhost:3000/recipe/edit/", formData);
+          await axios.put("https://cusiny-backend.vercel.app/recipe/edit/", formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
@@ -93,7 +93,7 @@ const AddRecipe = () => {
         formData.append("owner", data._id);
         formData.append("ownername", data.username);
         try {
-          await axios.post("http://localhost:3000/recipe/add/", formData);
+          await axios.post("https://cusiny-backend.vercel.app/recipe/add/", formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
