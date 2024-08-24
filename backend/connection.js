@@ -1,10 +1,13 @@
 var mongoose = require("mongoose");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI).then(()=>{
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
     console.log("Connected!");
-}).catch((error) => {
-    console.log(error)
-})
+  })
+  .catch((error) => {
+    console.log(error);
+  });
