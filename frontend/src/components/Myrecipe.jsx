@@ -53,7 +53,9 @@ const Myrecipe = () => {
 
   const handleDelete = async (recipeId) => {
     try {
-      await axios.delete(`https://cusiny-backend.vercel.app/recipe/delete/${recipeId}`);
+      await axios.delete(
+        `https://cusiny-backend.vercel.app/recipe/delete/${recipeId}`
+      );
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
@@ -149,8 +151,8 @@ const Myrecipe = () => {
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
-                    width:"255px",
-                    height:"325px",
+                    width: "255px",
+                    height: "325px",
                     "&:hover": {
                       borderColor: "darkorange",
                     },

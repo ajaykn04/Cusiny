@@ -17,7 +17,9 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://cusiny-backend.vercel.app/user/viewall");
+        const response = await axios.get(
+          "https://cusiny-backend.vercel.app/user/viewall"
+        );
         const filteredUsers = response.data.filter((user) => !user.admin);
         setUsers(filteredUsers);
       } catch (error) {

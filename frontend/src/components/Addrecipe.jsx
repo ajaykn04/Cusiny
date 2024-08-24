@@ -16,7 +16,7 @@ import Navbar from "./Navbar";
 import { AppContext } from "../AppContext";
 import styles from "../styles";
 
-const AddRecipe = () => {
+const Addrecipe = () => {
   const [recipe, setRecipe] = useState({
     name: "",
     ingredients: "",
@@ -24,15 +24,23 @@ const AddRecipe = () => {
     category: "",
     image: "",
   });
-  const toEditRecipe = useLocation();
-  const navigate = useNavigate();
-  const { data, setData } = useContext(AppContext);
+  const toeditrecipe = useLocation();
 
   useEffect(() => {
-    if (toEditRecipe.state) {
-      setRecipe(toEditRecipe.state.value);
+    if (toeditrecipe.state != null) {
+      setRecipe({
+        ...recipe,
+        name: toeditrecipe.state.value.name,
+        ingredients: toeditrecipe.state.value.ingredients,
+        instructions: toeditrecipe.state.value.instructions,
+        category: toeditrecipe.state.value.category,
+        image: toeditrecipe.state.value.image,
+      });
     }
-  }, [toEditRecipe.state]);
+  }, []);
+
+  const navigate = useNavigate();
+  const { data, setData } = useContext(AppContext);
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem("userData"));
@@ -77,23 +85,34 @@ const AddRecipe = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       const formData = new FormData();
-      formData.append("file", image);
-      for (const key in recipe) {
-        formData.append(key, recipe[key]);
-      }
-      if (toEditRecipe.state) {
-        formData.append("_id", toEditRecipe.state.value._id);
+      if (toeditrecipe.state != null) {
         try {
-          await axios.put("https://cusiny-backend.vercel.app/recipe/edit/", formData);
+          formData.append("file", image);
+          for (const key in recipe) {
+            formData.append(key, recipe[key]);
+          }
+          formData.append("_id", toeditrecipe.state.value._id);
+          await axios.put(
+            "https://cusiny-backend.vercel.app/recipe/edit/",
+            formData
+          );
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
         }
       } else {
-        formData.append("owner", data._id);
-        formData.append("ownername", data.username);
         try {
-          await axios.post("https://cusiny-backend.vercel.app/recipe/add/", formData);
+          formData.append("file", image);
+          for (const key in recipe) {
+            formData.append(key, recipe[key]);
+          }
+          formData.append("owner", data._id);
+          formData.append("ownername", data.username);
+
+          await axios.post(
+            `https://cusiny-backend.vercel.app/recipe/add/`,
+            formData
+          );
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
@@ -280,4 +299,4 @@ const AddRecipe = () => {
   );
 };
 
-export default AddRecipe;
+export default Addrecipe;

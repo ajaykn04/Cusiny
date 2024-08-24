@@ -86,15 +86,24 @@ const Recipes = () => {
                 <TableRow key={index}>
                   <TableCell sx={{ fontFamily: "cursive", color: "white" }}>
                     <Button
-                    style={{color:"black",marginTop:-10,marginBottom:-10,marginLeft:-15}}
-                    onClick={()=>{
-                      navigate("/detrecipeadmin", { state: recipe })
-                    }}
+                      style={{
+                        color: "black",
+                        marginTop: -10,
+                        marginBottom: -10,
+                        marginLeft: -15,
+                      }}
+                      onClick={() => {
+                        navigate("/detrecipeadmin", { state: recipe });
+                      }}
                     >
                       <img
                         src={`https://cusiny-backend.vercel.app/${recipe.image}`}
                         alt={recipe.name}
-                        style={{ width: "2vw", height: "6vh", cursor: "pointer" }}
+                        style={{
+                          width: "2vw",
+                          height: "6vh",
+                          cursor: "pointer",
+                        }}
                       />
                     </Button>
                   </TableCell>
