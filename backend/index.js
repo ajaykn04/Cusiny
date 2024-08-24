@@ -1,16 +1,19 @@
 var express = require("express");
-var cors = require("cors");
+const cors = require('cors');
+
+app.use(
+  cors({
+    origin: 'https://cusiny.vercel.app',
+    methods: ['POST', 'GET'],
+    credentials: true,
+  })
+);
+
 var path = require("path");
 var multer = require("multer");
 var crypto = require("crypto");
 var app = express();
-app.use(
-  cors({
-    origin: ["https://cusiny.vercel.app"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+
 var fs = require("fs");
 require("./connection.js");
 
@@ -34,7 +37,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(express.json());
-app.use(cors());
 
 app.get("/user/viewall", async (req, res) => {
   try {
