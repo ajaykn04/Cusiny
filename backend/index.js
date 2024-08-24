@@ -14,9 +14,6 @@ app.use(
 var fs = require("fs");
 require("./connection.js");
 
-const URL = "http://localhost";
-const PORT = 3000;
-
 var CryptoJS = require("crypto-js");
 var recipeModel = require("./model/recipe");
 var userModel = require("./model/user");
@@ -37,7 +34,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(express.json());
-app.use(cors());
 
 app.get("/user/viewall", async (req, res) => {
   try {
@@ -298,7 +294,3 @@ app.use(
   "/images/recipes",
   express.static(path.join(__dirname, "images/recipes"))
 );
-
-app.listen(PORT, () => {
-  console.log("Port is Up");
-});
