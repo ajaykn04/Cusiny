@@ -3,7 +3,15 @@ var cors = require("cors");
 var path = require("path");
 var multer = require("multer");
 var crypto = require("crypto");
+var fs = require("fs");
 var app = express();
+var CryptoJS = require("crypto-js");
+var recipeModel = require("./model/recipe");
+var userModel = require("./model/user");
+require("./connection.js");
+
+var secretKey = "backend";
+
 app.use(
   cors({
     origin: ["https://cusiny.vercel.app"],
@@ -11,13 +19,6 @@ app.use(
     credentials: true,
   })
 );
-var fs = require("fs");
-require("./connection.js");
-
-var CryptoJS = require("crypto-js");
-var recipeModel = require("./model/recipe");
-var userModel = require("./model/user");
-var secretKey = "backend";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -140,29 +141,52 @@ app.put("/user/edit/", async (req, res) => {
     console.log(error);
   }
 });
+
 app.put("/recipe/edit/", upload.single("file"), async (req, res) => {
   try {
     var id = req.body._id;
     var recipe = req.body;
+
     var db_recipe = await recipeModel.findById(id);
+    if (!db_recipe) {
+      return res.status(404).send({ message: "Recipe not found" });
+    }
+
+    // Update recipe fields
     db_recipe.name = recipe.name;
     db_recipe.ingredients = recipe.ingredients;
     db_recipe.instructions = recipe.instructions;
     db_recipe.category = recipe.category;
-    if (!req.file) {
-      await db_recipe.save();
-    } else {
+
+    if (req.file) {
+      // Handle image update
       var img_path = `${req.file.destination}/${recipe._id}${path.extname(
         req.file.filename
       )}`;
-      fs.unlink(db_recipe.image, () => {});
-      fs.rename(req.file.path, img_path, () => {});
-      recipe.image = `${img_path}`;
+
+      // Unlink old image if it exists
+      if (db_recipe.image) {
+        fs.unlink(db_recipe.image, (err) => {
+          if (err) console.log(err);
+        });
+      }
+
+      // Rename new file
+      fs.rename(req.file.path, img_path, (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send({ message: "Failed to upload image" });
+        }
+      });
+
+      db_recipe.image = `${img_path}`;
     }
+
     await db_recipe.save();
-    res.send("Recipe Edited");
+    res.send({ message: "Recipe Edited" });
   } catch (error) {
     console.log(error);
+    res.status(500).send({ message: "Failed to edit recipe" });
   }
 });
 
@@ -189,18 +213,31 @@ app.post("/recipe/add/", upload.single("file"), async (req, res) => {
     recipe.reviews = [];
     recipe.rating = 0;
     recipe.featured = false;
-    req.body.image = "";
-    recipe = await recipeModel(recipe).save();
-    var img_path = `${req.file.destination}/${recipe._id}${path.extname(
-      req.file.filename
-    )}`;
-    fs.rename(req.file.path, img_path, () => {});
-    recipe.image = `${img_path}`;
-    recipe.save();
+    recipe.image = ""; // Initialize the image field
+
+    recipe = await recipeModel(recipe).save(); // Save the recipe first
+
+    if (req.file) {
+      var img_path = `${req.file.destination}/${recipe._id}${path.extname(
+        req.file.filename
+      )}`;
+
+      // Rename the uploaded file to match the recipe ID
+      fs.rename(req.file.path, img_path, (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).send({ message: "Failed to upload image" });
+        }
+      });
+
+      recipe.image = `${img_path}`;
+      await recipe.save();
+    }
 
     res.send({ message: "Recipe Added" });
   } catch (error) {
     console.log(error);
+    res.status(500).send({ message: "Failed to add recipe" });
   }
 });
 
@@ -260,38 +297,17 @@ app.delete("/user/delete/", async (req, res) => {
       for (let i = 0; i < delrecipes.length; i++) {
         fs.unlink(delrecipes[i].image, () => {});
       }
-      res.send({ message: "Account Deleted" });
+      res.send({ message: "User Deleted" });
     } else {
       res.status(404);
-      res.send({ message: "Failed To Delete Account" });
+      res.send({ message: "Failed To Delete User" });
     }
   } catch (error) {
     res.status(404);
-    res.send({ message: "Failed To Delete Account" });
+    res.send({ message: "Failed To Delete User" });
   }
 });
 
-app.get("/user/recipes/:id", async (req, res) => {
-  try {
-    var id = req.params.id;
-    var data = await recipeModel.find({ owner: id });
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-  }
+app.listen(3000, () => {
+  console.log("App is Running on Port 3000");
 });
-
-app.get("/recipe/featured", async (req, res) => {
-  try {
-    var data = await recipeModel.find({ featured: true });
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.use(
-  "/images/recipes",
-  express.static(path.join(__dirname, "images/recipes"))
-);
-module.exports = app;
