@@ -34,6 +34,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/user/viewall", async (req, res) => {
   try {
