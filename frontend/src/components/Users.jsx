@@ -108,10 +108,10 @@ const Users = () => {
                             data: users,
                           }
                         );
-                        navigate("/admindash");
-                        navigate("/admin/users");
                         //window.location.reload(true);
                         console.log("User Successfully Deleted");
+                        navigate("/admindash");
+                        navigate("/admin/users");
                       }}
                     >
                       DELETE
