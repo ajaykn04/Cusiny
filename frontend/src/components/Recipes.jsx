@@ -126,8 +126,6 @@ const Recipes = () => {
                         );
                         //window.location.reload(true);
                         console.log("Recipe Successfully Deleted");
-                        navigate("/admindash")
-                        navigate("/admin/recipes")
                       }}
                     >
                       DELETE

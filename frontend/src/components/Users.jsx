@@ -110,8 +110,6 @@ const Users = () => {
                         );
                         //window.location.reload(true);
                         console.log("User Successfully Deleted");
-                        navigate("/admindash");
-                        navigate("/admin/users");
                       }}
                     >
                       DELETE
