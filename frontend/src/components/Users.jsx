@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useNavigate } from "react";
 import NavbarAdmin from "./NavbarAdmin";
 import axios from "axios";
 import {
@@ -13,6 +13,7 @@ import {
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -106,7 +107,9 @@ const Users = () => {
                             data: users,
                           }
                         );
-                        window.location.reload(true);
+                        navigate("/admindash");
+                        navigate("/users");
+                        //window.location.reload(true);
                         console.log("User Successfully Deleted");
                       }}
                     >
