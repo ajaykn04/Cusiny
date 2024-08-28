@@ -7,7 +7,7 @@ var app = express();
 app.use(
   cors({
     origin: ["https://cusiny.vercel.app"],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
 );
