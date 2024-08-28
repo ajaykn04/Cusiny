@@ -109,7 +109,7 @@ const Users = () => {
                           }
                         );
                         navigate("/admindash");
-                        navigate("/users");
+                        navigate("/admin/users");
                         //window.location.reload(true);
                         console.log("User Successfully Deleted");
                       }}
