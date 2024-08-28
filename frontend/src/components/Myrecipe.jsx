@@ -59,7 +59,9 @@ const Myrecipe = () => {
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
-      window.location.reload(true);
+      navigate("/userdash")
+      navigate("/user/recipes")
+      // window.location.reload(true);
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }
