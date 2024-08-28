@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useNavigate } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavbarAdmin from "./NavbarAdmin";
 import axios from "axios";
 import {
