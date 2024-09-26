@@ -7,7 +7,6 @@ import {
   Container,
   Grid,
   Paper,
-  Rating,
   Typography,
   TextField,
 } from "@mui/material";
@@ -161,26 +160,6 @@ const Allrecipes = () => {
                     >
                       {recipe.name}
                     </Typography>
-                    <Rating
-                      name={`rating-${index}`}
-                      value={recipe.rating || 0}
-                      readOnly
-                      precision={0.1}
-                      sx={{
-                        ml: -2,
-                        mb: 1,
-                        mt: 1,
-                        "& .MuiRating-iconFilled": {
-                          color: "#FFAD18",
-                        },
-                        "& .MuiRating-iconEmpty": {
-                          color: "grey",
-                        },
-                        "& .MuiRating-icon:hover": {
-                          borderColor: "darkorange",
-                        },
-                      }}
-                    />
                   </Container>
                 </Button>
               </Paper>
