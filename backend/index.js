@@ -5,14 +5,14 @@ var multer = require("multer");
 var crypto = require('crypto')
 var app = express();
 var fs = require("fs");
-require("./connection.js");
+const db = require("./connection.js"); // Ensure this connects to your MySQL database
 
 const URL = "http://localhost";
 const PORT = 3000;
 
 var CryptoJS = require('crypto-js');
-var recipeModel = require("./model/recipe");
-var userModel = require("./model/user");
+var recipeModel = require("./model/recipe"); // Update this to interact with MySQL
+var userModel = require("./model/user"); // Update this to interact with MySQL
 var secretKey = 'backend';
 
 const storage = multer.diskStorage({
@@ -25,17 +25,25 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
 app.use(express.json());
 app.use(cors());
 
-
+// Utility function to run MySQL queries
+const runQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+};
 
 app.get("/user/viewall", async (req, res) => {
     try {
-        var data = await userModel.find();
-        res.send(data)
-
+        const users = await runQuery("SELECT * FROM users");
+        res.send(users);
     } catch (error) {
         console.log(error);
     }
@@ -43,9 +51,8 @@ app.get("/user/viewall", async (req, res) => {
 
 app.get("/recipe/viewall", async (req, res) => {
     try {
-        var data = await recipeModel.find();
-        res.send(data)
-
+        const recipes = await runQuery("SELECT * FROM recipes");
+        res.send(recipes);
     } catch (error) {
         console.log(error);
     }
@@ -53,10 +60,8 @@ app.get("/recipe/viewall", async (req, res) => {
 
 app.get("/recipe/get/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        var data = await recipeModel.findOne({ _id: id });
-        res.send(data)
-
+        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [req.params.id]);
+        res.send(recipe[0]); // Sending the first result
     } catch (error) {
         console.log(error);
     }
@@ -64,7 +69,7 @@ app.get("/recipe/get/:id", async (req, res) => {
 
 app.post("/user/add", async (req, res) => {
     try {
-        await userModel(req.body).save();
+        await runQuery("INSERT INTO users SET ?", req.body);
         res.send({ message: "Data Added" });
     } catch (error) {
         console.log(error);
@@ -73,13 +78,8 @@ app.post("/user/add", async (req, res) => {
 
 app.post("/recipe/makefeatured/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        var recipe = await recipeModel.findById(id);
-        recipe.featured = true;
-        recipe.save();
-
-        res.send({ message: "Added Featured Recipe" })
-
+        await runQuery("UPDATE recipes SET featured = ? WHERE id = ?", [true, req.params.id]);
+        res.send({ message: "Added Featured Recipe" });
     } catch (error) {
         console.log(error);
     }
@@ -88,16 +88,13 @@ app.post("/recipe/makefeatured/:id", async (req, res) => {
 app.get("/user/get/:email/:password", async (req, res) => {
     try {
         var email = req.params.email;
-        var password = CryptoJS.SHA256(req.params.password).toString(CryptoJS.enc.Hex)
-        var user = await userModel.findOne({ email: email, password: password });
-        if (user) {
-            res.send(user);
+        var password = CryptoJS.SHA256(req.params.password).toString(CryptoJS.enc.Hex);
+        const user = await runQuery("SELECT * FROM users WHERE email = ? AND password = ?", [email, password]);
+        if (user.length > 0) {
+            res.send(user[0]); // Sending the first result
+        } else {
+            res.status(404).send({ message: "Invalid Email or Password" });
         }
-        else {
-            res.status(404);
-            res.send({ message: "Invalid Email or Password" });
-        }
-
     } catch (error) {
         console.log(error);
     }
@@ -107,19 +104,14 @@ app.post("/user/register/", async (req, res) => {
     try {
         var user = req.body;
         user.admin = false;
-        user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex)
-        var existing_user = await userModel.findOne({ email: user.email });
-        if (!existing_user) {
-
-            await userModel(user).save();
+        user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex);
+        const existing_user = await runQuery("SELECT * FROM users WHERE email = ?", [user.email]);
+        if (existing_user.length === 0) {
+            await runQuery("INSERT INTO users SET ?", user);
             res.send({ message: "Account Registered" });
-
+        } else {
+            res.status(409).send({ message: "Email Already Exists" });
         }
-        else {
-            res.status(409);
-            res.send({ message: "Email Already Exists" });
-        }
-
     } catch (error) {
         console.log(error);
     }
@@ -127,84 +119,104 @@ app.post("/user/register/", async (req, res) => {
 
 app.put("/user/edit/", async (req, res) => {
     try {
-        var id = req.body._id;
         var user = req.body;
-        var existing_user = await userModel.findOne({ email: user.email });
-        if (!existing_user) {
-            await userModel.findByIdAndUpdate(id, user);
-            res.send({ message: "Profile Updated" })
+        const existing_user = await runQuery("SELECT * FROM users WHERE email = ?", [user.email]);
+        if (existing_user.length === 0) {
+            await runQuery("UPDATE users SET ? WHERE id = ?", [user, user._id]);
+            res.send({ message: "Profile Updated" });
+        } else if (existing_user[0].id == user._id) {
+            await runQuery("UPDATE users SET ? WHERE id = ?", [user, user._id]);
+            res.send({ message: "Profile Updated" });
+        } else {
+            res.status(409).send({ message: "Email Already Exists." });
         }
-        else if (existing_user._id == user._id) {
-            await userModel.findByIdAndUpdate(id, user);
-            res.send({ message: "Profile Updated" })
-        }
-        else {
-            res.status(409);
-            res.send({ message: "Email Already Exists." })
-        }
-
     } catch (error) {
         console.log(error);
     }
-})
+});
+
 app.put("/recipe/edit/", upload.single('file'), async (req, res) => {
     try {
         var id = req.body._id;
         var recipe = req.body;
-        var db_recipe = await recipeModel.findById(id);
-        db_recipe.name = recipe.name;
-        db_recipe.ingredients = recipe.ingredients;
-        db_recipe.instructions = recipe.instructions;
-        db_recipe.category = recipe.category;
+        const db_recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [id]);
         if (!req.file) {
-            await db_recipe.save();
+            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ? WHERE id = ?", 
+                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, id]);
         } else {
             var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
-            fs.unlink(db_recipe.image, ()=> {})
-            fs.rename(req.file.path, img_path, () => { })
+            fs.unlink(db_recipe[0].image, () => {});
+            fs.rename(req.file.path, img_path, () => {});
             recipe.image = `${img_path}`;
+            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ?, image = ? WHERE id = ?", 
+                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, id]);
         }
-        await db_recipe.save();
         res.send("Recipe Edited");
     } catch (error) {
         console.log(error);
     }
-})
+});
+
+app.delete("/user/delete/", async (req, res) => {
+    try {
+        const id = req.body._id;
+        await db.beginTransaction();
+        const userDeleteQuery = "DELETE FROM users WHERE id = ?";
+        const [userResult] = await runQuery(userDeleteQuery, [id]);
+
+        if (userResult.affectedRows > 0) {
+            const recipeSelectQuery = "SELECT * FROM recipes WHERE owner = ?";
+            const delrecipes = await runQuery(recipeSelectQuery, [id]);
+            const recipeDeleteQuery = "DELETE FROM recipes WHERE owner = ?";
+            await runQuery(recipeDeleteQuery, [id]);
+            delrecipes.forEach((recipe) => {
+                if (recipe.image) {
+                    fs.unlink(recipe.image, (err) => {
+                        if (err) {
+                            console.error(`Failed to delete image: ${recipe.image}`, err);
+                        }
+                    });
+                }
+            });
+            await db.commit();
+            res.send({ message: "Account Deleted" });
+        } else {
+            await db.rollback();
+            res.status(404).send({ message: "Failed To Delete Account" });
+        }
+    } catch (error) {
+        await db.rollback();
+        console.error("Error during account deletion:", error);
+        res.status(500).send({ message: "Failed To Delete Account" });
+    }
+});
 
 app.delete("/recipe/delete/:id", async (req, res) => {
     try {
         var id = req.params.id;
-        var del = await recipeModel.findByIdAndDelete(id);
-        if (del != null) {
-            fs.unlink(del.image, ()=> {});
+        const del = await runQuery("DELETE FROM recipes WHERE id = ?", [id]);
+        if (del.affectedRows > 0) {
+            fs.unlink(del.image, () => {});
             res.send({ message: "Recipe Deleted" });
+        } else {
+            res.status(404).send({ message: "Failed To Delete Recipe" });
         }
-        else {
-            res.status(404);
-            res.send({ message: "Failed To Delete Recipe" });
-        }
-
     } catch (error) {
-        res.status(404);
-        res.send({ message: "Failed To Delete Recipe" });
+        res.status(404).send({ message: "Failed To Delete Recipe" });
     }
-})
+});
 
 app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     try {
         var recipe = req.body;
-        recipe.reviews = [];
+        recipe.reviews = JSON.stringify([]); // Ensure reviews are stored as JSON
         recipe.rating = 0;
         recipe.featured = false;
-        req.body.image = ""
-        recipe = await recipeModel(recipe).save();
-        var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
-        fs.rename(req.file.path, img_path, () => { })
-        recipe.image = `${img_path}`;
-        recipe.save();
-
-        res.send({ message: "Recipe Added" })
-
+        const result = await runQuery("INSERT INTO recipes SET ?", recipe);
+        var img_path = `${req.file.destination}/${result.insertId}${path.extname(req.file.filename)}`;
+        fs.rename(req.file.path, img_path, () => {});
+        await runQuery("UPDATE recipes SET image = ? WHERE id = ?", [img_path, result.insertId]);
+        res.send({ message: "Recipe Added" });
     } catch (error) {
         console.log(error);
     }
@@ -214,16 +226,12 @@ app.post("/recipe/addreview/:recipeId", async (req, res) => {
     try {
         var id = req.params.recipeId;
         var review = req.body;
-        var recipe = await recipeModel.findById(id);
-        recipe.reviews.unshift(review)
-        let total = 0
-        for (let i=0;i<recipe.reviews.length;i++){
-            total += recipe.reviews[i].rating;
-        }
-        recipe.rating = total / recipe.reviews.length;
-        await recipe.save();
-        res.send({ message: "Review Added" })
-
+        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [id]);
+        let reviews = JSON.parse(recipe[0].reviews);
+        reviews.unshift(review);
+        let total = reviews.reduce((sum, r) => sum + r.rating, 0);
+        await runQuery("UPDATE recipes SET reviews = ?, rating = ? WHERE id = ?", [JSON.stringify(reviews), total / reviews.length, id]);
+        res.send({ message: "Review Added" });
     } catch (error) {
         console.log(error);
     }
@@ -233,16 +241,12 @@ app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
     try {
         var recid = req.params.recipeId;
         var userid = req.params.userId;
-        var recipe = await recipeModel.findById(recid);
-        recipe.reviews = recipe.reviews.filter(review => review.userId != userid)
-        let total = 0
-        for (let i=0;i<recipe.reviews.length;i++){
-            total += recipe.reviews[i].rating;
-        }
-        recipe.rating = total / recipe.reviews.length;
-        await recipe.save();
-        res.send({ message: "Review Deleted" })
-
+        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [recid]);
+        let reviews = JSON.parse(recipe[0].reviews);
+        reviews = reviews.filter(review => review.userId != userid);
+        let total = reviews.reduce((sum, r) => sum + r.rating, 0);
+        await runQuery("UPDATE recipes SET reviews = ?, rating = ? WHERE id = ?", [JSON.stringify(reviews), reviews.length > 0 ? total / reviews.length : 0, recid]);
+        res.send({ message: "Review Deleted" });
     } catch (error) {
         console.log(error);
     }
@@ -251,67 +255,13 @@ app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
 app.get("/recipe/getreviews/:recipeId", async (req, res) => {
     try {
         var id = req.params.recipeId;
-        var recipe = await recipeModel.findById(id);
-        res.send(recipe.reviews);
-
+        const recipe = await runQuery("SELECT reviews FROM recipes WHERE id = ?", [id]);
+        res.send(JSON.parse(recipe[0].reviews));
     } catch (error) {
         console.log(error);
     }
 });
-
-app.delete("/user/delete/", async (req, res) => {
-    try {
-        var id = req.body._id;
-        var del = await userModel.findByIdAndDelete(id);
-        if (del != null) {
-            var delrecipes = await recipeModel.find({owner: id})
-            await recipeModel.deleteMany({owner: id});
-            for (let i=0;i<delrecipes.length;i++){
-                fs.unlink(delrecipes[i].image, ()=>{});
-            }
-            res.send({ message: "Account Deleted" });
-        }
-        else {
-            res.status(404);
-            res.send({ message: "Failed To Delete Account" });
-        }
-
-    } catch (error) {
-        res.status(404);
-        res.send({ message: "Failed To Delete Account" });
-    }
-})
-
-app.get("/user/recipes/:id", async (req, res) => {
-    try {
-        var id = req.params.id;
-        var data = await recipeModel.find({ owner: id });
-        res.send(data)
-
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-
-
-app.get("/recipe/featured", async (req, res) => {
-    try {
-        var data = await recipeModel.find({ featured: true });
-        res.send(data)
-
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-
-
-app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
-
-
-
 
 app.listen(PORT, () => {
-    console.log("Port is Up");
+    console.log(`Server is running on ${URL}:${PORT}`);
 });

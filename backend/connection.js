@@ -1,7 +1,18 @@
-var mongoose = require("mongoose");
+const mysql = require('mysql2');
 
-mongoose.connect("mongodb+srv://test:test@cluster0.ecqczi0.mongodb.net/recipeApp?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
-    console.log("Connected!");
-}).catch((error) => {
-    console.log(error)
-})
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root', // or your MySQL username
+    password: 'Ajaykn@2004', // or your MySQL password
+    database: 'cusiny_db' // Your MySQL database name
+});
+
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+    } else {
+        console.log('Connected to MySQL!');
+    }
+});
+
+module.exports = db;

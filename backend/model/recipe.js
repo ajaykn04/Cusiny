@@ -1,25 +1,34 @@
-var mongoose = require("mongoose");
+const db = require('../connection');
 
-const reviewSchema = mongoose.Schema({
-    userId: String,
-    username: String,
-    rating: Number,
-    comment: String
-});
+// Add a new recipe
+const addRecipe = (recipe, callback) => {
+    const sql = 'INSERT INTO recipes (owner_id, ownername, name, ingredients, instructions, category, image, featured, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const values = [recipe.owner_id, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, recipe.featured, recipe.rating];
+    db.query(sql, values, (err, result) => {
+        if (err) return callback(err);
+        callback(null, result);
+    });
+};
 
-var recipeSchema = mongoose.Schema({
-    owner: String,
-    ownername: String,
-    name: String,
-    ingredients: String,
-    instructions: String,
-    category: String,
-    image: String,
-    featured: Boolean,
-    rating: Number,
-    reviews: [reviewSchema]
-});
+// Get all recipes
+const getAllRecipes = (callback) => {
+    db.query('SELECT * FROM recipes', (err, results) => {
+        if (err) return callback(err);
+        callback(null, results);
+    });
+};
 
-var recipeModel = mongoose.model("recipe", recipeSchema);
+// Get a recipe by ID
+const getRecipeById = (id, callback) => {
+    const sql = 'SELECT * FROM recipes WHERE id = ?';
+    db.query(sql, [id], (err, result) => {
+        if (err) return callback(err);
+        callback(null, result[0]);
+    });
+};
 
-module.exports = recipeModel;
+module.exports = {
+    addRecipe,
+    getAllRecipes,
+    getRecipeById
+};

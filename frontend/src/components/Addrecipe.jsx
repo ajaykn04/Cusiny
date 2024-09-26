@@ -103,7 +103,7 @@ const Addrecipe = () => {
           for (const key in recipe) {
             formData.append(key, recipe[key]);
           }
-          formData.append("owner", data._id);
+          formData.append("owner_id", data._id);
           formData.append("ownername", data.username);
 
           await axios.post(`http://localhost:3000/recipe/add/`, formData);
