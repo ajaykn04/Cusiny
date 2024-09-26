@@ -60,12 +60,31 @@ app.get("/recipe/viewall", async (req, res) => {
 
 app.get("/recipe/get/:id", async (req, res) => {
     try {
-        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [req.params.id]);
+        const recipe = await runQuery("SELECT * FROM recipes WHERE owner_id = ?", [req.params._id]);
         res.send(recipe[0]); // Sending the first result
     } catch (error) {
         console.log(error);
     }
 });
+
+app.get("/user/recipes/:id", async (req, res) => {
+    try {
+        const _id = req.params._id;
+
+        // Fetch recipes from MySQL using a parameterized query
+        const [rows] = await db.promise().query(
+            'SELECT * FROM recipes WHERE owner_id = ?',
+            [_id]
+        );
+
+        res.send(rows); // Send the fetched recipes back in the response
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "An error occurred while fetching recipes." });
+    }
+});
+
 
 app.post("/user/add", async (req, res) => {
     try {
@@ -78,7 +97,7 @@ app.post("/user/add", async (req, res) => {
 
 app.post("/recipe/makefeatured/:id", async (req, res) => {
     try {
-        await runQuery("UPDATE recipes SET featured = ? WHERE id = ?", [true, req.params.id]);
+        await runQuery("UPDATE recipes SET featured = ? WHERE _id = ?", [true, req.params._id]);
         res.send({ message: "Added Featured Recipe" });
     } catch (error) {
         console.log(error);
@@ -122,10 +141,10 @@ app.put("/user/edit/", async (req, res) => {
         var user = req.body;
         const existing_user = await runQuery("SELECT * FROM users WHERE email = ?", [user.email]);
         if (existing_user.length === 0) {
-            await runQuery("UPDATE users SET ? WHERE id = ?", [user, user._id]);
+            await runQuery("UPDATE users SET ? WHERE _id = ?", [user, user._id]);
             res.send({ message: "Profile Updated" });
-        } else if (existing_user[0].id == user._id) {
-            await runQuery("UPDATE users SET ? WHERE id = ?", [user, user._id]);
+        } else if (existing_user[0]._id == user._id) {
+            await runQuery("UPDATE users SET ? WHERE _id = ?", [user, user._id]);
             res.send({ message: "Profile Updated" });
         } else {
             res.status(409).send({ message: "Email Already Exists." });
@@ -137,19 +156,19 @@ app.put("/user/edit/", async (req, res) => {
 
 app.put("/recipe/edit/", upload.single('file'), async (req, res) => {
     try {
-        var id = req.body._id;
+        var _id = req.body._id;
         var recipe = req.body;
-        const db_recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [id]);
+        const db_recipe = await runQuery("SELECT * FROM recipes WHERE _id = ?", [_id]);
         if (!req.file) {
-            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ? WHERE id = ?", 
-                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, id]);
+            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ? WHERE _id = ?", 
+                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, _id]);
         } else {
             var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
             fs.unlink(db_recipe[0].image, () => {});
             fs.rename(req.file.path, img_path, () => {});
             recipe.image = `${img_path}`;
-            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ?, image = ? WHERE id = ?", 
-                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, id]);
+            await runQuery("UPDATE recipes SET name = ?, ingredients = ?, instructions = ?, category = ?, image = ? WHERE _id = ?", 
+                           [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, _id]);
         }
         res.send("Recipe Edited");
     } catch (error) {
@@ -159,16 +178,16 @@ app.put("/recipe/edit/", upload.single('file'), async (req, res) => {
 
 app.delete("/user/delete/", async (req, res) => {
     try {
-        const id = req.body._id;
+        const _id = req.body._id;
         await db.beginTransaction();
-        const userDeleteQuery = "DELETE FROM users WHERE id = ?";
-        const [userResult] = await runQuery(userDeleteQuery, [id]);
+        const userDeleteQuery = "DELETE FROM users WHERE _id = ?";
+        const [userResult] = await runQuery(userDeleteQuery, [_id]);
 
         if (userResult.affectedRows > 0) {
             const recipeSelectQuery = "SELECT * FROM recipes WHERE owner = ?";
-            const delrecipes = await runQuery(recipeSelectQuery, [id]);
+            const delrecipes = await runQuery(recipeSelectQuery, [_id]);
             const recipeDeleteQuery = "DELETE FROM recipes WHERE owner = ?";
-            await runQuery(recipeDeleteQuery, [id]);
+            await runQuery(recipeDeleteQuery, [_id]);
             delrecipes.forEach((recipe) => {
                 if (recipe.image) {
                     fs.unlink(recipe.image, (err) => {
@@ -193,8 +212,8 @@ app.delete("/user/delete/", async (req, res) => {
 
 app.delete("/recipe/delete/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        const del = await runQuery("DELETE FROM recipes WHERE id = ?", [id]);
+        var _id = req.params._id;
+        const del = await runQuery("DELETE FROM recipes WHERE _id = ?", [_id]);
         if (del.affectedRows > 0) {
             fs.unlink(del.image, () => {});
             res.send({ message: "Recipe Deleted" });
@@ -213,7 +232,7 @@ app.post("/recipe/add/", upload.single('file'), async (req, res) => {
         const result = await runQuery("INSERT INTO recipes SET ?", recipe);
         var img_path = `${req.file.destination}/${result.insertId}${path.extname(req.file.filename)}`;
         fs.rename(req.file.path, img_path, () => {});
-        await runQuery("UPDATE recipes SET image = ? WHERE id = ?", [img_path, result.insertId]);
+        await runQuery("UPDATE recipes SET image = ? WHERE _id = ?", [img_path, result.insertId]);
         res.send({ message: "Recipe Added" });
     } catch (error) {
         console.log(error);
