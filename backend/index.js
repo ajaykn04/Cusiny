@@ -209,54 +209,12 @@ app.delete("/recipe/delete/:id", async (req, res) => {
 app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     try {
         var recipe = req.body;
-        recipe.reviews = JSON.stringify([]); // Ensure reviews are stored as JSON
-        recipe.rating = 0;
         recipe.featured = false;
         const result = await runQuery("INSERT INTO recipes SET ?", recipe);
         var img_path = `${req.file.destination}/${result.insertId}${path.extname(req.file.filename)}`;
         fs.rename(req.file.path, img_path, () => {});
         await runQuery("UPDATE recipes SET image = ? WHERE id = ?", [img_path, result.insertId]);
         res.send({ message: "Recipe Added" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-app.post("/recipe/addreview/:recipeId", async (req, res) => {
-    try {
-        var id = req.params.recipeId;
-        var review = req.body;
-        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [id]);
-        let reviews = JSON.parse(recipe[0].reviews);
-        reviews.unshift(review);
-        let total = reviews.reduce((sum, r) => sum + r.rating, 0);
-        await runQuery("UPDATE recipes SET reviews = ?, rating = ? WHERE id = ?", [JSON.stringify(reviews), total / reviews.length, id]);
-        res.send({ message: "Review Added" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
-    try {
-        var recid = req.params.recipeId;
-        var userid = req.params.userId;
-        const recipe = await runQuery("SELECT * FROM recipes WHERE id = ?", [recid]);
-        let reviews = JSON.parse(recipe[0].reviews);
-        reviews = reviews.filter(review => review.userId != userid);
-        let total = reviews.reduce((sum, r) => sum + r.rating, 0);
-        await runQuery("UPDATE recipes SET reviews = ?, rating = ? WHERE id = ?", [JSON.stringify(reviews), reviews.length > 0 ? total / reviews.length : 0, recid]);
-        res.send({ message: "Review Deleted" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-app.get("/recipe/getreviews/:recipeId", async (req, res) => {
-    try {
-        var id = req.params.recipeId;
-        const recipe = await runQuery("SELECT reviews FROM recipes WHERE id = ?", [id]);
-        res.send(JSON.parse(recipe[0].reviews));
     } catch (error) {
         console.log(error);
     }

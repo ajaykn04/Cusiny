@@ -2,8 +2,8 @@ const db = require('../connection');
 
 // Add a new recipe
 const addRecipe = (recipe, callback) => {
-    const sql = 'INSERT INTO recipes (owner_id, ownername, name, ingredients, instructions, category, image, featured, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    const values = [recipe.owner_id, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, recipe.featured, recipe.rating];
+    const sql = 'INSERT INTO recipes (owner_id, ownername, name, ingredients, instructions, category, image, featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    const values = [recipe.owner_id, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, recipe.image, recipe.featured];
     db.query(sql, values, (err, result) => {
         if (err) return callback(err);
         callback(null, result);
