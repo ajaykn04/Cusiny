@@ -104,6 +104,8 @@ const Addrecipe = () => {
             formData.append(key, recipe[key]);
           }
           formData.append("owner_id", data._id);
+          console.log(data._id);
+          //////////////////////////////
           formData.append("ownername", data.username);
 
           await axios.post(`http://localhost:3000/recipe/add/`, formData);
