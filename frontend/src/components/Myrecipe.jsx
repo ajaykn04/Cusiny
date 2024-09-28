@@ -37,6 +37,7 @@ const Myrecipe = () => {
         .then((response) => {
           setRecipes(response.data);
           setEmpty(response.data.length === 0);
+          console.log(recipes)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);

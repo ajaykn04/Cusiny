@@ -58,7 +58,7 @@ app.get("/recipe/viewall", async (req, res) => {
     }
 });
 
-app.get("/recipe/get/:id", async (req, res) => {
+app.get("/recipe/get/:_id", async (req, res) => {
     try {
         const recipe = await runQuery("SELECT * FROM recipes WHERE owner_id = ?", [req.params._id]);
         res.send(recipe[0]); // Sending the first result
@@ -67,7 +67,7 @@ app.get("/recipe/get/:id", async (req, res) => {
     }
 });
 
-app.get("/user/recipes/:id", async (req, res) => {
+app.get("/user/recipes/:_id", async (req, res) => {
     try {
         const _id = req.params._id;
 
@@ -85,17 +85,7 @@ app.get("/user/recipes/:id", async (req, res) => {
     }
 });
 
-
-app.post("/user/add", async (req, res) => {
-    try {
-        await runQuery("INSERT INTO users SET ?", req.body);
-        res.send({ message: "Data Added" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-app.post("/recipe/makefeatured/:id", async (req, res) => {
+app.post("/recipe/makefeatured/:_id", async (req, res) => {
     try {
         await runQuery("UPDATE recipes SET featured = ? WHERE _id = ?", [true, req.params._id]);
         res.send({ message: "Added Featured Recipe" });
@@ -210,7 +200,7 @@ app.delete("/user/delete/", async (req, res) => {
     }
 });
 
-app.delete("/recipe/delete/:id", async (req, res) => {
+app.delete("/recipe/delete/:_id", async (req, res) => {
     try {
         var _id = req.params._id;
         const del = await runQuery("DELETE FROM recipes WHERE _id = ?", [_id]);
@@ -225,19 +215,49 @@ app.delete("/recipe/delete/:id", async (req, res) => {
     }
 });
 
+app.get("/user/recipes/:_id", async (req, res) => {
+    try {
+        const userId = req.params._id;
+        const [recipes] = await db.promise().query("SELECT * FROM recipes WHERE owner_id = ?", [userId]);
+        res.send(recipes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Failed to retrieve user's recipes." });
+    }
+});
+
+
 app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     try {
         var recipe = req.body;
         recipe.featured = false;
+        recipe.image = "";
+
+        // Insert the recipe into the database (without the image initially)
         const result = await runQuery("INSERT INTO recipes SET ?", recipe);
+
+        // Generate the new image path based on the inserted recipe ID
         var img_path = `${req.file.destination}/${result.insertId}${path.extname(req.file.filename)}`;
-        fs.rename(req.file.path, img_path, () => {});
+
+        // Rename the uploaded file to match the recipe ID
+        fs.rename(req.file.path, img_path, (err) => {
+            if (err) {
+                console.error("Error renaming the file:", err);
+                return res.status(500).send({ message: "Failed to rename image file." });
+            }
+        });
+
+        // Update the recipe with the new image path in the database
         await runQuery("UPDATE recipes SET image = ? WHERE _id = ?", [img_path, result.insertId]);
+
         res.send({ message: "Recipe Added" });
     } catch (error) {
         console.log(error);
+        res.status(500).send({ message: "Failed to add recipe" });
     }
 });
+
+app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${URL}:${PORT}`);
