@@ -8,6 +8,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Rating,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,13 +32,11 @@ const Myrecipe = () => {
   useEffect(() => {
     if (data._id) {
       const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
-      console.log(data)
       axios
         .get(apiUrl)
         .then((response) => {
           setRecipes(response.data);
           setEmpty(response.data.length === 0);
-          console.log(recipes)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -198,6 +197,26 @@ const Myrecipe = () => {
                     >
                       {recipe.name}
                     </Typography>
+                    <Rating
+                      name={`rating-${index}`}
+                      value={recipe.rating || 0}
+                      readOnly
+                      precision={0.1}
+                      sx={{
+                        ml: -2,
+                        mb: 1,
+                        mt: 1,
+                        "& .MuiRating-iconFilled": {
+                          color: "#FFAD18",
+                        },
+                        "& .MuiRating-iconEmpty": {
+                          color: "grey",
+                        },
+                        "& .MuiRating-icon:hover": {
+                          borderColor: "darkorange",
+                        },
+                      }}
+                    />
                   </Container>
                 </Button>
               </Paper>

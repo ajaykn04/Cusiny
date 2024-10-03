@@ -4,6 +4,7 @@ import {
   Container,
   Grid,
   Paper,
+  Rating,
   Typography,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
@@ -263,6 +264,26 @@ const Admindashboard = () => {
                     >
                       {recipy.name}
                     </Typography>
+                    <Rating
+                      name={`rating-${index}`}
+                      value={recipy.rating || 0}
+                      readOnly
+                      precision={0.1}
+                      sx={{
+                        ml: -2,
+                        mb: 1,
+                        mt: 1,
+                        "& .MuiRating-iconFilled": {
+                          color: "#FFAD18",
+                        },
+                        "& .MuiRating-iconEmpty": {
+                          color: "grey",
+                        },
+                        "& .MuiRating-icon:hover": {
+                          borderColor: "darkorange",
+                        },
+                      }}
+                    />
                   </Container>
                 </Button>
               </Paper>
