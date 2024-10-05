@@ -59,7 +59,10 @@ app.get("/recipe/get/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const rows = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        const reviews = await runQuery('SELECT * FROM review WHERE recipe_id = ?', [id]);
+        rows[0].reviews = reviews;
         res.send(rows[0]);
+        console.log(rows[0]);
     } catch (error) {
         console.log(error);
     }
@@ -70,16 +73,6 @@ app.post("/user/add", async (req, res) => {
         await runQuery('INSERT INTO user (username, email, place, age, password, admin) VALUES (?, ?, ?, ?, ?, ?)', 
         [req.body.username, req.body.email, req.body.place, req.body.age, req.body.password, false]);
         res.send({ message: "Data Added" });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-app.post("/recipe/makefeatured/:id", async (req, res) => {
-    try {
-        const id = req.params.id;
-        await runQuery('UPDATE recipe SET featured = true WHERE _id = ?', [id]);
-        res.send({ message: "Added Featured Recipe" });
     } catch (error) {
         console.log(error);
     }
@@ -125,8 +118,8 @@ app.put("/user/edit/", async (req, res) => {
         const user = req.body;
         const existing_user = await runQuery('SELECT * FROM user WHERE email = ?', [user.email]);
         if (existing_user.length === 0) {
-            await runQuery('UPDATE user SET username = ?, email = ?, place = ?, age = ? WHERE _id = ?', 
-            [user.username, user.email, user.place, user.age, id]);
+            await runQuery('UPDATE user SET username = ?, place = ?, age = ? WHERE _id = ?', 
+            [user.username, user.place, user.age, id]);
             res.send({ message: "Profile Updated" });
         } else if (existing_user[0]._id === user._id) {
             await runQuery('UPDATE user SET username = ?, email = ?, place = ?, age = ? WHERE _id = ?', 
@@ -197,15 +190,16 @@ app.post("/recipe/addreview/:recipeId", async (req, res) => {
     try {
         const id = req.params.recipeId;
         const review = req.body;
-        const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
-        const reviews = JSON.parse(recipe[0].reviews);
-        reviews.unshift(review);
-        let total = 0;
-        for (let i = 0; i < reviews.length; i++) {
-            total += reviews[i].rating;
-        }
-        const rating = total / reviews.length;
-        await runQuery('UPDATE recipe SET reviews = ?, rating = ? WHERE _id = ?', [JSON.stringify(reviews), rating, id]);
+        review.recipe_id=id
+        const recipe = await runQuery('insert into review values (0,?,?,?,?,?)', [id,review.user_id,review.username,review.rating,review.comment]);
+        // const reviews = JSON.parse(recipe[0].reviews);
+        // reviews.unshift(review);
+        // let total = 0;
+        // for (let i = 0; i < reviews.length; i++) {
+        //     total += reviews[i].rating;
+        // }
+        // const rating = total / reviews.length;
+        // await runQuery('UPDATE recipe SET reviews = ?, rating = ? WHERE _id = ?', [JSON.stringify(reviews), rating, id]);
         res.send({ message: "Review Added" });
     } catch (error) {
         console.log(error);
@@ -234,8 +228,8 @@ app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
 app.get("/recipe/getreviews/:recipeId", async (req, res) => {
     try {
         const id = req.params.recipeId;
-        const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
-        res.send(JSON.parse(recipe[0].reviews));
+        const reviews = await runQuery('SELECT * FROM review WHERE recipe_id = ?', [id]);
+        res.send((reviews));
     } catch (error) {
         console.log(error);
     }
@@ -251,10 +245,21 @@ app.get("/user/recipes/:id", async (req, res) => {
     }
 });
 
+
+
+// [ { _id: 1, recipe_id: 8 } ]
+
+
 app.get("/recipe/featured", async (req, res) => {
     try {
-        const rows = await runQuery('SELECT * FROM recipe WHERE featured = true');
-        res.send(rows);
+        const featured = await runQuery('SELECT * FROM featured');
+        const featured_recipes = [];
+        for (let i = 0; i < featured.length; i++) {
+            const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [featured[i].recipe_id]);
+            featured_recipes.push(recipe[0])
+        }
+        res.send(featured_recipes);
+        console.log(featured_recipes)
     } catch (error) {
         console.log(error);
     }

@@ -19,7 +19,7 @@ const DetailedRecipe = () => {
   const [recipeData, setRecipeData] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [review, setReview] = useState({
-    userId: "",
+    user_id: "",
     username: "",
     rating: 0,
     comment: "",
@@ -76,7 +76,7 @@ const DetailedRecipe = () => {
     try {
       const updatedReview = {
         ...review,
-        userId: data._id,
+        user_id: data._id,
         username: data.username,
       };
       await axios.post(
@@ -85,7 +85,7 @@ const DetailedRecipe = () => {
       );
       setReviews((prevReviews) => [updatedReview, ...prevReviews]);
       setReview({
-        userId: "",
+        user_id: "",
         username: "",
         rating: 0,
         comment: "",
