@@ -290,8 +290,5 @@ app.get("/recipe/featured", async (req, res) => {
   }
 });
 
-app.use(
-  "/images/recipes",
-  express.static(path.join(__dirname, "images/recipes"))
-);
+app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 module.exports = app;
