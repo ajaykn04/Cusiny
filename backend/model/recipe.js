@@ -37,10 +37,6 @@ const recipeSchema = {
         type: 'varchar',
         length: 255
     },
-    featured: {
-        type: 'boolean',
-        default: false
-    },
     rating: {
         type: 'float',
         default: 0

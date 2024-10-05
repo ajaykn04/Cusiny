@@ -172,9 +172,8 @@ app.post("/recipe/add/", upload.single('file'), async (req, res) => {
         const recipe = req.body;
         recipe.reviews = JSON.stringify([]);
         recipe.rating = 0;
-        recipe.featured = false;
-        const result = await runQuery('INSERT INTO recipe (owner, ownername, name, ingredients, instructions, category, image, featured, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-        [recipe.owner, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, "", recipe.featured, recipe.rating]);
+        const result = await runQuery('INSERT INTO recipe (owner, ownername, name, ingredients, instructions, category, image, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+        [recipe.owner, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, "", recipe.rating]);
         const img_path = `images/recipes/${result.insertId}${path.extname(req.file.filename)}`;
         fs.rename(req.file.path, img_path, () => {});
         await runQuery('UPDATE recipe SET image = ? WHERE _id = ?', [img_path, result.insertId]);
