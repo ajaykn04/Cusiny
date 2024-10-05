@@ -62,7 +62,6 @@ app.get("/recipe/get/:id", async (req, res) => {
         const reviews = await runQuery('SELECT * FROM review WHERE recipe_id = ?', [id]);
         rows[0].reviews = reviews;
         res.send(rows[0]);
-        console.log(rows[0]);
     } catch (error) {
         console.log(error);
     }
@@ -99,7 +98,6 @@ app.post("/user/register/", async (req, res) => {
         user.admin = false;
         user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex);
         const existing_user = await runQuery('SELECT * FROM user WHERE email = ?', [user.email]);
-        console.log(existing_user)
         if (existing_user.length === 0) {
             await runQuery('INSERT INTO user (username, email, place, age, password, admin) VALUES (?, ?, ?, ?, ?, ?)', 
             [user.username, user.email, user.place, user.age, user.password, user.admin]);
@@ -247,8 +245,6 @@ app.get("/user/recipes/:id", async (req, res) => {
 
 
 
-// [ { _id: 1, recipe_id: 8 } ]
-
 
 app.get("/recipe/featured", async (req, res) => {
     try {
@@ -259,7 +255,6 @@ app.get("/recipe/featured", async (req, res) => {
             featured_recipes.push(recipe[0])
         }
         res.send(featured_recipes);
-        console.log(featured_recipes)
     } catch (error) {
         console.log(error);
     }
