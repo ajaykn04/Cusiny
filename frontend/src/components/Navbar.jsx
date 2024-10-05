@@ -40,7 +40,7 @@ const Navbar = () => {
               marginLeft: -12,
             }}
           >
-            Cusiny
+            RMS
           </Typography>
           <Container
             sx={{

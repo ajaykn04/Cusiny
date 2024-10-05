@@ -58,7 +58,7 @@ const NavbarAdmin = () => {
                 color: "white",
               }}
             >
-              Cusiny
+              RMS
             </Typography>
           </div>
           <Container
