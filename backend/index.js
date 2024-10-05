@@ -2,18 +2,16 @@ var express = require("express");
 var cors = require("cors");
 var path = require('path');
 var multer = require("multer");
-var crypto = require('crypto')
+var crypto = require('crypto');
 var app = express();
 var fs = require("fs");
-require("./connection.js");
+const db = require("./connection.js"); // Make sure this line is present
+
 
 const URL = "http://localhost";
 const PORT = 3000;
 
 var CryptoJS = require('crypto-js');
-var recipeModel = require("./model/recipe");
-var userModel = require("./model/user");
-var secretKey = 'backend';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -25,17 +23,24 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
 app.use(express.json());
 app.use(cors());
 
-
+const runQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
+    });
+};
 
 app.get("/user/viewall", async (req, res) => {
     try {
-        var data = await userModel.find();
-        res.send(data)
-
+        const rows = await runQuery('SELECT * FROM user');
+        res.send(rows);
     } catch (error) {
         console.log(error);
     }
@@ -43,9 +48,8 @@ app.get("/user/viewall", async (req, res) => {
 
 app.get("/recipe/viewall", async (req, res) => {
     try {
-        var data = await recipeModel.find();
-        res.send(data)
-
+        const rows = await runQuery('SELECT * FROM recipe');
+        res.send(rows);
     } catch (error) {
         console.log(error);
     }
@@ -53,10 +57,9 @@ app.get("/recipe/viewall", async (req, res) => {
 
 app.get("/recipe/get/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        var data = await recipeModel.findOne({ _id: id });
-        res.send(data)
-
+        const id = req.params.id;
+        const rows = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        res.send(rows[0]);
     } catch (error) {
         console.log(error);
     }
@@ -64,7 +67,8 @@ app.get("/recipe/get/:id", async (req, res) => {
 
 app.post("/user/add", async (req, res) => {
     try {
-        await userModel(req.body).save();
+        await runQuery('INSERT INTO user (username, email, place, age, password, admin) VALUES (?, ?, ?, ?, ?, ?)', 
+        [req.body.username, req.body.email, req.body.place, req.body.age, req.body.password, false]);
         res.send({ message: "Data Added" });
     } catch (error) {
         console.log(error);
@@ -73,13 +77,9 @@ app.post("/user/add", async (req, res) => {
 
 app.post("/recipe/makefeatured/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        var recipe = await recipeModel.findById(id);
-        recipe.featured = true;
-        recipe.save();
-
-        res.send({ message: "Added Featured Recipe" })
-
+        const id = req.params.id;
+        await runQuery('UPDATE recipe SET featured = true WHERE _id = ?', [id]);
+        res.send({ message: "Added Featured Recipe" });
     } catch (error) {
         console.log(error);
     }
@@ -87,17 +87,14 @@ app.post("/recipe/makefeatured/:id", async (req, res) => {
 
 app.get("/user/get/:email/:password", async (req, res) => {
     try {
-        var email = req.params.email;
-        var password = CryptoJS.SHA256(req.params.password).toString(CryptoJS.enc.Hex)
-        var user = await userModel.findOne({ email: email, password: password });
-        if (user) {
-            res.send(user);
+        const email = req.params.email;
+        const password = CryptoJS.SHA256(req.params.password).toString(CryptoJS.enc.Hex);
+        const rows = await runQuery('SELECT * FROM user WHERE email = ? AND password = ?', [email, password]);
+        if (rows.length > 0) {
+            res.send(rows[0]);
+        } else {
+            res.status(404).send({ message: "Invalid Email or Password" });
         }
-        else {
-            res.status(404);
-            res.send({ message: "Invalid Email or Password" });
-        }
-
     } catch (error) {
         console.log(error);
     }
@@ -105,21 +102,18 @@ app.get("/user/get/:email/:password", async (req, res) => {
 
 app.post("/user/register/", async (req, res) => {
     try {
-        var user = req.body;
+        const user = req.body;
         user.admin = false;
-        user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex)
-        var existing_user = await userModel.findOne({ email: user.email });
-        if (!existing_user) {
-
-            await userModel(user).save();
+        user.password = CryptoJS.SHA256(user.password).toString(CryptoJS.enc.Hex);
+        const existing_user = await runQuery('SELECT * FROM user WHERE email = ?', [user.email]);
+        console.log(existing_user)
+        if (existing_user.length === 0) {
+            await runQuery('INSERT INTO user (username, email, place, age, password, admin) VALUES (?, ?, ?, ?, ?, ?)', 
+            [user.username, user.email, user.place, user.age, user.password, user.admin]);
             res.send({ message: "Account Registered" });
-
+        } else {
+            res.status(409).send({ message: "Email Already Exists" });
         }
-        else {
-            res.status(409);
-            res.send({ message: "Email Already Exists" });
-        }
-
     } catch (error) {
         console.log(error);
     }
@@ -127,84 +121,73 @@ app.post("/user/register/", async (req, res) => {
 
 app.put("/user/edit/", async (req, res) => {
     try {
-        var id = req.body._id;
-        var user = req.body;
-        var existing_user = await userModel.findOne({ email: user.email });
-        if (!existing_user) {
-            await userModel.findByIdAndUpdate(id, user);
-            res.send({ message: "Profile Updated" })
+        const id = req.body._id;
+        const user = req.body;
+        const existing_user = await runQuery('SELECT * FROM user WHERE email = ?', [user.email]);
+        if (existing_user.length === 0) {
+            await runQuery('UPDATE user SET username = ?, email = ?, place = ?, age = ? WHERE _id = ?', 
+            [user.username, user.email, user.place, user.age, id]);
+            res.send({ message: "Profile Updated" });
+        } else if (existing_user[0]._id === user._id) {
+            await runQuery('UPDATE user SET username = ?, email = ?, place = ?, age = ? WHERE _id = ?', 
+            [user.username, user.email, user.place, user.age, id]);
+            res.send({ message: "Profile Updated" });
+        } else {
+            res.status(409).send({ message: "Email Already Exists." });
         }
-        else if (existing_user._id == user._id) {
-            await userModel.findByIdAndUpdate(id, user);
-            res.send({ message: "Profile Updated" })
-        }
-        else {
-            res.status(409);
-            res.send({ message: "Email Already Exists." })
-        }
-
     } catch (error) {
         console.log(error);
     }
-})
+});
+
 app.put("/recipe/edit/", upload.single('file'), async (req, res) => {
     try {
-        var id = req.body._id;
-        var recipe = req.body;
-        var db_recipe = await recipeModel.findById(id);
-        db_recipe.name = recipe.name;
-        db_recipe.ingredients = recipe.ingredients;
-        db_recipe.instructions = recipe.instructions;
-        db_recipe.category = recipe.category;
-        if (!req.file) {
-            await db_recipe.save();
-        } else {
-            var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
-            fs.unlink(db_recipe.image, ()=> {})
-            fs.rename(req.file.path, img_path, () => { })
-            recipe.image = `${img_path}`;
+        const id = req.body._id;
+        const recipe = req.body;
+        const db_recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        const recipeData = db_recipe[0];
+        await runQuery('UPDATE recipe SET name = ?, ingredients = ?, instructions = ?, category = ? WHERE _id = ?', 
+        [recipe.name, recipe.ingredients, recipe.instructions, recipe.category, id]);
+        if (req.file) {
+            const img_path = `images/recipes/${recipe._id}${path.extname(req.file.filename)}`;
+            fs.unlink(recipeData.image, () => {});
+            fs.rename(req.file.path, img_path, () => {});
+            await runQuery('UPDATE recipe SET image = ? WHERE _id = ?', [img_path, id]);
         }
-        await db_recipe.save();
         res.send("Recipe Edited");
     } catch (error) {
         console.log(error);
     }
-})
+});
 
 app.delete("/recipe/delete/:id", async (req, res) => {
     try {
-        var id = req.params.id;
-        var del = await recipeModel.findByIdAndDelete(id);
-        if (del != null) {
-            fs.unlink(del.image, ()=> {});
+        const id = req.params.id;
+        const del = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        if (del.length > 0) {
+            fs.unlink(del[0].image, () => {});
+            await runQuery('DELETE FROM recipe WHERE _id = ?', [id]);
             res.send({ message: "Recipe Deleted" });
+        } else {
+            res.status(404).send({ message: "Failed To Delete Recipe" });
         }
-        else {
-            res.status(404);
-            res.send({ message: "Failed To Delete Recipe" });
-        }
-
     } catch (error) {
-        res.status(404);
-        res.send({ message: "Failed To Delete Recipe" });
+        res.status(404).send({ message: "Failed To Delete Recipe" });
     }
-})
+});
 
 app.post("/recipe/add/", upload.single('file'), async (req, res) => {
     try {
-        var recipe = req.body;
-        recipe.reviews = [];
+        const recipe = req.body;
+        recipe.reviews = JSON.stringify([]);
         recipe.rating = 0;
         recipe.featured = false;
-        req.body.image = ""
-        recipe = await recipeModel(recipe).save();
-        var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
-        fs.rename(req.file.path, img_path, () => { })
-        recipe.image = `${img_path}`;
-        recipe.save();
-
-        res.send({ message: "Recipe Added" })
-
+        const result = await runQuery('INSERT INTO recipe (owner, ownername, name, ingredients, instructions, category, image, featured, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+        [recipe.owner, recipe.ownername, recipe.name, recipe.ingredients, recipe.instructions, recipe.category, "", recipe.featured, recipe.rating]);
+        const img_path = `images/recipes/${result.insertId}${path.extname(req.file.filename)}`;
+        fs.rename(req.file.path, img_path, () => {});
+        await runQuery('UPDATE recipe SET image = ? WHERE _id = ?', [img_path, result.insertId]);
+        res.send({ message: "Recipe Added" });
     } catch (error) {
         console.log(error);
     }
@@ -212,18 +195,18 @@ app.post("/recipe/add/", upload.single('file'), async (req, res) => {
 
 app.post("/recipe/addreview/:recipeId", async (req, res) => {
     try {
-        var id = req.params.recipeId;
-        var review = req.body;
-        var recipe = await recipeModel.findById(id);
-        recipe.reviews.unshift(review)
-        let total = 0
-        for (let i=0;i<recipe.reviews.length;i++){
-            total += recipe.reviews[i].rating;
+        const id = req.params.recipeId;
+        const review = req.body;
+        const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        const reviews = JSON.parse(recipe[0].reviews);
+        reviews.unshift(review);
+        let total = 0;
+        for (let i = 0; i < reviews.length; i++) {
+            total += reviews[i].rating;
         }
-        recipe.rating = total / recipe.reviews.length;
-        await recipe.save();
-        res.send({ message: "Review Added" })
-
+        const rating = total / reviews.length;
+        await runQuery('UPDATE recipe SET reviews = ?, rating = ? WHERE _id = ?', [JSON.stringify(reviews), rating, id]);
+        res.send({ message: "Review Added" });
     } catch (error) {
         console.log(error);
     }
@@ -231,18 +214,18 @@ app.post("/recipe/addreview/:recipeId", async (req, res) => {
 
 app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
     try {
-        var recid = req.params.recipeId;
-        var userid = req.params.userId;
-        var recipe = await recipeModel.findById(recid);
-        recipe.reviews = recipe.reviews.filter(review => review.userId != userid)
-        let total = 0
-        for (let i=0;i<recipe.reviews.length;i++){
-            total += recipe.reviews[i].rating;
+        const recid = req.params.recipeId;
+        const userid = req.params.userId;
+        const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [recid]);
+        const reviews = JSON.parse(recipe[0].reviews);
+        const filteredReviews = reviews.filter(review => review.userId != userid);
+        let total = 0;
+        for (let i = 0; i < filteredReviews.length; i++) {
+            total += filteredReviews[i].rating;
         }
-        recipe.rating = total / recipe.reviews.length;
-        await recipe.save();
-        res.send({ message: "Review Deleted" })
-
+        const rating = filteredReviews.length > 0 ? total / filteredReviews.length : 0;
+        await runQuery('UPDATE recipe SET reviews = ?, rating = ? WHERE _id = ?', [JSON.stringify(filteredReviews), rating, recid]);
+        res.send({ message: "Review Deleted" });
     } catch (error) {
         console.log(error);
     }
@@ -250,10 +233,28 @@ app.delete("/recipe/delreview/:recipeId/:userId", async (req, res) => {
 
 app.get("/recipe/getreviews/:recipeId", async (req, res) => {
     try {
-        var id = req.params.recipeId;
-        var recipe = await recipeModel.findById(id);
-        res.send(recipe.reviews);
+        const id = req.params.recipeId;
+        const recipe = await runQuery('SELECT * FROM recipe WHERE _id = ?', [id]);
+        res.send(JSON.parse(recipe[0].reviews));
+    } catch (error) {
+        console.log(error);
+    }
+});
 
+app.get("/user/recipes/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const rows = await runQuery('SELECT * FROM recipe WHERE owner = ?', [id]);
+        res.send(rows);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+app.get("/recipe/featured", async (req, res) => {
+    try {
+        const rows = await runQuery('SELECT * FROM recipe WHERE featured = true');
+        res.send(rows);
     } catch (error) {
         console.log(error);
     }
@@ -261,57 +262,21 @@ app.get("/recipe/getreviews/:recipeId", async (req, res) => {
 
 app.delete("/user/delete/", async (req, res) => {
     try {
-        var id = req.body._id;
-        var del = await userModel.findByIdAndDelete(id);
-        if (del != null) {
-            var delrecipes = await recipeModel.find({owner: id})
-            await recipeModel.deleteMany({owner: id});
-            for (let i=0;i<delrecipes.length;i++){
-                fs.unlink(delrecipes[i].image, ()=>{});
-            }
-            res.send({ message: "Account Deleted" });
-        }
-        else {
-            res.status(404);
-            res.send({ message: "Failed To Delete Account" });
-        }
-
-    } catch (error) {
-        res.status(404);
-        res.send({ message: "Failed To Delete Account" });
-    }
-})
-
-app.get("/user/recipes/:id", async (req, res) => {
-    try {
-        var id = req.params.id;
-        var data = await recipeModel.find({ owner: id });
-        res.send(data)
-
+        const id = req.body._id;
+        await runQuery('DELETE FROM user WHERE _id = ?', [id]);
+        res.send({ message: "User Deleted" });
     } catch (error) {
         console.log(error);
     }
 });
-
-
-
-app.get("/recipe/featured", async (req, res) => {
-    try {
-        var data = await recipeModel.find({ featured: true });
-        res.send(data)
-
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-
 
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
-
-
-
 app.listen(PORT, () => {
-    console.log("Port is Up");
+    console.log(`Server is running on ${URL}:${PORT}`);
 });
+
+
+
+
+

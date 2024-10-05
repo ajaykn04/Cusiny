@@ -1,15 +1,39 @@
-var mongoose = require("mongoose");
+const mysql = require('mysql2');
+const db = require('../connection');
 
-var userSchema = mongoose.Schema({
-    username: String,
-    email: String,
-    place: String,
-    age: Number,
-    password: String,
-    admin: Boolean
+const userSchema = {
+    _id: {
+        type: 'int',
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username: {
+        type: 'varchar',
+        length: 255,
+        notNull: true
+    },
+    email: {
+        type: 'varchar',
+        length: 255,
+        notNull: true,
+        unique: true
+    },
+    place: {
+        type: 'varchar',
+        length: 255
+    },
+    age: {
+        type: 'int'
+    },
+    password: {
+        type: 'varchar',
+        length: 255,
+        notNull: true
+    },
+    admin: {
+        type: 'boolean',
+        default: false
+    }
+};
 
-})
-
-var userModel = mongoose.model("user", userSchema);
-
-module.exports = userModel;
+module.exports = userSchema;

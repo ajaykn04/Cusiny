@@ -1,25 +1,50 @@
-var mongoose = require("mongoose");
+const mysql = require('mysql2');
+const db = require('../connection');
 
-const reviewSchema = mongoose.Schema({
-    userId: String,
-    username: String,
-    rating: Number,
-    comment: String
-});
+const recipeSchema = {
+    _id: {
+        type: 'int',
+        primaryKey: true,
+        autoIncrement: true
+    },
+    owner: {
+        type: 'int',
+        notNull: true // Foreign key to user._id
+    },
+    ownername: {
+        type: 'varchar',
+        length: 255,
+        notNull: true
+    },
+    name: {
+        type: 'varchar',
+        length: 255,
+        notNull: true
+    },
+    ingredients: {
+        type: 'text',
+        notNull: true
+    },
+    instructions: {
+        type: 'text',
+        notNull: true
+    },
+    category: {
+        type: 'varchar',
+        length: 255
+    },
+    image: {
+        type: 'varchar',
+        length: 255
+    },
+    featured: {
+        type: 'boolean',
+        default: false
+    },
+    rating: {
+        type: 'float',
+        default: 0
+    }
+};
 
-var recipeSchema = mongoose.Schema({
-    owner: String,
-    ownername: String,
-    name: String,
-    ingredients: String,
-    instructions: String,
-    category: String,
-    image: String,
-    featured: Boolean,
-    rating: Number,
-    reviews: [reviewSchema]
-});
-
-var recipeModel = mongoose.model("recipe", recipeSchema);
-
-module.exports = recipeModel;
+module.exports = recipeSchema;
