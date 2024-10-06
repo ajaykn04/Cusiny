@@ -1,0 +1,72 @@
+mysql -u root -p
+
+sudo service mysql restart
+
+CREATE DATABASE recipe_db;
+
+USE recipe_db;
+
+
+TO CREATE user SCHEMA
+----------------------------
+CREATE TABLE user (
+    _id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    place VARCHAR(255),
+    age INT,
+    password VARCHAR(255) NOT NULL,
+    admin BOOLEAN DEFAULT false
+);
+
+
+
+TO CREATE recipe SCHEMA
+-----------------------
+CREATE TABLE recipe (
+    _id INT AUTO_INCREMENT PRIMARY KEY,
+    owner INT NOT NULL, -- Foreign key referring to user._id
+    ownername VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    ingredients TEXT NOT NULL,
+    instructions TEXT NOT NULL,
+    category VARCHAR(255),
+    image VARCHAR(255),
+    rating FLOAT DEFAULT 0,
+    FOREIGN KEY (owner) REFERENCES user(_id) ON DELETE CASCADE
+);
+
+
+
+TO CREATE review SCHEMA
+---------------------
+CREATE TABLE review (
+    _id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT NOT NULL, -- Foreign key referring to recipe._id
+    user_id INT, -- Foreign key referring to user._id
+    username VARCHAR(255) NOT NULL,
+    rating INT NOT NULL,
+    comment TEXT,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(_id) ON DELETE CASCADE
+);
+
+
+
+TO CREATE featured SCHEMA
+---------------------
+CREATE TABLE featured (
+    _id INT AUTO_INCREMENT PRIMARY KEY,
+    recipe_id INT NOT NULL, -- Foreign key referring to recipe._id
+    FOREIGN KEY (recipe_id) REFERENCES recipe(_id) ON DELETE CASCADE
+);
+
+
+
+
+TO CREATE category SCHEMA
+---------------------
+CREATE TABLE category (
+    _id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
