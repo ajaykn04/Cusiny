@@ -185,22 +185,30 @@ app.delete("/recipe/delete/:id", async (req, res) => {
 
 app.post("/recipe/add/", upload.single("file"), async (req, res) => {
   try {
-    var recipe = req.body;
+    let recipe = req.body;
     recipe.reviews = [];
     recipe.rating = 0;
     recipe.featured = false;
-    req.body.image = "";
-    recipe = await recipeModel(recipe).save();
-    var img_path = `${req.file.destination}/${recipe._id}${path.extname(
-      req.file.filename
-    )}`;
-    fs.rename(req.file.path, img_path, () => {});
-    recipe.image = `${img_path}`;
-    recipe.save();
+    console.log(req.file);
+    
+    // Ensure file upload has been successful
+    if (!req.file) {
+      return res.status(400).send({ message: "No file uploaded" });
+    }
 
-    res.send({ message: "Recipe Added" });
+    // Construct the image path
+    const img_path = `${req.file.destination}${req.file.filename}`;
+    
+    // Save the image path to the recipe object
+    recipe.image = `/images/recipes/${req.file.filename}`;
+    
+    // Save the recipe to the database
+    recipe = await recipeModel(recipe).save();
+    
+    res.send({ message: "Recipe Added", recipe });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).send({ message: "Error adding recipe" });
   }
 });
 
