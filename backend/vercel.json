@@ -8,53 +8,12 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/"
+            "src": "/api/(.*)",   // Adjust this for any API endpoints
+            "dest": "/api/$1"
         },
         {
-            "src": "/signin",
-            "dest": "/"
-        },
-        {
-            "src": "/admindash",
-            "dest": "/"
-        },
-        {
-            "src": "/userdash",
-            "dest": "/"
-        },
-        {
-            "src": "/recipe/add",
-            "dest": "/"
-        },
-        {
-            "src": "/profile",
-            "dest": "/"
-        },
-        {
-            "src": "/user/recipes",
-            "dest": "/"
-        },
-        {
-            "src": "/recipes",
-            "dest": "/"
-        },
-        {
-            "src": "/detrecipe",
-            "dest": "/"
-        },
-        {
-            "src": "/detrecipeadmin",
-            "dest": "/"
-        },
-        {
-            "src": "/admin/users",
-            "dest": "/"
-        },
-        {
-            "src": "/admin/recipes",
+            "src": "/(.*)",       // Catch-all route
             "dest": "/"
         }
-        
     ]
 }
