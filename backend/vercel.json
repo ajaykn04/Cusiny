@@ -8,11 +8,11 @@
     ],
     "routes": [
         {
-            "src": "/api/(.*)",   // Adjust this for any API endpoints
+            "src": "/api/(.*)",
             "dest": "/api/$1"
         },
         {
-            "src": "/(.*)",       // Catch-all route
+            "src": "/(.*)",
             "dest": "/"
         }
     ]
