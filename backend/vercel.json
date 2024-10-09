@@ -10,51 +10,7 @@
         {
             "src": "/(.*)",
             "dest": "/"
-        },
-        {
-            "src": "/signin",
-            "dest": "/"
-        },
-        {
-            "src": "/admindash",
-            "dest": "/"
-        },
-        {
-            "src": "/userdash",
-            "dest": "/"
-        },
-        {
-            "src": "/recipe/add",
-            "dest": "/"
-        },
-        {
-            "src": "/profile",
-            "dest": "/"
-        },
-        {
-            "src": "/user/recipes",
-            "dest": "/"
-        },
-        {
-            "src": "/recipes",
-            "dest": "/"
-        },
-        {
-            "src": "/detrecipe",
-            "dest": "/"
-        },
-        {
-            "src": "/detrecipeadmin",
-            "dest": "/"
-        },
-        {
-            "src": "/admin/users",
-            "dest": "/"
-        },
-        {
-            "src": "/admin/recipes",
-            "dest": "/"
-        },
+        }
         
     ]
 }
