@@ -191,11 +191,11 @@ app.post("/recipe/add/", upload.single("file"), async (req, res) => {
     recipe.featured = false;
     req.body.image = "";
     recipe = await recipeModel(recipe).save();
-    var img_path = ${req.file.destination}/${recipe._id}${path.extname(
+    var img_path = `${req.file.destination}/${recipe._id}${path.extname(
       req.file.filename
-    )};
+    )}`;
     fs.rename(req.file.path, img_path, () => {});
-    recipe.image = ${img_path};
+    recipe.image = `${img_path}`;
     recipe.save();
 
     res.send({ message: "Recipe Added" });
