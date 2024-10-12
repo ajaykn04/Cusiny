@@ -49,7 +49,7 @@ const Profile = () => {
           age: data.age,
           _id: data._id,
         };
-        await axios.put(`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/user/edit/`, updatedProfile);
+        await axios.put(`https://cusinysqlbackend.vercel.app/user/edit/`, updatedProfile);
         console.log("Profile Updated");
         localStorage.setItem("userData", JSON.stringify(updatedProfile));
         navigate("/userdash");
@@ -159,7 +159,7 @@ const Profile = () => {
             variant="text"
             sx={{ mt: 2 }}
             onClick={async () => {
-              await axios.delete(`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/user/delete/`, {
+              await axios.delete(`https://cusinysqlbackend.vercel.app/user/delete/`, {
                 data: data,
               });
               navigate("/");

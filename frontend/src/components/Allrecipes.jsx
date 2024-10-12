@@ -20,7 +20,7 @@ const Allrecipes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = `https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall`;
+    const apiUrl = `https://cusinysqlbackend.vercel.app/recipe/viewall`;
 
     axios
       .get(apiUrl)
@@ -139,7 +139,7 @@ const Allrecipes = () => {
                     }}
                   >
                     <img
-                      src={`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
+                      src={`https://cusinysqlbackend.vercel.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",

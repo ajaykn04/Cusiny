@@ -23,7 +23,7 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(
     cors({
-      origin: ["cusiny-kj9mygi83-ajay-das-projects-8d492c1c.vercel.app"],
+      origin: ["https://cusinysql.vercel.app"],
       methods: ["POST", "GET", "PUT", "DELETE"],
       credentials: true,
     })

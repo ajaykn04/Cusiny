@@ -26,7 +26,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall")
+      .get("https://cusinysqlbackend.vercel.app/recipe/viewall")
       .then((res) => {
         setRecipys(res.data);
       })
@@ -42,7 +42,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/recipe/featured")
+      .get("https://cusinysqlbackend.vercel.app/recipe/featured")
       .then((res) => {
         setRecipes(res.data);
         setLoading(false);
@@ -158,7 +158,7 @@ const Admindashboard = () => {
                           }}
                         >
                           <img
-                            src={`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
+                            src={`https://cusinysqlbackend.vercel.app/${recipe.image}`}
                             style={{
                               height: "auto",
                               width: "100%",
@@ -242,7 +242,7 @@ const Admindashboard = () => {
                     }}
                   >
                     <img
-                      src={`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/${recipy.image}`}
+                      src={`https://cusinysqlbackend.vercel.app/${recipy.image}`}
                       alt={recipy.name}
                       style={{
                         marginLeft: "-39px",
