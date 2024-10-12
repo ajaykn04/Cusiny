@@ -8,9 +8,6 @@ var fs = require("fs");
 const db = require("./connection.js"); // Make sure this line is present
 
 
-const URL = "http://localhost";
-const PORT = 3000;
-
 var CryptoJS = require('crypto-js');
 
 const storage = multer.diskStorage({
@@ -24,7 +21,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+      origin: ["https://cusiny.vercel.app"],//neeeedd editing ======================================================================================
+      methods: ["POST", "GET", "PUT", "DELETE"],
+      credentials: true,
+    })
+  );
 
 const runQuery = (query, params) => {
     return new Promise((resolve, reject) => {
@@ -271,11 +274,11 @@ app.delete("/user/delete/", async (req, res) => {
 
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
-app.listen(PORT, () => {
-    console.log(`Server is running on AWS`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on AWS`);
+// });
 
 
-
+module.exports = app;
 
 
