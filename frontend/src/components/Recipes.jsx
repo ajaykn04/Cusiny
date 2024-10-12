@@ -20,7 +20,7 @@ const Recipes = () => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          "https://cusinybackend-g3y3f0at0-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall"
+          "https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall"
         );
         setRecipes(response.data);
       } catch (error) {
@@ -92,7 +92,7 @@ const Recipes = () => {
                     }}
                     >
                       <img
-                        src={`https://cusinybackend-g3y3f0at0-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
+                        src={`https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
                         alt={recipe.name}
                         style={{ width: "2vw", height: "6vh", cursor: "pointer" }}
                       />
@@ -113,7 +113,7 @@ const Recipes = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `https://cusinybackend-g3y3f0at0-ajay-das-projects-8d492c1c.vercel.app/recipe/delete/${recipe._id}`
+                          `https://cusinybackend-1werqhmxi-ajay-das-projects-8d492c1c.vercel.app/recipe/delete/${recipe._id}`
                         );
                         window.location.reload(true);
                         console.log("Recipe Successfully Deleted");
