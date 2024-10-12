@@ -92,7 +92,7 @@ const Addrecipe = () => {
             formData.append(key, recipe[key]);
           }
           formData.append("_id", toeditrecipe.state.value._id);
-          await axios.put("https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/edit/", formData);
+          await axios.put("https://cusinybackend-g3y3f0at0-ajay-das-projects-8d492c1c.vercel.app/recipe/edit/", formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
@@ -106,7 +106,7 @@ const Addrecipe = () => {
           formData.append("owner", data._id);
           formData.append("ownername", data.username);
 
-          await axios.post(`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/add/`, formData);
+          await axios.post(`https://cusinybackend-g3y3f0at0-ajay-das-projects-8d492c1c.vercel.app/recipe/add/`, formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
