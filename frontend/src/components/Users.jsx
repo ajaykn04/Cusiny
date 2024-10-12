@@ -17,7 +17,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/user/viewall");
+        const response = await axios.get("https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/user/viewall");
         const filteredUsers = response.data.filter((user) => !user.admin);
         setUsers(filteredUsers);
       } catch (error) {
@@ -99,7 +99,7 @@ const Users = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `http://localhost:3000/user/delete/`,
+                          `https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/user/delete/`,
                           {
                             data: users,
                           }

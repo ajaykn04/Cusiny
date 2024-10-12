@@ -58,7 +58,7 @@ const Signin = () => {
   const submitHandler = async () => {
     if (validateFields()) {
       try {
-        await axios.post(`http://localhost:3000/user/register/`, cred);
+        await axios.post(`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/user/register/`, cred);
         console.log("user added");
         navigate("/");
       } catch (error) {

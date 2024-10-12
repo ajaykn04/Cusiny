@@ -20,7 +20,7 @@ const Allrecipes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3000/recipe/viewall`;
+    const apiUrl = `https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall`;
 
     axios
       .get(apiUrl)
@@ -139,7 +139,7 @@ const Allrecipes = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",

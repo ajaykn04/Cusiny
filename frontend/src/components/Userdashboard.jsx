@@ -26,7 +26,7 @@ const Userdashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/recipe/viewall")
+      .get("https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/viewall")
       .then((res) => {
         setRecipys(res.data);
       })
@@ -42,7 +42,7 @@ const Userdashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/recipe/featured")
+      .get("https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/featured")
       .then((res) => {
         setRecipes(res.data);
         setLoading(false);
@@ -158,7 +158,7 @@ const Userdashboard = () => {
                           }}
                         >
                           <img
-                            src={`http://localhost:3000/${recipe.image}`}
+                            src={`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
                             style={{
                               height: "auto",
                               width: "100%",
@@ -242,7 +242,7 @@ const Userdashboard = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipy.image}`}
+                      src={`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/${recipy.image}`}
                       alt={recipy.name}
                       style={{
                         marginLeft: "-39px",

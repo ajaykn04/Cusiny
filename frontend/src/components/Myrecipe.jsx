@@ -31,7 +31,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
-      const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
+      const apiUrl = `https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/user/recipes/${data._id}`;
       axios
         .get(apiUrl)
         .then((response) => {
@@ -53,7 +53,7 @@ const Myrecipe = () => {
 
   const handleDelete = async (recipeId) => {
     try {
-      await axios.delete(`http://localhost:3000/recipe/delete/${recipeId}`);
+      await axios.delete(`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/recipe/delete/${recipeId}`);
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
@@ -175,7 +175,7 @@ const Myrecipe = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`https://cusinybackend-git-sqlhost-ajay-das-projects-8d492c1c.vercel.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",
