@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-    host: 'localhost',   // or your server's host
-    user: 'root',        // your MySQL username
-    password: 'Ajaykn@2004',        // your MySQL password
+    host: 'recipe-db.c1qy2ceskxej.eu-north-1.rds.amazonaws.com',
+    user: 'admin', 
+    password: 'Ajaykn2004', 
     database: 'recipe_db'
 });
 

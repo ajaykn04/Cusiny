@@ -272,7 +272,7 @@ app.delete("/user/delete/", async (req, res) => {
 app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 
 app.listen(PORT, () => {
-    console.log(`Server is running on ${URL}:${PORT}`);
+    console.log(`Server is running on AWS`);
 });
 
 

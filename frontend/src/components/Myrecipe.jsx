@@ -119,7 +119,7 @@ const Myrecipe = () => {
               >
                 <IconButton
                   sx={{
-                    position: "fixed",
+                    position: "absolute",
                     ml: "160px",
                     mt: "280px",
                     color: "white",
@@ -133,7 +133,7 @@ const Myrecipe = () => {
                 </IconButton>
                 <IconButton
                   sx={{
-                    position: "fixed",
+                    position: "absolute",
                     ml: "205px",
                     mt: "280px",
                     color: "white",
