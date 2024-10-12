@@ -15,4 +15,6 @@ db.connect((err) => {
     }
 });
 
+// mysql -h recipe-db.c1qy2ceskxej.eu-north-1.rds.amazonaws.com -P 3306 -u admin -p recipe_db
+
 module.exports = db;
