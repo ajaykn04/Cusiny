@@ -104,7 +104,7 @@ const Users = () => {
                             data: users,
                           }
                         );
-                        window.location.reload(true);
+                        //window.location.reload(true);
                         console.log("User Successfully Deleted");
                       }}
                     >

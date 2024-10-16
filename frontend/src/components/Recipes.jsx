@@ -115,7 +115,7 @@ const Recipes = () => {
                         await axios.delete(
                           `https://cusinysqlbackend.vercel.app/recipe/delete/${recipe._id}`
                         );
-                        window.location.reload(true);
+                        //window.location.reload(true);
                         console.log("Recipe Successfully Deleted");
                       }}
                     >
