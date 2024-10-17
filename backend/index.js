@@ -190,16 +190,24 @@ app.post("/recipe/addreview/:recipeId", async (req, res) => {
     try {
         const id = req.params.recipeId;
         const review = req.body;
-        review.recipe_id=id
-        const recipe = await runQuery('insert into review values (0,?,?,?,?,?)', [id,review.user_id,review.username,review.rating,review.comment]);
-        // const reviews = JSON.parse(recipe[0].reviews);
-        // reviews.unshift(review);
-        // let total = 0;
-        // for (let i = 0; i < reviews.length; i++) {
-        //     total += reviews[i].rating;
-        // }
-        // const rating = total / reviews.length;
-        // await runQuery('UPDATE recipe SET reviews = ?, rating = ? WHERE _id = ?', [JSON.stringify(reviews), rating, id]);
+        review.recipe_id = id;
+
+        // Insert the new review into the review table
+        await runQuery('insert into review values (0, ?, ?, ?, ?, ?)', [id, review.user_id, review.username, review.rating, review.comment]);
+
+        // Fetch all reviews related to the recipe to calculate the new rating
+        const allReviews = await runQuery('SELECT rating FROM review WHERE recipe_id = ?', [id]);
+
+        // Calculate the total rating and average rating
+        let total = 0;
+        for (let i = 0; i < allReviews.length; i++) {
+            total += allReviews[i].rating;
+        }
+        const averageRating = total / allReviews.length;
+
+        // Update only the rating in the recipe table
+        await runQuery('UPDATE recipe SET rating = ? WHERE _id = ?', [averageRating, id]);
+
         res.send({ message: "Review Added" });
     } catch (error) {
         console.log(error);
