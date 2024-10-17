@@ -1,10 +1,4 @@
-mysql -u root -p
-
 sudo service mysql restart
-
-CREATE DATABASE recipe_db;
-
-USE recipe_db;
 
 
 TO CREATE user SCHEMA
