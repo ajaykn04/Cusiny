@@ -278,7 +278,8 @@ const Addrecipe = () => {
           <Button
             variant="contained"
             sx={{
-              mt: 0.4,mb:-2.5,
+              mt: 0.4,
+              mb: -2.5,
               backgroundColor: "orange",
               "&:hover": { backgroundColor: "orange" },
             }}

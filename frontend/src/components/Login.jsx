@@ -32,7 +32,6 @@ const Login = () => {
       try {
         const login = await axios.get(
           `http://localhost:3000/user/get/${user.email}/${user.password}`
-          
         );
         const userData = {
           username: login.data.username,

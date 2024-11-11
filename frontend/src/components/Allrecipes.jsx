@@ -117,8 +117,8 @@ const Allrecipes = () => {
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
-                    width:"257px",
-                    height:"325px",
+                    width: "257px",
+                    height: "325px",
                     "&:hover": { borderColor: "darkorange" },
                   }}
                   onClick={() => {

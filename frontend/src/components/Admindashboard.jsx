@@ -219,8 +219,8 @@ const Admindashboard = () => {
                   sx={{
                     overflow: "hidden",
                     borderColor: "white",
-                    width:"257px",
-                    height:"325px",
+                    width: "257px",
+                    height: "325px",
                     borderRadius: "15px",
                     "&:hover": { borderColor: "darkorange" },
                   }}

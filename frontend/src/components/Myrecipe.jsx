@@ -149,8 +149,8 @@ const Myrecipe = () => {
                     overflow: "hidden",
                     borderColor: "white",
                     borderRadius: "15px",
-                    width:"255px",
-                    height:"325px",
+                    width: "255px",
+                    height: "325px",
                     "&:hover": {
                       borderColor: "darkorange",
                     },
