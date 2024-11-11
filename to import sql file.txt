@@ -1,0 +1,5 @@
+<<<cd C:\path\to\your\file>>>
+
+create databased named same as the imported database.
+
+<<<mysql -u root -p recipe_db < recipe_db.sql>>>
