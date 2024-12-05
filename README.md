@@ -100,4 +100,3 @@ Cusiny/
 
 - **Ajay Das**
 - **Adithya Vinod**
-- **Aswin Baburaj**
