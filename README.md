@@ -98,7 +98,7 @@ Cusiny/
 
 ## **Contributors**
 
-- **Ajay Das - Frontend design & implementation**
+- **Ajay Das** - Frontend design & implementation
 - **Adithya Vinod** - Backend development
 
 ## **License**  
