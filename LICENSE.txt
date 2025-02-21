@@ -1,0 +1,21 @@
+# Cusiny Project License  
+**Last Updated:** February 21, 2025  
+
+## 1. License Grant  
+This license allows the buyer (**licensee**) to:  
+- ✅ Use the Cusiny project for **personal or academic purposes only**.  
+- ✅ Modify the code for their **own project submission**.  
+
+## 2. Restrictions  
+The licensee **CANNOT**:  
+- ❌ Redistribute, share, or give away the project (modified or unmodified) to others.  
+- ❌ Resell or use the project for any **commercial** purposes.  
+- ❌ Claim ownership or authorship of the project.  
+- ❌ Use the project for **anything outside of academic work**.  
+
+## 3. Ownership & Liability  
+- The original creator (**Ajay Das,Adithya Vinod**) **retains full ownership** of the Cusiny project.  
+- This project is provided **as-is** without any warranties.  
+
+## 4. Termination  
+Failure to comply with this license **immediately revokes** the right to use the project.  
