@@ -14,8 +14,11 @@ The licensee CANNOT:
 - ❌ Use the project for anything outside of academic work.  
 
 3. Ownership & Liability  
-- The original creator (Ajay Das,Adithya Vinod) retains full ownership of the Cusiny project.  
+- The original creators retain full ownership of the Cusiny project:  
+  - Ajay Das – Frontend design & implementation.  
+  - Adithya Vinod – Backend development.  
 - This project is provided as-is without any warranties.  
+
 
 4. Termination  
 Failure to comply with this license immediately revokes the right to use the project.
