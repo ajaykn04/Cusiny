@@ -98,8 +98,8 @@ Cusiny/
 
 ## **Contributors**
 
-- **Ajay Das**
-- **Adithya Vinod**
+- **Ajay Das - Frontend design & implementation**
+- **Adithya Vinod** - Backend development
 
 ## **License**  
 This project is licensed under a **Custom Academic Use License**.  
