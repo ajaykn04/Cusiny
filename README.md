@@ -100,3 +100,12 @@ Cusiny/
 
 - **Ajay Das**
 - **Adithya Vinod**
+
+## **License**  
+This project is licensed under a **Custom Academic Use License**.  
+- **Allowed:** Personal and academic use only.  
+- **Not Allowed:** Redistribution, reselling, or commercial use.  
+
+For full terms, see the [LICENSE.txt](LICENSE.txt) file.  
+
+**⚠ Important:** This project was previously under the MIT License but is now under a Custom Academic Use License.
