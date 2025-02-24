@@ -14,6 +14,7 @@ import { AppContext } from "../AppContext";
 import axios from "axios";
 
 const DetailedRecipe = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const { data, setData } = useContext(AppContext);
   const { state } = useLocation();
   const [recipeData, setRecipeData] = useState(null);
@@ -30,7 +31,7 @@ const DetailedRecipe = () => {
       const fetchRecipe = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/recipe/get/${state._id}`
+            `${api_key}/recipe/get/${state._id}`
           );
           setRecipeData(response.data);
         } catch (error) {
@@ -53,7 +54,7 @@ const DetailedRecipe = () => {
       const fetchReviews = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/recipe/getreviews/${recipeData._id}`
+            `${api_key}/recipe/getreviews/${recipeData._id}`
           );
           setReviews(response.data);
         } catch (error) {
@@ -80,7 +81,7 @@ const DetailedRecipe = () => {
         username: data.username,
       };
       await axios.post(
-        `http://localhost:3000/recipe/addreview/${recipeData._id}`,
+        `${api_key}/recipe/addreview/${recipeData._id}`,
         updatedReview
       );
       setReviews((prevReviews) => [updatedReview, ...prevReviews]);
@@ -169,7 +170,7 @@ const DetailedRecipe = () => {
             {recipeData.category}
           </Typography>
           <img
-            src={`http://localhost:3000/${recipeData.image}`}
+            src={`${api_key}/${recipeData.image}`}
             alt={recipeData.name}
             style={{
               border: "4px solid white",

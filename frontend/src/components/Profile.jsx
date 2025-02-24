@@ -8,6 +8,7 @@ import { AppContext } from "../AppContext";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const Profile = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const { data, setData } = useContext(AppContext);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
@@ -49,7 +50,7 @@ const Profile = () => {
           age: data.age,
           _id: data._id,
         };
-        await axios.put(`http://localhost:3000/user/edit/`, updatedProfile);
+        await axios.put(`${api_key}/user/edit/`, updatedProfile);
         console.log("Profile Updated");
         localStorage.setItem("userData", JSON.stringify(updatedProfile));
         navigate("/userdash");
@@ -159,7 +160,7 @@ const Profile = () => {
             variant="text"
             sx={{ mt: 2 }}
             onClick={async () => {
-              await axios.delete(`http://localhost:3000/user/delete/`, {
+              await axios.delete(`${api_key}/user/delete/`, {
                 data: data,
               });
               navigate("/");

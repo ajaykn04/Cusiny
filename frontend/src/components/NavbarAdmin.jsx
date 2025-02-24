@@ -18,6 +18,7 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 const NavbarAdmin = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const navigate = useNavigate();
 
   const logoutHandler = () => {

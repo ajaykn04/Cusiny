@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 
 const Recipes = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
 
@@ -20,7 +21,7 @@ const Recipes = () => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/recipe/viewall"
+          `${api_key}/recipe/viewall`
         );
         setRecipes(response.data);
       } catch (error) {
@@ -92,7 +93,7 @@ const Recipes = () => {
                     }}
                     >
                       <img
-                        src={`http://localhost:3000/${recipe.image}`}
+                        src={`${api_key}/${recipe.image}`}
                         alt={recipe.name}
                         style={{ width: "2vw", height: "6vh", cursor: "pointer" }}
                       />
@@ -113,7 +114,7 @@ const Recipes = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `http://localhost:3000/recipe/delete/${recipe._id}`
+                          `${api_key}/recipe/delete/${recipe._id}`
                         );
                         window.location.reload(true);
                         console.log("Recipe Successfully Deleted");

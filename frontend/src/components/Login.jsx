@@ -6,6 +6,7 @@ import styles from "../styles";
 import { AppContext } from "../AppContext";
 
 const Login = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const { setData } = useContext(AppContext);
   const [user, setUser] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: false, password: false });
@@ -31,7 +32,7 @@ const Login = () => {
     if (validateFields()) {
       try {
         const login = await axios.get(
-          `http://localhost:3000/user/get/${user.email}/${user.password}`
+          `${api_key}/user/get/${user.email}/${user.password}`
         );
         const userData = {
           username: login.data.username,

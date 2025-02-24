@@ -17,6 +17,7 @@ const StyledToolbar = styled(Toolbar)`
   background-color: black;
 `;
 const Navbar = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const navigate = useNavigate();
 
   const handleProfileClick = () => {

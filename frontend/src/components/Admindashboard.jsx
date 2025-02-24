@@ -17,6 +17,7 @@ import "./Admindashboard.css";
 
 const Admindashboard = () => {
   const navigate = useNavigate();
+  const api_key=import.meta.env.VITE_API_KEY;
   const [selectedCategory, setSelectedCategory] = useState("Meals");
   const [recipes, setRecipes] = useState([]);
   const categories = ["Meals", "Vegetarian", "Salad", "Drinks", "Desserts"];
@@ -26,7 +27,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/recipe/viewall")
+      .get(`${api_key}/recipe/viewall`)
       .then((res) => {
         setRecipys(res.data);
       })
@@ -42,7 +43,7 @@ const Admindashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/recipe/featured")
+      .get(`${api_key}/recipe/featured`)
       .then((res) => {
         setRecipes(res.data);
         setLoading(false);
@@ -158,7 +159,7 @@ const Admindashboard = () => {
                           }}
                         >
                           <img
-                            src={`http://localhost:3000/${recipe.image}`}
+                            src={`${api_key}/${recipe.image}`}
                             style={{
                               height: "auto",
                               width: "100%",
@@ -242,7 +243,7 @@ const Admindashboard = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipy.image}`}
+                      src={`${api_key}/${recipy.image}`}
                       alt={recipy.name}
                       style={{
                         marginLeft: "-39px",

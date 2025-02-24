@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 const Allrecipes = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +21,7 @@ const Allrecipes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = `http://localhost:3000/recipe/viewall`;
+    const apiUrl = `${api_key}/recipe/viewall`;
 
     axios
       .get(apiUrl)
@@ -139,7 +140,7 @@ const Allrecipes = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`${api_key}/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",

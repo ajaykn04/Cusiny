@@ -25,7 +25,7 @@ const Addrecipe = () => {
     image: "",
   });
   const toeditrecipe = useLocation();
-
+  const api_key=import.meta.env.VITE_API_KEY;
   useEffect(() => {
     if (toeditrecipe.state != null) {
       setRecipe({
@@ -92,7 +92,7 @@ const Addrecipe = () => {
             formData.append(key, recipe[key]);
           }
           formData.append("_id", toeditrecipe.state.value._id);
-          await axios.put("http://localhost:3000/recipe/edit/", formData);
+          await axios.put(`${api_key}/recipe/edit/`, formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);
@@ -106,7 +106,7 @@ const Addrecipe = () => {
           formData.append("owner", data._id);
           formData.append("ownername", data.username);
 
-          await axios.post(`http://localhost:3000/recipe/add/`, formData);
+          await axios.post(`${api_key}/recipe/add/`, formData);
           navigate("/user/recipes");
         } catch (error) {
           console.error(error);

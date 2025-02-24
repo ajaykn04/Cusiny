@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { AppContext } from "../AppContext";
 
 const Myrecipe = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const { data, setData } = useContext(AppContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
-      const apiUrl = `http://localhost:3000/user/recipes/${data._id}`;
+      const apiUrl = `${api_key}/user/recipes/${data._id}`;
       axios
         .get(apiUrl)
         .then((response) => {
@@ -53,7 +54,7 @@ const Myrecipe = () => {
 
   const handleDelete = async (recipeId) => {
     try {
-      await axios.delete(`http://localhost:3000/recipe/delete/${recipeId}`);
+      await axios.delete(`${api_key}/recipe/delete/${recipeId}`);
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
@@ -175,7 +176,7 @@ const Myrecipe = () => {
                     }}
                   >
                     <img
-                      src={`http://localhost:3000/${recipe.image}`}
+                      src={`${api_key}/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",

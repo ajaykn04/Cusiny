@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 
 const Users = () => {
+  const api_key=import.meta.env.VITE_API_KEY;
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/user/viewall");
+        const response = await axios.get(`${api_key}/user/viewall`);
         const filteredUsers = response.data.filter((user) => !user.admin);
         setUsers(filteredUsers);
       } catch (error) {
@@ -99,7 +100,7 @@ const Users = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `http://localhost:3000/user/delete/`,
+                          `${api_key}/user/delete/`,
                           {
                             data: users,
                           }
