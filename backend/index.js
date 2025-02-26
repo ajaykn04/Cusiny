@@ -191,9 +191,10 @@ app.post("/recipe/add/", upload.single("file"), async (req, res) => {
     recipe.featured = false;
     req.body.image = "";
     recipe = await recipeModel(recipe).save();
-    var img_path = `${req.file.destination}/${recipe._id}${path.extname(
-      req.file.filename
-    )}`;
+    
+    // Use backticks for template literals
+    var img_path = `${req.file.destination}/${recipe._id}${path.extname(req.file.filename)}`;
+    
     fs.rename(req.file.path, img_path, () => {});
     recipe.image = `${img_path}`;
     recipe.save();
@@ -290,8 +291,5 @@ app.get("/recipe/featured", async (req, res) => {
   }
 });
 
-app.use(
-  "/images/recipes",
-  express.static(path.join(__dirname, "images/recipes"))
-);
+app.use('/images/recipes', express.static(path.join(__dirname, 'images/recipes')));
 module.exports = app;
