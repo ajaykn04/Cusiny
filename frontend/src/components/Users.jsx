@@ -20,7 +20,7 @@ const Users = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://cusiny-backend.vercel.app/user/viewall"
+          "https://cusiny.up.railway.app/user/viewall"
         );
         const filteredUsers = response.data.filter((user) => !user.admin);
         setUsers(filteredUsers);
@@ -103,7 +103,7 @@ const Users = () => {
                       style={{ backgroundColor: "red" }}
                       onClick={async () => {
                         await axios.delete(
-                          `https://cusiny-backend.vercel.app/user/delete/`,
+                          `https://cusiny.up.railway.app/user/delete/`,
                           {
                             data: users,
                           }

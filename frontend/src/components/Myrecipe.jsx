@@ -31,7 +31,7 @@ const Myrecipe = () => {
 
   useEffect(() => {
     if (data._id) {
-      const apiUrl = `https://cusiny-backend.vercel.app/user/recipes/${data._id}`;
+      const apiUrl = `https://cusiny.up.railway.app/user/recipes/${data._id}`;
       axios
         .get(apiUrl)
         .then((response) => {
@@ -54,7 +54,7 @@ const Myrecipe = () => {
   const handleDelete = async (recipeId) => {
     try {
       await axios.delete(
-        `https://cusiny-backend.vercel.app/recipe/delete/${recipeId}`
+        `https://cusiny.up.railway.app/recipe/delete/${recipeId}`
       );
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
@@ -177,7 +177,7 @@ const Myrecipe = () => {
                     }}
                   >
                     <img
-                      src={`https://cusiny-backend.vercel.app/${recipe.image}`}
+                      src={`https://cusiny.up.railway.app/${recipe.image}`}
                       alt={recipe.name}
                       style={{
                         marginLeft: "-39px",

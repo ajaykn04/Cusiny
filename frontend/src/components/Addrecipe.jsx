@@ -93,7 +93,7 @@ const Addrecipe = () => {
           }
           formData.append("_id", toeditrecipe.state.value._id);
           await axios.put(
-            "https://cusiny-backend.vercel.app/recipe/edit/",
+            "https://cusiny.up.railway.app/recipe/edit/",
             formData
           );
           navigate("/user/recipes");
@@ -110,7 +110,7 @@ const Addrecipe = () => {
           formData.append("ownername", data.username);
 
           await axios.post(
-            `https://cusiny-backend.vercel.app/recipe/add/`,
+            `https://cusiny.up.railway.app/recipe/add/`,
             formData
           );
           navigate("/user/recipes");

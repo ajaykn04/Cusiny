@@ -59,7 +59,7 @@ const Signin = () => {
     if (validateFields()) {
       try {
         await axios.post(
-          `https://cusiny-backend.vercel.app/user/register/`,
+          `https://cusiny.up.railway.app/user/register/`,
           cred
         );
         console.log("user added");

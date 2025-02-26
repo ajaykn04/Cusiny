@@ -50,7 +50,7 @@ const Profile = () => {
           _id: data._id,
         };
         await axios.put(
-          `https://cusiny-backend.vercel.app/user/edit/`,
+          `https://cusiny.up.railway.app/user/edit/`,
           updatedProfile
         );
         console.log("Profile Updated");
@@ -163,7 +163,7 @@ const Profile = () => {
             sx={{ mt: 2 }}
             onClick={async () => {
               await axios.delete(
-                `https://cusiny-backend.vercel.app/user/delete/`,
+                `https://cusiny.up.railway.app/user/delete/`,
                 {
                   data: data,
                 }

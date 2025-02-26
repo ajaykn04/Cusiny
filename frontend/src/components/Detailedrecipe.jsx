@@ -30,7 +30,7 @@ const DetailedRecipe = () => {
       const fetchRecipe = async () => {
         try {
           const response = await axios.get(
-            `https://cusiny-backend.vercel.app/recipe/get/${state._id}`
+            `https://cusiny.up.railway.app/recipe/get/${state._id}`
           );
           setRecipeData(response.data);
         } catch (error) {
@@ -53,7 +53,7 @@ const DetailedRecipe = () => {
       const fetchReviews = async () => {
         try {
           const response = await axios.get(
-            `https://cusiny-backend.vercel.app/recipe/getreviews/${recipeData._id}`
+            `https://cusiny.up.railway.app/recipe/getreviews/${recipeData._id}`
           );
           setReviews(response.data);
         } catch (error) {
@@ -80,7 +80,7 @@ const DetailedRecipe = () => {
         username: data.username,
       };
       await axios.post(
-        `https://cusiny-backend.vercel.app/recipe/addreview/${recipeData._id}`,
+        `https://cusiny.up.railway.app/recipe/addreview/${recipeData._id}`,
         updatedReview
       );
       setReviews((prevReviews) => [updatedReview, ...prevReviews]);
@@ -169,7 +169,7 @@ const DetailedRecipe = () => {
             {recipeData.category}
           </Typography>
           <img
-            src={`https://cusiny-backend.vercel.app/${recipeData.image}`}
+            src={`https://cusiny.up.railway.app/${recipeData.image}`}
             alt={recipeData.name}
             style={{
               border: "4px solid white",
