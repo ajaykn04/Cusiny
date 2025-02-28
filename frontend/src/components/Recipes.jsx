@@ -124,7 +124,7 @@ const Recipes = () => {
                         await axios.delete(
                           `https://cusiny.up.railway.app/recipe/delete/${recipe._id}`
                         );
-                        //window.location.reload(true);
+                        window.location.reload(true);
                         console.log("Recipe Successfully Deleted");
                       }}
                     >

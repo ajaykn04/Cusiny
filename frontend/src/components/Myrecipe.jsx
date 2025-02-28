@@ -59,7 +59,7 @@ const Myrecipe = () => {
       setRecipes((prevRecipes) =>
         prevRecipes.filter((r) => r._id !== recipeId)
       );
-      // window.location.reload(true);
+      window.location.reload(true);
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }
